@@ -18,6 +18,8 @@ To install:
 
 * Install the required gems: `bundle install`
 
+* Create the database: `rake db:create`
+
 * Run the database migrations: `rake db:migrate`
 
 * Start the server: `rails s`
