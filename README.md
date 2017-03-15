@@ -1,6 +1,14 @@
 # README
 
-MVP for an E-Sports fantasy drafter, using Action Cable/Rails 5.
+MVP for an E-Sports fantasy drafter using Action Cable for live drafting.
+
+Requirements:
+
+* Rails 5+
+
+* PostgreSQL
+
+* Redis
 
 To install:
 
