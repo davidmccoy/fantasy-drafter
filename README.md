@@ -4,6 +4,8 @@ MVP for an E-Sports fantasy drafter using Action Cable for live drafting.
 
 Requirements:
 
+* Ruby 2.3.0
+
 * Rails 5+
 
 * PostgreSQL
