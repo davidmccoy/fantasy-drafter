@@ -1,0 +1,3 @@
+class Sport < ApplicationRecord
+
+end
