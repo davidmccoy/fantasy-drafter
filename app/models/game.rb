@@ -1,4 +1,4 @@
-class Sport < ApplicationRecord
+class Game < ApplicationRecord
 
   has_many :competitions
 
