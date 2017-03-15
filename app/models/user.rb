@@ -4,4 +4,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :confirmable,
 
+
+  protected
+
+  def confirmation_required?
+   false
+  end
+  
 end
