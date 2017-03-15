@@ -9,6 +9,25 @@
   </head>
 
   <body>
+    <div id="nav">
+      <% if current_user %>
+        <%= link_to "Sign Out", destroy_user_session_path, method: "delete" %>
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path %>
+      <% end %>
+    </div>
+
+    <% if notice || alert %>
+      <div id="notice">
+        <% if notice %>
+          <span class="notice"><%= notice %></span>
+        <% elsif alert %>
+          <span class="alert"><%= alert %></span>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= yield %>
+
   </body>
 </html>
