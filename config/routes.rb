@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :games, only: [:index] do
-    resources :competitions, only: [:index]
+    resources :competitions, only: [:index] do
+      resources :tournaments
+    end
   end
+
 
 end
