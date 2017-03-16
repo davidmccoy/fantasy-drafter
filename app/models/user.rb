@@ -1,5 +1,6 @@
 class User < ApplicationRecord
 
+  has_many :tournament_users
   has_many :tournaments, through: :tournament_users
   has_many :tournament_admins, class_name: "Tournament", foreign_key: "user_id"
 
