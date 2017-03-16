@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   has_many :tournaments, through: :tournament_users
-  belongs_to :tournament, primary_key: "user_id", class_name: "User"
+  has_many :tournament_admins, class_name: "Tournament", foreign_key: "user_id"
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
