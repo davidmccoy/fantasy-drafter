@@ -1,18 +1,19 @@
 <h2><%= @tournament.admin.name %>'s Tournament For <%= @tournament.competition.name %></h2>
 
 <h3>Registered Users:</h3>
-<% @tournament.users.each do |user| %>
-  <% if user == current_user %>
+<% @tournament.tournament_users.each do |tournament_user| %>
   <p>
-    <%= user.name %> (You)
+    <% if tournament_user.user == current_user %>
+        <%= tournament_user.user.name %> (You)
+    <% elsif tournament_user.user == @tournament.admin %>
+      <p>
+        <%= tournament_user.user.name %> (Admin)
+      </p>
+    <% else %>
+        <%= tournament_user.user.name %>
+    <% end %>
+    <%= link_to "Remove", game_competition_tournament_tournament_user_path(@competition.game, @competition, tournament_user), method: :delete, data: { confirm: "Are you sure?" } %>
   </p>
-  <% elsif user == @tournament.admin %>
-  <p>
-    <%= user.name %> (Admin)
-  </p>
-  <% else %>
-  <p>
-    <%= user.name %>
-  </p>
-  <% end %>
 <% end %>
+
+<%= link_to "Add More Players", game_competition_tournament_tournament_users_path(@competition.game, @competition, @tournament) %>
