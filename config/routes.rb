@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :games, only: [:index]
+  resources :games, only: [:index] do
+    resources :competitions, only: [:index]
+  end
 
 end
