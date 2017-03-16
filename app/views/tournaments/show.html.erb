@@ -1,0 +1,18 @@
+<h2><%= @tournament.admin.name %>'s Tournament For <%= @tournament.competition.name %></h2>
+
+<h3>Registered Users:</h3>
+<% @tournament.users.each do |user| %>
+  <% if user == current_user %>
+  <p>
+    <%= user.name %> (You)
+  </p>
+  <% elsif user == @tournament.admin %>
+  <p>
+    <%= user.name %> (Admin)
+  </p>
+  <% else %>
+  <p>
+    <%= user.name %>
+  </p>
+  <% end %>
+<% end %>
