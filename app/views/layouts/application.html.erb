@@ -10,11 +10,16 @@
 
   <body>
     <div id="nav">
-      <% if current_user %>
+      <div>
+        <% if current_user %>
         <%= link_to "Sign Out", destroy_user_session_path, method: "delete" %>
-      <% else %>
+        <% else %>
         <%= link_to "Sign In", new_user_session_path %>
-      <% end %>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to "Find A Game", games_path %>
+      </div>
     </div>
 
     <% if notice || alert %>
