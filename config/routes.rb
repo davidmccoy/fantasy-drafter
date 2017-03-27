@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     resources :competitions, only: [:index] do
       resources :tournaments do
         resources :tournament_users
-        resources :drafts
+        resources :drafts do
+          resources :picks
+        end
       end
     end
   end
