@@ -40,6 +40,9 @@ gem 'omniauth-facebook'
 # For defining user abilities
 gem 'cancancan'
 
+# For sample data generation
+gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
