@@ -22,4 +22,6 @@ To install:
 
 * Run the database migrations: `rake db:migrate`
 
+* Seed the database: `rake db:seed` (admin user is: u/n: admin, p/w: password)
+
 * Start the server: `rails s`
