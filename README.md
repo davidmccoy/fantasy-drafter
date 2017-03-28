@@ -25,3 +25,5 @@ To install:
 * Seed the database: `rake db:seed` (admin user is: u/n: admin, p/w: password)
 
 * Start the server: `rails s`
+
+This should leave you with a new tournament with 8 users and ready to set up a new draft.
