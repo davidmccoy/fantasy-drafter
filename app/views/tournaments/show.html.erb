@@ -17,3 +17,7 @@
 <% end %>
 
 <%= link_to "Add More Players", game_competition_tournament_tournament_users_path(@competition.game, @competition, @tournament) %>
+
+<% if current_user == @tournament.admin %>
+  <%= link_to "Set Up Your Draft", game_competition_tournament_draft_path(@competition.game, @competition, @tournament, @tournament.draft) %>
+<% end %>
