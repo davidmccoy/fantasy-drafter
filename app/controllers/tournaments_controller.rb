@@ -13,6 +13,7 @@ class TournamentsController < ApplicationController
   def create
     tournament = @competition.tournaments.create(user_id: current_user.id)
     tournament.tournament_users.create(user_id: current_user.id)
+    draft = Draft.create(tournament_id: tournament.id)
     redirect_to game_competition_tournament_path(@competition.game, @competition, tournament)
   end
 
