@@ -5,6 +5,9 @@ class PicksController < ApplicationController
   def update
     if @pick.user == current_user || current_user = @pick.draft.tournament.admin
       if @pick.update(pick_params)
+        if @pick.number == @pick.draft.picks.count
+          @pick.draft.update(active: false, completed: true)
+        end
         flash[:notice] = "Successfully drafted #{@pick.player.name}."
       else
         flash[:alert] = "Pick failed."

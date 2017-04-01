@@ -3,9 +3,11 @@ class DraftsController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @available_players = @draft.tournament.competition.players.where.not(id: @draft.picks.pluck(:player_id) )
+    if @draft.active || Time.now > @draft.start_time
+      @available_players = @draft.tournament.competition.players.where.not(id: @draft.picks.pluck(:player_id) )
 
-    @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
+      @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
+    end
   end
 
   def update
