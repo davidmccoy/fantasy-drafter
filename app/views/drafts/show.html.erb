@@ -1,0 +1,25 @@
+<h2>Your Draft For <%= @draft.tournament.competition.name %></h2>
+
+<% if !@draft.start_time %>
+  <p>
+    Please select a start time for your draft.
+  </p>
+
+  <%= form_for [@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft] do |f| %>
+    <%= f.label "Start Time: " %>
+    <%= f.datetime_field :start_time %>
+
+    <%= f.submit %>
+  <% end %>
+<% else %>
+  <p>
+    Start Time: <%= @draft.start_time %>
+  </p>
+<% end %>
+
+
+<!-- <% @draft.tournament.competition.players.each do |player| %>
+  <p>
+    <%= player.name %>
+  </p>
+<% end %> -->
