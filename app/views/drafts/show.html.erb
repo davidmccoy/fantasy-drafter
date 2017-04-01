@@ -15,6 +15,16 @@
   <p>
     Start Time: <%= @draft.start_time %>
   </p>
+
+  <p>
+    Pick Order:
+  </p>
+
+  <% @draft.picks.sort_by{ |pick| pick.number }.take(@draft.tournament.users.count).each_with_index do |pick, index| %>
+    <p>
+      <%= "#{index + 1}: #{pick.user.name}" %>
+    </p>
+  <% end %>
 <% end %>
 
 
