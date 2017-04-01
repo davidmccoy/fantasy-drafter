@@ -11,11 +11,11 @@
 
     <%= f.submit %>
   <% end %>
-<% else %>
+<% elsif @draft.completed %>
   <p>
-    Start Time: <%= @draft.start_time %>
+    Your draft has finished.
   </p>
-
+<% elsif @draft.active || Time.now > @draft.start_time %>
   <div style="display:inline-block; width:50%; vertical-align:top;">
     <h3> Current Pick: <%= "#{@current_pick.user.name} (Pick \##{@current_pick.number})" %> </h3>
 
@@ -62,4 +62,11 @@
     </div>
     <% end %>
   </div>
+<% else %>
+  <p>
+    Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
+  </p>
+  <p>
+    Your draft hasn't started yet.
+  </p>
 <% end %>
