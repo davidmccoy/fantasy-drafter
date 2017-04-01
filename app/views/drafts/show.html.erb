@@ -48,4 +48,18 @@
     </p>
     <% end %>
   </div>
+
+  <div>
+    <h3>Teams</h3>
+    <% @draft.tournament.users.each do |user| %>
+    <div style="display:inline-block; width:24%; vertical-align:top;">
+      <h4><%= user.name %></h4>
+      <% @draft.picks.where(user_id: user).where.not(player_id: nil).each do |pick| %>
+        <p>
+          <%= pick.player.name %>
+        </p>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
 <% end %>
