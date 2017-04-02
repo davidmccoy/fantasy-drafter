@@ -8,6 +8,7 @@ class PicksController < ApplicationController
         if @pick.number == @pick.draft.picks.count
           @pick.draft.update(active: false, completed: true)
         end
+        PickMailer.next_pick(@pick).deliver_later
         flash[:notice] = "Successfully drafted #{@pick.player.name}."
       else
         flash[:alert] = "Pick failed."
