@@ -9,14 +9,19 @@ class PicksController < ApplicationController
           @pick.draft.update(active: false, completed: true)
         end
         PickMailer.next_pick(@pick).deliver_later
-        flash[:notice] = "Successfully drafted #{@pick.player.name}."
+        ActionCable.server.broadcast 'picks',
+          user_id: @pick.user_id,
+          player_id: @pick.player_id,
+          number: @pick.number
+        head :ok
+        # flash[:notice] = "Successfully drafted #{@pick.player.name}."
       else
-        flash[:alert] = "Pick failed."
+        # flash[:alert] = "Pick failed."
       end
     else
-      flash[:alert] = "It's not your pick."
+      # flash[:alert] = "It's not your pick."
     end
-    redirect_to game_competition_tournament_draft_path(@pick.draft.tournament.competition.game, @pick.draft.tournament.competition, @pick.draft.tournament, @pick.draft)
+    # redirect_to game_competition_tournament_draft_path(@pick.draft.tournament.competition.game, @pick.draft.tournament.competition, @pick.draft.tournament, @pick.draft)
   end
 
   private
