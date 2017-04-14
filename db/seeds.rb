@@ -191,9 +191,9 @@ dexthird = {
     Felipe\ Valdivia
     Patrick\ Fernandes
     Cristian\ Cespedes
-    Jose Luis\ Echeverria
-    João Lucas\ Caparroz
-    Lucas Esper\ Berthoud
+    Jose\ Luis\ Echeverria
+    João\ Lucas\ Caparroz
+    Lucas\ Esper\ Berthoud
   )
 }
 
@@ -318,7 +318,7 @@ lingering_souls = {
     Chris\ Fennell
     Travis\ Woo
     Andreas\ Ganz
-    Ashraf\ Abou Omar
+    Ashraf\ Abou\ Omar
     Donald\ Smith
   )
 }
