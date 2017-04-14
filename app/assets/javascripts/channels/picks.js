@@ -12,8 +12,7 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
     $currentPick.text('Current Pick: ' + data.next_pick_user_name + ' (Pick #' + data.next_pick_number + ')');
 
     $pickLinks.each(function(index) {
-      playerId = $(this).attr('href').split('?player_id=')[1];
-      $(this).attr('href', data.next_pick_url + '?player_id=' + playerId);
+      $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).attr('id'));
 
       if (data.your_pick === false) {
         $(this).hide();
