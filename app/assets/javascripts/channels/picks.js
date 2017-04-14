@@ -1,7 +1,10 @@
-//= require cable
-//= require_self
-//= require_tree .
+App.messages = App.cable.subscriptions.create('PicksChannel', {
+  received: function(data) {
+    $("#picks").removeClass('hidden')
+    return $('#picks').append(this.renderPick(data));
+  },
 
-this.App = {};
-
-App.cable = ActionCable.createConsumer();  
+  renderPick: function(data) {
+    return "<p> <b>" + data.user_id + ": </b>" + data.player_id + "</p>";
+  }
+});
