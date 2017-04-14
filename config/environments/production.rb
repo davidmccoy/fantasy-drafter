@@ -86,4 +86,10 @@ Rails.application.configure do
 
   # Configure mailer for production
   # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Set Action Cable url
+  config.web_socket_server_url = "wss:/fantasy-drafter.herokuapp.com/cable"
+
+  # Allow origin requests
+  config.action_cable.allowed_request_origins = ['https://fantasy-drafter.herokuapp.com', 'http://fantasy-drafter.herokuapp.com']
 end
