@@ -12,14 +12,12 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
     $currentPick.text('Current Pick: ' + data.next_pick_user_name + ' (Pick #' + data.next_pick_number + ')');
 
     $pickLinks.each(function(index) {
-      $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).attr('id'));
+      $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('p').attr('id'));
 
       if (data.your_pick === false) {
         $(this).hide();
       }
     })
-
-    console.log(data.your_pick);
     // return $('#picks').append(this.renderPick(data));
   },
 
