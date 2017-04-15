@@ -57,4 +57,7 @@ Rails.application.configure do
 
   # Set default host
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+
+  # Set action cablue url
+  config.action_cable.url = "ws://localhost:3000/cable"
 end

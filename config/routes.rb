@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  # Serve websocket cable requests in-process
+  mount ActionCable.server => '/cable'
+
   root 'home#index'
 
   devise_for :users
