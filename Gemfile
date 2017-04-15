@@ -42,6 +42,11 @@ gem 'omniauth-facebook'
 # For defining user abilities
 gem 'cancancan'
 
+# Integrating Bootstrap for styling
+gem "therubyracer"
+gem "less-rails"
+gem "twitter-bootstrap-rails"
+
 # For sample data generation
 gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 
