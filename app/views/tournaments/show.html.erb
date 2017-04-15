@@ -12,12 +12,23 @@
     <% else %>
         <%= tournament_user.user.name %>
     <% end %>
-    <%= link_to "Remove", game_competition_tournament_tournament_user_path(@competition.game, @competition, tournament_user), method: :delete, data: { confirm: "Are you sure?" } %>
+    <% unless @tournament.draft.active || (@tournament.draft.start_time && (@tournament.draft.active || Time.now > @tournament.draft.start_time)) %>
+      <%= link_to "Remove", game_competition_tournament_tournament_user_path(@competition.game, @competition, tournament_user), method: :delete, data: { confirm: "Are you sure?" } %>
+    <% end %>
   </p>
 <% end %>
 
-<%= link_to "Add More Players", game_competition_tournament_tournament_users_path(@competition.game, @competition, @tournament) %>
+<% if @tournament.draft.active || (@tournament.draft.start_time && (@tournament.draft.active || Time.now > @tournament.draft.start_time)) %>
 
-<% if current_user == @tournament.admin %>
+  <% if !@tournament.draft.completed %>
+    <%= link_to "Go To Your Draft", game_competition_tournament_draft_path(@competition.game, @competition, @tournament, @tournament.draft) %>
+
+  <% end %>
+
+<% else %>
+  <%= link_to "Add More Players", game_competition_tournament_tournament_users_path(@competition.game, @competition, @tournament) %>
+
+  <% if current_user == @tournament.admin %>
   <%= link_to "Set Up Your Draft", game_competition_tournament_draft_path(@competition.game, @competition, @tournament, @tournament.draft) %>
+  <% end %>
 <% end %>
