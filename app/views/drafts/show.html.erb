@@ -43,7 +43,7 @@
     <p id="<%= player.id %>">
       <%= player.name %>
       <% if @current_pick.user == current_user || current_user == @draft.tournament.admin %>
-      <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id), method: :patch, remote: true, class: "pick-link"  %>
+      <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
       <% end %>
     </p>
     <% end %>

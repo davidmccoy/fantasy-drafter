@@ -42,6 +42,9 @@ tournament = Tournament.create(
 
 tournament.tournament_users.where(user_id: tournament_owner.id).first_or_create
 
+# Create a draft for the tournament
+draft = Draft.create(tournament_id: tournament, rounds: 12)
+
 # Create 7 more users and add them to the tournament
 
 7.times do |i|
