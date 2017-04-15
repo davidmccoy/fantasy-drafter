@@ -1,0 +1,15 @@
+<h1>Your Tournaments</h1>
+
+<% current_user.tournaments.each do |tournament| %>
+  <p>
+    <%= link_to "#{tournament.admin.name}'s \"#{tournament.competition.name}\" Tournament", game_competition_tournament_path(tournament.competition.game, tournament.competition, tournament) %>
+  </p>
+<% end %>
+
+
+<h2>Create A New Tournament</h2>
+<% Competition.all.each do |competition| %>
+  <p>
+    <%= link_to competition.name, new_game_competition_tournament_path(competition.game, competition) %>
+  </p>
+<% end %>
