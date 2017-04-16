@@ -6,8 +6,9 @@ class PicksController < ApplicationController
     if @pick.user == current_user || current_user == @pick.draft.tournament.admin
       if @pick.update(pick_params)
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
+        protocol = Rails.env.production? ? "https" : "http"
 
-        next_pick_url = Rails.application.routes.url_helpers.game_competition_tournament_draft_pick_url(game_id: next_pick.draft.tournament.competition.game.id, competition_id: next_pick.draft.tournament.competition.id, tournament_id: next_pick.draft.tournament.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: "https")
+        next_pick_url = Rails.application.routes.url_helpers.game_competition_tournament_draft_pick_url(game_id: next_pick.draft.tournament.competition.game.id, competition_id: next_pick.draft.tournament.competition.id, tournament_id: next_pick.draft.tournament.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
 
         your_pick = next_pick.user == current_user || current_user == next_pick.draft.tournament.admin
 
