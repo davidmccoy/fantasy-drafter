@@ -5,6 +5,7 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
     $player = $('p#' + data.player_id);
     $currentPick = $('#current-pick');
     $pickLinks = $('.pick-link');
+    $nextPick = $('#until-next-pick');
 
 
     // change pick text
@@ -14,6 +15,7 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
     $player.remove();
     // change current pick text
     $currentPick.text(data.next_pick_user_name);
+    $nextPick.text('Picks Until You: ' + data.picks_until_your_pick);
     // update position of pick order banner
     $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
 

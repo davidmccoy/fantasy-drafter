@@ -10,6 +10,8 @@ class PicksController < ApplicationController
 
         next_pick_url = Rails.application.routes.url_helpers.game_competition_tournament_draft_pick_url(game_id: next_pick.draft.tournament.competition.game.id, competition_id: next_pick.draft.tournament.competition.id, tournament_id: next_pick.draft.tournament.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
 
+        your_next_pick = Pick.where(draft_id: @pick.draft.id, user_id: current_user.id, player_id: nil).order("number ASC").first
+
         your_pick = next_pick.user == current_user || current_user == next_pick.draft.tournament.admin
 
         if @pick.number == @pick.draft.picks.count
@@ -26,6 +28,7 @@ class PicksController < ApplicationController
           next_pick_id: next_pick.id,
           next_pick_url: next_pick_url,
           next_pick_number: next_pick.number,
+          picks_until_your_pick: your_next_pick.number - next_pick.number,
           your_pick: your_pick
         head :ok
 

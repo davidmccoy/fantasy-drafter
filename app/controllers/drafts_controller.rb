@@ -6,7 +6,12 @@ class DraftsController < ApplicationController
     if @draft.start_time && (@draft.active || Time.now > @draft.start_time)
       @available_players = @draft.tournament.competition.players.where.not(id: @draft.picks.pluck(:player_id) )
 
+      your_next_pick = Pick.where(draft_id: @draft.id, user_id: current_user.id, player_id: nil).order("number ASC").first
+
       @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
+
+      @picks_until_your_pick = your_next_pick.number - @current_pick.number
+
     end
   end
 

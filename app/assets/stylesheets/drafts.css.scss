@@ -22,10 +22,10 @@
           text-align: center;
           white-space: normal;
           &.picked {
-            color: gray;
-            border: 1px solid gray;
+            color: lightgray;
+            border: 1px solid lightgray;
             .pick-number {
-              border-right: 1px solid gray;
+              border-right: 1px solid lightgray;
             }
           }
           .pick-number {
