@@ -18,7 +18,7 @@
     </p>
   <% elsif @draft.active || Time.now > @draft.start_time %>
     <div id="picks" class="row">
-      <div class="current-pick-container col-md-2">
+      <div class="current-pick-container col-sm-2">
         <p>
           Current Pick
         </p>
@@ -29,7 +29,7 @@
           Picks Until You: <%= @picks_until_your_pick %>
         </p>
       </div>
-      <div class="pick-order-container col-md-10">
+      <div class="pick-order-container col-sm-10">
         <div class="pick-order">
           <% @draft.picks.sort_by{ |pick| pick.number }.each_with_index do |pick, index| %>
             <% if pick.player_id.nil? %>
