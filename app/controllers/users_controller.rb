@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  def tournaments
+  def leagues
   end
 
 end

@@ -3,16 +3,16 @@ class PicksController < ApplicationController
   load_and_authorize_resource
 
   def update
-    if @pick.user == current_user || current_user == @pick.draft.tournament.admin
+    if @pick.user == current_user || current_user == @pick.draft.league.admin
       if @pick.update(pick_params)
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
         protocol = Rails.env.production? ? "https" : "http"
 
-        next_pick_url = Rails.application.routes.url_helpers.game_competition_tournament_draft_pick_url(game_id: next_pick.draft.tournament.competition.game.id, competition_id: next_pick.draft.tournament.competition.id, tournament_id: next_pick.draft.tournament.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
+        next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.competition.game.id, competition_id: next_pick.draft.league.competition.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
 
         your_next_pick = Pick.where(draft_id: @pick.draft.id, user_id: current_user.id, player_id: nil).order("number ASC").first
 
-        your_pick = next_pick.user == current_user || current_user == next_pick.draft.tournament.admin
+        your_pick = next_pick.user == current_user || current_user == next_pick.draft.league.admin
 
         add_to_your_lineup = nil
 
@@ -47,7 +47,7 @@ class PicksController < ApplicationController
     else
       # flash[:alert] = "It's not your pick."
     end
-    # redirect_to game_competition_tournament_draft_path(@pick.draft.tournament.competition.game, @pick.draft.tournament.competition, @pick.draft.tournament, @pick.draft)
+    # redirect_to game_competition_league_draft_path(@pick.draft.league.competition.game, @pick.draft.league.competition, @pick.draft.league, @pick.draft)
   end
 
   private
