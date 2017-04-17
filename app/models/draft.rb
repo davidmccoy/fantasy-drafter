@@ -12,16 +12,16 @@ class Draft < ApplicationRecord
     pick_number = 1
     # Create picks in snake order
     6.times do
-      pick_order.each do |player|
+      pick_order.each do |user|
         self.picks.create(
-          user_id: player.id,
+          team_id: user.team(self.league).id,
           number: pick_number
         )
         pick_number += 1
       end
-      pick_order.reverse.each do |player|
+      pick_order.reverse.each do |user|
         self.picks.create(
-          user_id: player.id,
+          team_id: user.team(self.league).id,
           number: pick_number
         )
         pick_number += 1
