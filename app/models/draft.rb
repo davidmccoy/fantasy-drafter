@@ -6,7 +6,7 @@ class Draft < ApplicationRecord
 
 
   def create_picks
-    pick_order = self.tournament.users.shuffle
+    pick_order = self.league.users.shuffle
 
     pick_number = 1
     # Create picks in snake order

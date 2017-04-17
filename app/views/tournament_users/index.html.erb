@@ -1,24 +1,24 @@
-<h2>Competitors In <%= @tournament.admin.name %>'s Tournament For <%= @tournament.competition.name %></h2>
+<h2>Competitors In <%= @league.admin.name %>'s league For <%= @league.competition.name %></h2>
 
 <h3>Registered Users</h3>
-<% @tournament.tournament_users.each do |tournament_user| %>
+<% @league.league_users.each do |league_user| %>
   <p>
-    <% if tournament_user.user == current_user %>
-        <%= tournament_user.user.name %> (You)
-    <% elsif tournament_user.user == @tournament.admin %>
+    <% if league_user.user == current_user %>
+        <%= league_user.user.name %> (You)
+    <% elsif league_user.user == @league.admin %>
       <p>
-        <%= tournament_user.user.name %> (Admin)
+        <%= league_user.user.name %> (Admin)
       </p>
     <% else %>
-        <%= tournament_user.user.name %>
+        <%= league_user.user.name %>
     <% end %>
-    <%= link_to "Remove", game_competition_tournament_tournament_user_path(@tournament.competition.game,@tournament.competition, @tournament, tournament_user), method: :delete, data: { confirm: "Are you sure?" } %>
+    <%= link_to "Remove", game_competition_league_league_user_path(@league.competition.game,@league.competition, @league, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
   </p>
 <% end %>
 
 <h3>Add User By Email</h3>
 
-<%= form_tag game_competition_tournament_tournament_users_path(@tournament.competition.game,@tournament.competition, @tournament) do %>
+<%= form_tag game_competition_league_league_users_path(@league.competition.game,@league.competition, @league) do %>
 
   <%= label_tag :email %>
   <%= email_field_tag :email, nil, required: true %>
