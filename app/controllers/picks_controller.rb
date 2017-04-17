@@ -23,7 +23,7 @@ class PicksController < ApplicationController
         if @pick.number == @pick.draft.picks.count
           @pick.draft.update(active: false, completed: true)
         end
-        
+
         PickMailer.next_pick(next_pick).deliver_later
         ActionCable.server.broadcast 'picks',
           user_id: @pick.user_id,
