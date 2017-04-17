@@ -107,12 +107,21 @@
 </div>
 
 <script>
-  // update position of pick order banner
-  <% if @current_pick.number == 1 %>
+
+  $(document).ready(function() {
+    // update position of pick order banner
+    <% if @current_pick.number == 1 %>
     $pick = $('#pick-' + <%= @current_pick.number %>);
-  <% else %>
+    <% else %>
     $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
-  <% end %>
-  $pickLeft = $pick.position().left
-  $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+    <% end %>
+    $pickLeft = $pick.position().left
+    $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+
+    // create an audio element for notification sound
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+    $('body').append(audioElement)
+
+  });
 </script>
