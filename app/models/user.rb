@@ -11,6 +11,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :confirmable
 
+
+  def team(league)
+    Team.find_by(user_id: self.id, league_id: league.id)
+  end
+
   protected
 
   def confirmation_required?
