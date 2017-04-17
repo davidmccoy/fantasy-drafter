@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327232008) do
+ActiveRecord::Schema.define(version: 20170417205927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(version: 20170327232008) do
   end
 
   create_table "drafts", force: :cascade do |t|
-    t.integer  "tournament_id"
+    t.integer  "league_id"
     t.datetime "start_time"
     t.integer  "rounds"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "active",        default: false, null: false
-    t.boolean  "completed",     default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "active",     default: false, null: false
+    t.boolean  "completed",  default: false, null: false
   end
 
   create_table "games", force: :cascade do |t|
@@ -44,6 +44,18 @@ ActiveRecord::Schema.define(version: 20170327232008) do
     t.integer  "category",   default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "league_users", force: :cascade do |t|
+    t.integer "league_id"
+    t.integer "user_id"
+  end
+
+  create_table "leagues", force: :cascade do |t|
+    t.integer  "competition_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "picks", force: :cascade do |t|
@@ -60,18 +72,6 @@ ActiveRecord::Schema.define(version: 20170327232008) do
     t.string   "team"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "tournament_users", force: :cascade do |t|
-    t.integer "tournament_id"
-    t.integer "user_id"
-  end
-
-  create_table "tournaments", force: :cascade do |t|
-    t.integer  "competition_id"
-    t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
   create_table "users", force: :cascade do |t|
