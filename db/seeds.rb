@@ -5,8 +5,8 @@ Draft.delete_all
 Game.delete_all
 Pick.delete_all
 Player.delete_all
-TournamentUser.delete_all
-Tournament.delete_all
+LeagueUser.delete_all
+League.delete_all
 User.delete_all
 
 # Create a game
@@ -26,26 +26,26 @@ competition = Competition.create(
   location: "Dublin, Ireland"
 )
 
-# Create a user and a tournament, add user to tournament
+# Create a user and a league, add user to league
 
-tournament_owner = user = User.create(
+league_owner = user = User.create(
   name: "Admin McAdmin",
   email: "admin@admin.com",
   password: "password",
   password_confirmation: "password"
 )
 
-tournament = Tournament.create(
-  user_id: tournament_owner.id,
+league = league.create(
+  user_id: league_owner.id,
   competition_id: competition.id
 )
 
-tournament.tournament_users.where(user_id: tournament_owner.id).first_or_create
+league.league_users.where(user_id: league_owner.id).first_or_create
 
-# Create a draft for the tournament
-draft = Draft.create(tournament_id: tournament, rounds: 12)
+# Create a draft for the league
+draft = Draft.create(league_id: league, rounds: 12)
 
-# Create 7 more users and add them to the tournament
+# Create 7 more users and add them to the league
 
 7.times do |i|
   first_name = Faker::Name.first_name
@@ -55,7 +55,10 @@ draft = Draft.create(tournament_id: tournament, rounds: 12)
     email: Faker::Internet.unique.email(first_name + "." + last_name),
     password: Devise.friendly_token[0,20]
   )
-  tournament.tournament_users.where(user_id: user.id).first_or_create
+  league.league_users.where(user_id: user.id).first_or_create
+
+  # Create a team for user
+  Team.create(user_id: user.id, league_id: league.id, name: "#{user.name}'s Team'")
 end
 
 # Create all players in the PT Team Series
