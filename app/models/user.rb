@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
 
   def team(league)
-    Team.find_by(user_id: self.id, league_id: league.id)
+    Team.find_by(league_user_id: LeagueUser.find_by(user_id: self.id, league_id: league.id).id)
   end
 
   protected
