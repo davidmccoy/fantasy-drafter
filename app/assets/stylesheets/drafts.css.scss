@@ -1,0 +1,54 @@
+#draft {
+  #picks {
+    height: 100px;
+    div {
+      height: 100px;
+    }
+    p {
+      margin: 5px 0px;
+    }
+    .current-pick-container {
+      display: inline-block;
+    }
+    .pick-order-container {
+      overflow-y: scroll;
+      white-space: nowrap;
+      .pick-order {
+        display: inline-block;
+        .pick {
+          display: inline-block;
+          vertical-align: top;
+          border: 1px solid black;
+          text-align: center;
+          white-space: normal;
+          &.picked {
+            color: lightgray;
+            border: 1px solid lightgray;
+            .pick-number {
+              border-right: 1px solid lightgray;
+            }
+          }
+          .pick-number {
+            display: inline-block;
+            vertical-align: top;
+            font-size: 32px;
+            border-right: 1px solid black;
+            padding: 0 10px;
+            span {
+              display: block;
+              &.pick-number-label {
+                font-size: 16px;
+              }
+            }
+          }
+          .pick-info {
+            display: inline-block;
+            vertical-align: top;
+            padding: 5px 10px;
+            width: 125px;
+          }
+        }
+      }
+    }
+  }
+}

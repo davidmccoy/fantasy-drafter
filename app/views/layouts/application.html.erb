@@ -7,36 +7,45 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= action_cable_meta_tag %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   </head>
 
   <body>
-    <div id="nav">
-      <div>
+    <%= nav_bar brand: "Fantasy Drafter", responsive: true do %>
+      <%= menu_group pull: :right do %>
+        <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
+          <%= drop_down "NOW DRAFTING" do %>
+            <% current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).each do |draft| %>
+              <%= menu_item draft.tournament.competition.name, game_competition_tournament_draft_path(draft.tournament.competition.game, draft.tournament.competition, draft.tournament, draft) %>
+            <% end %>
+          <% end %>
+        <% end %>
         <% if current_user %>
-        <%= link_to "Sign Out", destroy_user_session_path, method: "delete" %>
+          <%= menu_item "Your Tournaments", users_tournaments_path %>
+        <% end %>
+        <%= menu_item "Find A Game", games_path %>
+        <% if current_user %>
+          <%= menu_item "Sign Out", destroy_user_session_path, method: "delete" %>
         <% else %>
-        <%= link_to "Sign In", new_user_session_path %>
+          <%= menu_item "Sign In", new_user_session_path %>
         <% end %>
-      </div>
-      <div>
-        <%= link_to "Find A Game", games_path %>
-      </div>
-      <div>
-        <%= link_to "Your Tournaments", users_tournaments_path %>
-      </div>
-    </div>
-
-    <% if notice || alert  %>
-      <div id="notice">
-        <% if notice %>
-          <span class="notice"><%= notice %></span>
-        <% elsif alert %>
-          <span class="alert"><%= alert %></span>
-        <% end %>
-      </div>
+      <% end %>
     <% end %>
 
-    <%= yield %>
+    <div class="container-fluid">
+      <% if notice || alert  %>
+      <div id="notice">
+        <% if notice %>
+        <span class="notice"><%= notice %></span>
+        <% elsif alert %>
+        <span class="alert"><%= alert %></span>
+        <% end %>
+      </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
 
   </body>
 </html>

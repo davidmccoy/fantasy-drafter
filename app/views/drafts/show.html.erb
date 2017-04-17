@@ -1,58 +1,127 @@
-<h2>Your Draft For <%= @draft.tournament.competition.name %></h2>
+<div id="draft">
+  <h2>Your Draft For <%= @draft.tournament.competition.name %></h2>
 
-<% if !@draft.start_time %>
-  <p>
-    Please select a start time for your draft.
-  </p>
+  <% if !@draft.start_time %>
+    <p>
+      Please select a start time for your draft.
+    </p>
 
-  <%= form_for [@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft] do |f| %>
-    <%= f.label "Start Time: " %>
-    <%= f.datetime_field :start_time %>
+    <%= form_for [@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft] do |f| %>
+      <%= f.label "Start Time: " %>
+      <%= f.datetime_field :start_time %>
 
     <%= f.submit %>
   <% end %>
-<% elsif @draft.completed %>
-  <p>
-    Your draft has finished.
-  </p>
-<% elsif @draft.active || Time.now > @draft.start_time %>
-  <div id="picks" style="display:inline-block; width:50%; vertical-align:top;">
-    <h3 id="current-pick">
-      Current Pick: <%= "#{@current_pick.user.name} (Pick \##{@current_pick.number})" %> </h3>
-    <h4>
-      Pick Order:
-    </h4>
-
-    <% @draft.picks.sort_by{ |pick| pick.number }.each_with_index do |pick, index| %>
-    <% if pick.player_id.nil? %>
-      <p id="pick-<%= pick.number %>">
-        <%= "#{index + 1}: #{pick.user.name}" %>
-      </p>
-    <% else %>
-      <p style="color: gray;">
-        <%= "#{index + 1}: #{pick.user.name} || #{pick.player.name}" %>
-      </p>
-    <% end %>
-    <% end %>
-  </div><div id="players" style="display:inline-block; width:50%; vertical-align:top;">
-    <h4>
-      Available Players:
-    </h4>
-
-    <% @available_players.each do |player| %>
-    <p id="<%= player.id %>">
-      <%= player.name %>
-      <% if @current_pick.user == current_user || current_user == @draft.tournament.admin %>
-      <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
-      <% end %>
+  <% elsif @draft.completed %>
+    <p>
+      Your draft has finished.
     </p>
+  <% elsif @draft.active || Time.now > @draft.start_time %>
+    <div id="picks" class="row">
+      <div class="current-pick-container col-sm-2">
+        <p>
+          Current Pick
+        </p>
+        <p id="current-pick">
+          <%= @current_pick.user.name %>
+        </p>
+        <p id="until-next-pick">
+          Picks Until You: <%= @picks_until_your_pick %>
+        </p>
+      </div>
+      <div class="pick-order-container col-sm-10">
+        <div class="pick-order">
+          <% @draft.picks.sort_by{ |pick| pick.number }.each_with_index do |pick, index| %>
+            <% if pick.player_id.nil? %>
+              <div class="pick" id="pick-<%= pick.number %>">
+                <div class="pick-number <%= pick.number %>">
+                  <span class="pick-number-label">
+                    PICK
+                  </span>
+                  <span>
+                    <%= pick.number %>
+                  </span>
+                </div>
+                <div class="pick-info">
+                  <p>
+                    <%= pick.user.name %>
+                  </p>
+                </div>
+              </div>
+            <% else %>
+              <div class="pick picked" id="pick-<%= pick.number %>">
+                <div class="pick-number">
+                  <span class="pick-number-label">
+                    PICK
+                  </span>
+                  <span>
+                    <%= pick.number %>
+                  </span>
+                </div>
+                <div class="pick-info">
+                  <p>
+                    <%= pick.user.name %>
+                  </p>
+                  <p>
+                    <%= pick.player.name %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div id="players" class="col-sm-6">
+      <h4>
+        Available Players:
+      </h4>
+
+      <% @available_players.each do |player| %>
+      <p id="<%= player.id %>">
+        <%= player.name %>
+        <% if @current_pick.user == current_user || current_user == @draft.tournament.admin %>
+        <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
+        <% end %>
+      </p>
+      <% end %>
+    </div>
+    <div id="lineup" class="col-sm-6">
+      <h4>
+        Your Lineup
+      </h4>
+      <% @your_lineup.each do |pick| %>
+        <p>
+          <%= pick.player.name %>
+        </p>
+      <% end %>
+    </div>
+  <% else %>
+    <p>
+      Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
+    </p>
+    <p>
+      Your draft hasn't started yet.
+    </p>
+  <% end %>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+    // update position of pick order banner
+    <% if @current_pick.number == 1 %>
+    $pick = $('#pick-' + <%= @current_pick.number %>);
+    <% else %>
+    $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
     <% end %>
-  </div>
-<% else %>
-  <p>
-    Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
-  </p>
-  <p>
-    Your draft hasn't started yet.
-  </p>
-<% end %>
+    $pickLeft = $pick.position().left
+    $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+
+    // create an audio element for notification sound
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+    $('body').append(audioElement)
+
+  });
+</script>
