@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :leagues, through: :league_users
   has_many :league_admins, class_name: "League", foreign_key: "user_id"
   has_many :drafts, through: :leagues
-  has_many :teams
+  has_many :teams, through: :league_users
   has_many :picks, through: :teams
 
   devise :database_authenticatable, :registerable,
