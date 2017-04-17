@@ -55,10 +55,10 @@ draft = Draft.create(league_id: league, rounds: 12)
     email: Faker::Internet.unique.email(first_name + "." + last_name),
     password: Devise.friendly_token[0,20]
   )
-  league.league_users.where(user_id: user.id).first_or_create
+  league_user = league.league_users.where(user_id: user.id).first_or_create
 
   # Create a team for user
-  Team.create(user_id: user.id, league_id: league.id, name: "#{user.name}'s Team'")
+  league_user.team.create(name: "#{user.name}'s Team'")
 end
 
 # Create all players in the PT Team Series
