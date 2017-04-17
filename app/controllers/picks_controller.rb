@@ -14,9 +14,16 @@ class PicksController < ApplicationController
 
         your_pick = next_pick.user == current_user || current_user == next_pick.draft.tournament.admin
 
+        add_to_your_lineup = nil
+
+        if @pick.user == current_user
+          add_to_your_lineup = @pick.player.name
+        end
+
         if @pick.number == @pick.draft.picks.count
           @pick.draft.update(active: false, completed: true)
         end
+        
         PickMailer.next_pick(next_pick).deliver_later
         ActionCable.server.broadcast 'picks',
           user_id: @pick.user_id,
@@ -29,6 +36,7 @@ class PicksController < ApplicationController
           next_pick_url: next_pick_url,
           next_pick_number: next_pick.number,
           picks_until_your_pick: your_next_pick.number - next_pick.number,
+          add_to_your_lineup: add_to_your_lineup,
           your_pick: your_pick
         head :ok
 

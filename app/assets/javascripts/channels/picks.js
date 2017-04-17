@@ -6,6 +6,7 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
     $currentPick = $('#current-pick');
     $pickLinks = $('.pick-link');
     $nextPick = $('#until-next-pick');
+    $lineup = $('#lineup');
 
 
     // change pick text
@@ -27,6 +28,10 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
         $(this).hide();
       }
     })
+
+    if (data.add_to_your_lineup !== undefined) {
+      $lineup.append('<p>' + data.add_to_your_lineup + '</p>')
+    }
     // return $('#picks').append(this.renderPick(data));
   },
 

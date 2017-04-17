@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div id="players" style="display:inline-block; width:50%; vertical-align:top;">
+    <div id="players" class="col-sm-6">
       <h4>
         Available Players:
       </h4>
@@ -84,6 +84,16 @@
         <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
         <% end %>
       </p>
+      <% end %>
+    </div>
+    <div id="lineup" class="col-sm-6">
+      <h4>
+        Your Lineup
+      </h4>
+      <% @your_lineup.each do |pick| %>
+        <p>
+          <%= pick.player.name %>
+        </p>
       <% end %>
     </div>
   <% else %>

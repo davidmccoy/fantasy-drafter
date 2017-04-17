@@ -12,6 +12,8 @@ class DraftsController < ApplicationController
 
       @picks_until_your_pick = your_next_pick.number - @current_pick.number
 
+      @your_lineup = Pick.where(draft_id: @draft.id, user_id: current_user.id).where.not(player_id: nil).order("number ASC")
+
     end
   end
 
