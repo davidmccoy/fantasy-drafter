@@ -29,13 +29,13 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
       }
     })
 
-    if (data.add_to_your_lineup !== undefined) {
+    if (data.add_to_your_lineup !== null) {
       $lineup.append('<p>' + data.add_to_your_lineup + '</p>')
     }
     // return $('#picks').append(this.renderPick(data));
   },
 
   renderPick: function(data) {
-    return "<p> <b>" + data.user_id + ": </b>" + data.player_id + "</p>";
+    // return "<p> <b>" + data.user_id + ": </b>" + data.player_id + "</p>";
   }
 });
