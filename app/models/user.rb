@@ -1,10 +1,10 @@
 class User < ApplicationRecord
 
-  has_many :tournament_users
-  has_many :tournaments, through: :tournament_users
-  has_many :tournament_admins, class_name: "Tournament", foreign_key: "user_id"
+  has_many :league_users
+  has_many :leagues, through: :league_users
+  has_many :league_admins, class_name: "League", foreign_key: "user_id"
   has_many :picks
-  has_many :drafts, through: :tournaments 
+  has_many :drafts, through: :leagues 
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,

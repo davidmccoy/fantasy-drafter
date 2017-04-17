@@ -1,8 +1,8 @@
 class Draft < ApplicationRecord
 
-  belongs_to :tournament
+  belongs_to :league
   has_many :picks
-  has_many :users, through: :tournaments
+  has_many :users, through: :leagues
 
 
   def create_picks
