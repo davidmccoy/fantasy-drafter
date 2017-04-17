@@ -1,34 +1,34 @@
-<h2><%= @tournament.admin.name %>'s Tournament For <%= @tournament.competition.name %></h2>
+<h2><%= @league.admin.name %>'s League For <%= @league.competition.name %></h2>
 
 <h3>Registered Users:</h3>
-<% @tournament.tournament_users.each do |tournament_user| %>
+<% @league.league_users.each do |league_user| %>
   <p>
-    <% if tournament_user.user == current_user %>
-        <%= tournament_user.user.name %> (You)
-    <% elsif tournament_user.user == @tournament.admin %>
+    <% if league_user.user == current_user %>
+        <%= league_user.user.name %> (You)
+    <% elsif league_user.user == @league.admin %>
       <p>
-        <%= tournament_user.user.name %> (Admin)
+        <%= league_user.user.name %> (Admin)
       </p>
     <% else %>
-        <%= tournament_user.user.name %>
+        <%= league_user.user.name %>
     <% end %>
-    <% unless @tournament.draft.active || (@tournament.draft.start_time && (@tournament.draft.active || Time.now > @tournament.draft.start_time)) %>
-      <%= link_to "Remove", game_competition_tournament_tournament_user_path(@competition.game, @competition, tournament_user), method: :delete, data: { confirm: "Are you sure?" } %>
+    <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
+      <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
     <% end %>
   </p>
 <% end %>
 
-<% if @tournament.draft.active || (@tournament.draft.start_time && (@tournament.draft.active || Time.now > @tournament.draft.start_time)) %>
+<% if @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
 
-  <% if !@tournament.draft.completed %>
-    <%= link_to "Go To Your Draft", game_competition_tournament_draft_path(@competition.game, @competition, @tournament, @tournament.draft) %>
+  <% if !@league.draft.completed %>
+    <%= link_to "Go To Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
 
   <% end %>
 
 <% else %>
-  <%= link_to "Add More Players", game_competition_tournament_tournament_users_path(@competition.game, @competition, @tournament) %>
+  <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league) %>
 
-  <% if current_user == @tournament.admin %>
-  <%= link_to "Set Up Your Draft", game_competition_tournament_draft_path(@competition.game, @competition, @tournament, @tournament.draft) %>
+  <% if current_user == @league.admin %>
+  <%= link_to "Set Up Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
   <% end %>
 <% end %>

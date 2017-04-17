@@ -1,15 +1,15 @@
-<h1>Your Tournaments</h1>
+<h1>Your Leagues</h1>
 
-<% current_user.tournaments.each do |tournament| %>
+<% current_user.leagues.each do |league| %>
   <p>
-    <%= link_to "#{tournament.admin.name}'s \"#{tournament.competition.name}\" Tournament", game_competition_tournament_path(tournament.competition.game, tournament.competition, tournament) %>
+    <%= link_to "#{league.admin.name}'s \"#{league.competition.name}\" League", game_competition_league_path(league.competition.game, league.competition, league) %>
   </p>
 <% end %>
 
 
-<h2>Create A New Tournament</h2>
+<h2>Create A New league</h2>
 <% Competition.all.each do |competition| %>
   <p>
-    <%= link_to competition.name, new_game_competition_tournament_path(competition.game, competition) %>
+    <%= link_to competition.name, new_game_competition_league_path(competition.game, competition) %>
   </p>
 <% end %>
