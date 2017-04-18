@@ -27,6 +27,8 @@ App.messages = App.cable.subscriptions.create('PicksChannel', {
 
       if (data.your_pick === false) {
         $(this).hide();
+      } else if (data.your_pick === true) {
+        $(this).show();
       }
     })
 
