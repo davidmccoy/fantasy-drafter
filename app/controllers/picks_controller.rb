@@ -10,7 +10,7 @@ class PicksController < ApplicationController
 
         next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.competition.game.id, competition_id: next_pick.draft.league.competition.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
 
-        your_next_pick = Pick.where(draft_id: @pick.draft.id, user_id: current_user.id, player_id: nil).order("number ASC").first
+        your_next_pick = Pick.where(draft_id: @pick.draft.id, team_id: current_user.team(@pick.draft.league).id, player_id: nil).order("number ASC").first
 
         your_pick = next_pick.user == current_user || current_user == next_pick.draft.league.admin
 
@@ -26,7 +26,7 @@ class PicksController < ApplicationController
 
         PickMailer.next_pick(next_pick).deliver_later
         ActionCable.server.broadcast 'picks',
-          user_id: @pick.user_id,
+          user_id: @pick.user.id,
           user_name: @pick.user.name,
           player_id: @pick.player_id,
           player_name: @pick.player.name,
