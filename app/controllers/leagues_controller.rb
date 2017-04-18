@@ -7,12 +7,16 @@ class LeaguesController < ApplicationController
   def index
   end
 
+  def show
+  end
+
   def new
   end
 
   def create
     league = @competition.leagues.create(user_id: current_user.id)
-    league.league_users.create(user_id: current_user.id)
+    league_user = league.league_users.create(user_id: current_user.id)
+    league_user.create_team(name: "#{current_user}'s Team'")
     draft = Draft.create(league_id: league.id)
     redirect_to game_competition_league_path(@competition.game, @competition, league)
   end
