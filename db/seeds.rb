@@ -37,7 +37,8 @@ league_owner = user = User.create(
 
 league = league.create(
   user_id: league_owner.id,
-  competition_id: competition.id
+  leagueable_id: competition.id,
+  leagueable_type: "Competition"
 )
 
 league.league_users.where(user_id: league_owner.id).first_or_create
