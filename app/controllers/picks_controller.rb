@@ -8,7 +8,7 @@ class PicksController < ApplicationController
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
         protocol = Rails.env.production? ? "https" : "http"
 
-        next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.competition.game.id, competition_id: next_pick.draft.league.competition.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
+        next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.leagueable.game.id, competition_id: next_pick.draft.league.leagueable.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
 
         your_next_pick = Pick.where(draft_id: @pick.draft.id, team_id: current_user.team(@pick.draft.league).id, player_id: nil).order("number ASC").first
 
@@ -47,7 +47,7 @@ class PicksController < ApplicationController
     else
       # flash[:alert] = "It's not your pick."
     end
-    # redirect_to game_competition_league_draft_path(@pick.draft.league.competition.game, @pick.draft.league.competition, @pick.draft.league, @pick.draft)
+    # redirect_to game_competition_league_draft_path(@pick.draft.league.leagueable.game, @pick.draft.league.leagueable, @pick.draft.league, @pick.draft)
   end
 
   private

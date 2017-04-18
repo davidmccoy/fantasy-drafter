@@ -17,7 +17,7 @@
         <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
           <%= drop_down "NOW DRAFTING" do %>
             <% current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).each do |draft| %>
-              <%= menu_item draft.league.competition.name, game_competition_league_draft_path(draft.league.competition.game, draft.league.competition, draft.league, draft) %>
+              <%= menu_item draft.league.leagueable.name, game_competition_league_draft_path(draft.league.leagueable.game, draft.league.leagueable, draft.league, draft) %>
             <% end %>
           <% end %>
         <% end %>

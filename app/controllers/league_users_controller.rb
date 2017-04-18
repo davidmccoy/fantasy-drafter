@@ -23,7 +23,7 @@ class LeagueUsersController < ApplicationController
       flash[:alert] = "Couldn't find a user with that email."
     end
 
-    redirect_to game_competition_league_league_users_path(@league.competition.game,@league.competition, @league)
+    redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
 
   end
 
@@ -44,7 +44,7 @@ class LeagueUsersController < ApplicationController
       flash[:alert] = "Couldn't find that competitor in this league."
     end
 
-    redirect_to game_competition_league_league_users_path(@league.competition.game,@league.competition, @league)
+    redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
 
   end
 

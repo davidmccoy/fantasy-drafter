@@ -15,7 +15,7 @@ class TeamsController < ApplicationController
       flash[:alert] = "Couldn't update team."
     end
 
-    redirect_to game_competition_league_team_path(@team.league.competition.game, @team.league.competition, @team.league, @team)
+    redirect_to game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team)
   end
 
   private

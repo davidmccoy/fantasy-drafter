@@ -4,7 +4,7 @@ class DraftsController < ApplicationController
 
   def show
     if @draft.start_time && (@draft.active || Time.now > @draft.start_time)
-      @available_players = @draft.league.competition.players.where.not(id: @draft.picks.pluck(:player_id) )
+      @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
       your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id, player_id: nil).order("number ASC").first
 
@@ -26,7 +26,7 @@ class DraftsController < ApplicationController
     else
       flash[:alert] = "Update failed."
     end
-    redirect_to game_competition_league_draft_path(@draft.league.competition.game, @draft.league.competition, @draft.league, @draft)
+    redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
   end
 
   private

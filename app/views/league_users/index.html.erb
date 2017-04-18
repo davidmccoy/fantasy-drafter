@@ -1,6 +1,6 @@
-<%= link_to "< Back To Your League", game_competition_league_path(@league.competition.game, @league.competition, @league) %>
+<%= link_to "< Back To Your League", game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) %>
 
-<h2>Competitors In <%= @league.admin.name %>'s league For <%= @league.competition.name %></h2>
+<h2>Competitors In <%= @league.admin.name %>'s league For <%= @league.leagueable.name %></h2>
 
 <h3>Registered Users</h3>
 <% @league.league_users.each do |league_user| %>
@@ -14,13 +14,13 @@
     <% else %>
         <%= league_user.user.name %>
     <% end %>
-    <%= link_to "Remove", game_competition_league_league_user_path(@league.competition.game,@league.competition, @league, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+    <%= link_to "Remove", game_competition_league_league_user_path(@league.leagueable.game,@league.leagueable, @league, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
   </p>
 <% end %>
 
 <h3>Add User By Email</h3>
 
-<%= form_tag game_competition_league_league_users_path(@league.competition.game,@league.competition, @league) do %>
+<%= form_tag game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league) do %>
 
   <%= label_tag :email %>
   <%= email_field_tag :email, nil, required: true %>

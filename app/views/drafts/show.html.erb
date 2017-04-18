@@ -1,14 +1,14 @@
 <div id="draft">
-  <h2>Your Draft For <%= @draft.league.competition.name %></h2>
+  <h2>Your Draft For <%= @draft.league.leagueable.name %></h2>
 
   <% if !@draft.start_time %>
     <p>
       Please select a start time for your draft.
     </p>
 
-    <%= form_for [@draft.league.competition.game, @draft.league.competition, @draft.league, @draft] do |f| %>
+    <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
       <%= f.label "Start Time: " %>
-      <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.competition.date %>
+      <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.leagueable.date %>
 
     <%= f.submit %>
   <% end %>
@@ -17,7 +17,7 @@
       Your draft has finished.
     </p>
     <p>
-      <%= link_to "View your team", game_competition_league_team_path(@draft.league.competition.game, @draft.league.competition, @draft.league, current_user.team(@draft.league)) %>
+      <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>
     </p>
   <% elsif @draft.active || Time.now > @draft.start_time %>
     <div id="picks" class="row">
@@ -84,7 +84,7 @@
       <p id="<%= player.id %>">
         <%= player.name %>
         <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
-        <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.competition.game, @draft.league.competition, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
+        <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
         <% end %>
       </p>
       <% end %>

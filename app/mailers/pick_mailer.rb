@@ -6,7 +6,7 @@ class PickMailer < ApplicationMailer
     @user = @pick.user
     @draft = @pick.draft
     @league = @draft.league
-    @competition = @league.competition
+    @competition = @league.leagueable
     @game = @competition.game
     @url = Rails.application.routes.url_helpers.game_competition_league_draft_url(game_id: @game.id, competition_id: @competition.id, league_id: @league.id, id: @draft.id )
 

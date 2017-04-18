@@ -2,7 +2,7 @@
 
 <% current_user.leagues.each do |league| %>
   <p>
-    <%= link_to "#{league.admin.name}'s \"#{league.competition.name}\" League", game_competition_league_path(league.competition.game, league.competition, league) %>
+    <%= link_to "#{league.admin.name}'s \"#{league.leagueable.name}\" League", game_competition_league_path(league.leagueable.game, league.leagueable, league) %>
   </p>
 <% end %>
 
