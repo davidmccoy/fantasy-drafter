@@ -42,7 +42,7 @@ league = League.create(
 )
 
 league_user = league.league_users.where(user_id: league_owner.id).first_or_create
-league_user.create_team(name: "#{user.name}'s Team'")
+league_user.create_team(name: "#{user.name}'s Team")
 
 # Create a draft for the league
 draft = Draft.create(league_id: league.id, rounds: 12)
@@ -60,7 +60,7 @@ draft = Draft.create(league_id: league.id, rounds: 12)
   league_user = league.league_users.where(user_id: user.id).first_or_create
 
   # Create a team for user
-  league_user.create_team(name: "#{user.name}'s Team'")
+  league_user.create_team(name: "#{user.name}'s Team")
 end
 
 # Create all players in the PT Team Series
