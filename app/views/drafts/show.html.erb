@@ -83,7 +83,7 @@
       <% @available_players.each do |player| %>
       <p id="<%= player.id %>">
         <%= player.name %>
-        <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
+        <% if @current_pick.user == current_user #|| current_user == @draft.league.admin %>
         <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
         <% end %>
       </p>

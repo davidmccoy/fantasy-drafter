@@ -3,7 +3,7 @@ class PicksController < ApplicationController
   load_and_authorize_resource
 
   def update
-    if @pick.user == current_user || current_user == @pick.draft.league.admin
+    if @pick.user == current_user #|| current_user == @pick.draft.league.admin
       if @pick.update(pick_params)
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
         protocol = Rails.env.production? ? "https" : "http"
@@ -12,7 +12,7 @@ class PicksController < ApplicationController
 
         your_next_pick = Pick.where(draft_id: @pick.draft.id, team_id: current_user.team(@pick.draft.league).id, player_id: nil).order("number ASC").first
 
-        your_pick = next_pick.user == current_user || current_user == next_pick.draft.league.admin
+        your_pick = next_pick.user == current_user #|| current_user == next_pick.draft.league.admin
 
         add_to_your_lineup = nil
 
