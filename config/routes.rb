@@ -7,14 +7,17 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  resources :users
+
   devise_scope :user do
-    match '/users/tournaments', to: 'users#tournaments', via: [:get]
+    match '/user/leagues', to: 'users#leagues', via: [:get]
   end
 
   resources :games, only: [:index] do
     resources :competitions, only: [:index] do
-      resources :tournaments do
-        resources :tournament_users
+      resources :leagues do
+        resources :league_users
+        resources :teams
         resources :drafts do
           resources :picks
         end

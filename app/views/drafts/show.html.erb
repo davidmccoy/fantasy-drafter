@@ -1,20 +1,23 @@
 <div id="draft">
-  <h2>Your Draft For <%= @draft.tournament.competition.name %></h2>
+  <h2>Your Draft For <%= @draft.league.leagueable.name %></h2>
 
   <% if !@draft.start_time %>
     <p>
       Please select a start time for your draft.
     </p>
 
-    <%= form_for [@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft] do |f| %>
+    <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
       <%= f.label "Start Time: " %>
-      <%= f.datetime_field :start_time %>
+      <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.leagueable.date %>
 
     <%= f.submit %>
   <% end %>
   <% elsif @draft.completed %>
     <p>
       Your draft has finished.
+    </p>
+    <p>
+      <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>
     </p>
   <% elsif @draft.active || Time.now > @draft.start_time %>
     <div id="picks" class="row">
@@ -80,8 +83,8 @@
       <% @available_players.each do |player| %>
       <p id="<%= player.id %>">
         <%= player.name %>
-        <% if @current_pick.user == current_user || current_user == @draft.tournament.admin %>
-        <%= link_to "Draft This Player", game_competition_tournament_draft_pick_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
+        <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
+        <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
         <% end %>
       </p>
       <% end %>
@@ -96,6 +99,25 @@
         </p>
       <% end %>
     </div>
+    <script>
+
+      $(document).ready(function() {
+        // update position of pick order banner
+        <% if @current_pick.number == 1 %>
+        $pick = $('#pick-' + <%= @current_pick.number %>);
+        <% else %>
+        $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
+        <% end %>
+        $pickLeft = $pick.position().left
+        $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+
+        // create an audio element for notification sound
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+        $('body').append(audioElement)
+
+      });
+    </script>
   <% else %>
     <p>
       Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
@@ -105,23 +127,3 @@
     </p>
   <% end %>
 </div>
-
-<script>
-
-  $(document).ready(function() {
-    // update position of pick order banner
-    <% if @current_pick.number == 1 %>
-    $pick = $('#pick-' + <%= @current_pick.number %>);
-    <% else %>
-    $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
-    <% end %>
-    $pickLeft = $pick.position().left
-    $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
-
-    // create an audio element for notification sound
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
-    $('body').append(audioElement)
-
-  });
-</script>

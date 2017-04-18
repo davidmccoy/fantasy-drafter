@@ -1,7 +1,8 @@
 class Pick < ApplicationRecord
 
   belongs_to :draft
-  belongs_to :user
-  belongs_to :player 
+  belongs_to :team
+  belongs_to :player
+  has_one :user, through: :team
 
 end

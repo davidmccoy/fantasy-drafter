@@ -4,15 +4,15 @@ class DraftsController < ApplicationController
 
   def show
     if @draft.start_time && (@draft.active || Time.now > @draft.start_time)
-      @available_players = @draft.tournament.competition.players.where.not(id: @draft.picks.pluck(:player_id) )
+      @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
-      your_next_pick = Pick.where(draft_id: @draft.id, user_id: current_user.id, player_id: nil).order("number ASC").first
+      your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id, player_id: nil).order("number ASC").first
 
       @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
 
       @picks_until_your_pick = your_next_pick.number - @current_pick.number
 
-      @your_lineup = Pick.where(draft_id: @draft.id, user_id: current_user.id).where.not(player_id: nil).order("number ASC")
+      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id).where.not(player_id: nil).order("number ASC")
 
     end
   end
@@ -26,7 +26,7 @@ class DraftsController < ApplicationController
     else
       flash[:alert] = "Update failed."
     end
-    redirect_to game_competition_tournament_draft_path(@draft.tournament.competition.game, @draft.tournament.competition, @draft.tournament, @draft)
+    redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
   end
 
   private

@@ -1,6 +1,6 @@
 <% @competitions.each do |competition| %>
   <h2><%= competition.name %></h2>
   <p>
-    <%= link_to "Create tournament!", new_game_competition_tournament_path(competition.game, competition) %>
+    <%= link_to "Create league!", new_game_competition_league_path(competition.game, competition) %>
   </p>
 <% end %>

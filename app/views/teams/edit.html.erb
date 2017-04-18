@@ -1,0 +1,10 @@
+<%= form_for [@team.league.leagueable.game, @team.league.leagueable, @team.league, @team] do |f| %>
+
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+
+  <%= f.submit "Update Team" %>
+
+<% end %>
