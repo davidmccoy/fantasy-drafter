@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417232625) do
+ActiveRecord::Schema.define(version: 20170418205037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,10 +52,12 @@ ActiveRecord::Schema.define(version: 20170417232625) do
   end
 
   create_table "leagues", force: :cascade do |t|
-    t.integer  "competition_id"
+    t.integer  "leagueable_id"
     t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "leagueable_type"
+    t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id", using: :btree
   end
 
   create_table "picks", force: :cascade do |t|
@@ -72,6 +74,11 @@ ActiveRecord::Schema.define(version: 20170417232625) do
     t.string   "team"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "game_id"
+    t.string  "name"
   end
 
   create_table "teams", force: :cascade do |t|

@@ -1,6 +1,6 @@
 class League < ApplicationRecord
 
-  belongs_to :competition
+  belongs_to :leagueable, polymorphic: true
   has_many :league_users, dependent: :destroy
   has_many :users, through: :league_users
   belongs_to :admin, class_name: "User", foreign_key: "user_id"
