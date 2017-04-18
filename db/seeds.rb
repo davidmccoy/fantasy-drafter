@@ -35,7 +35,7 @@ league_owner = user = User.create(
   password_confirmation: "password"
 )
 
-league = league.create(
+league = League.create(
   user_id: league_owner.id,
   leagueable_id: competition.id,
   leagueable_type: "Competition"
