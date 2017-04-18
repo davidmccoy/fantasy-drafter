@@ -4,13 +4,13 @@
 <% @league.league_users.each do |league_user| %>
   <p>
     <% if league_user.user == current_user %>
-        <%= league_user.user.name %> (You)
+        <%= link_to league_user.user.name, game_competition_league_team_path(@league.competition.game, @league.competition, @league, league_user.team(@league)) %> (You)
     <% elsif league_user.user == @league.admin %>
       <p>
-        <%= league_user.user.name %> (Admin)
+        <%= link_to league_user.user.name, game_competition_league_team_path(@league.competition.game, @league.competition, @league, league_user.team(@league)) %> (Admin)
       </p>
     <% else %>
-        <%= league_user.user.name %>
+        <%= link_to league_user.user.name, game_competition_league_team_path(@league.competition.game, @league.competition, @league, league_user.team(@league)) %>
     <% end %>
     <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
       <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>

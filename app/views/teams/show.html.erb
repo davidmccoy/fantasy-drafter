@@ -1,0 +1,11 @@
+<%= link_to "< Back To Your League", game_competition_league_path(@team.league.competition.game, @team.league.competition, @team.league) %>
+
+<h1>
+  <%= @team.name %>
+</h1>
+
+<% @team.players.each do |player| %>
+  <p>
+    <%= player.name %>
+  </p>
+<% end %>

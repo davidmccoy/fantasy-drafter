@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :competitions, only: [:index] do
       resources :leagues do
         resources :league_users
+        resources :teams
         resources :drafts do
           resources :picks
         end

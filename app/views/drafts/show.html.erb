@@ -16,6 +16,9 @@
     <p>
       Your draft has finished.
     </p>
+    <p>
+      <%= link_to "View your team", game_competition_league_team_path(@draft.league.competition.game, @draft.league.competition, @draft.league, current_user.team(@draft.league)) %> 
+    </p>
   <% elsif @draft.active || Time.now > @draft.start_time %>
     <div id="picks" class="row">
       <div class="current-pick-container col-sm-2">
