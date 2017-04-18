@@ -17,7 +17,7 @@
       Your draft has finished.
     </p>
     <p>
-      <%= link_to "View your team", game_competition_league_team_path(@draft.league.competition.game, @draft.league.competition, @draft.league, current_user.team(@draft.league)) %> 
+      <%= link_to "View your team", game_competition_league_team_path(@draft.league.competition.game, @draft.league.competition, @draft.league, current_user.team(@draft.league)) %>
     </p>
   <% elsif @draft.active || Time.now > @draft.start_time %>
     <div id="picks" class="row">
@@ -99,6 +99,25 @@
         </p>
       <% end %>
     </div>
+    <script>
+
+      $(document).ready(function() {
+        // update position of pick order banner
+        <% if @current_pick.number == 1 %>
+        $pick = $('#pick-' + <%= @current_pick.number %>);
+        <% else %>
+        $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
+        <% end %>
+        $pickLeft = $pick.position().left
+        $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+
+        // create an audio element for notification sound
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+        $('body').append(audioElement)
+
+      });
+    </script>
   <% else %>
     <p>
       Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
@@ -108,23 +127,3 @@
     </p>
   <% end %>
 </div>
-
-<script>
-
-  $(document).ready(function() {
-    // update position of pick order banner
-    <% if @current_pick.number == 1 %>
-    $pick = $('#pick-' + <%= @current_pick.number %>);
-    <% else %>
-    $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
-    <% end %>
-    $pickLeft = $pick.position().left
-    $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
-
-    // create an audio element for notification sound
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
-    $('body').append(audioElement)
-
-  });
-</script>
