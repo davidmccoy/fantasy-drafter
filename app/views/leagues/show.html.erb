@@ -26,9 +26,13 @@
   <% end %>
 
 <% else %>
-  <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league) %>
+  <p>
+    <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league) %>
+  </p>
 
   <% if current_user == @league.admin %>
-  <%= link_to "Set Up Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
+    <p>
+      <%= link_to "Set Up Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
+    </p>
   <% end %>
 <% end %>

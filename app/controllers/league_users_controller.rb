@@ -12,8 +12,9 @@ class LeagueUsersController < ApplicationController
     user = User.find_by_email(params["email"])
 
     if user
-      new_competitor = @league.league_users.where(user_id: user.id).first_or_create
+      new_competitor = @league.league_users.create(user_id: user.id)
       if new_competitor.save
+        new_competitor.create_team(name: "#{new_competitor.user.name}'s Team'")
         flash[:notice] = "Successfully added #{user.name} to the league."
       else
         flash[:alert] = "Couldn't add #{user.name} to the league."
