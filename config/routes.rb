@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  resources :users
+
   devise_scope :user do
     match '/user/leagues', to: 'users#leagues', via: [:get]
   end
