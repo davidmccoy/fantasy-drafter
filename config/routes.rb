@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   devise_scope :user do
-    match '/users/leagues', to: 'users#leagues', via: [:get]
+    match '/user/leagues', to: 'users#leagues', via: [:get]
   end
 
   resources :games, only: [:index] do
