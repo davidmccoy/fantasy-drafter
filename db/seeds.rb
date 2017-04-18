@@ -41,10 +41,11 @@ league = League.create(
   leagueable_type: "Competition"
 )
 
-league.league_users.where(user_id: league_owner.id).first_or_create
+league_user = league.league_users.where(user_id: league_owner.id).first_or_create
+league_user.create_team(name: "#{user.name}'s Team'")
 
 # Create a draft for the league
-draft = Draft.create(league_id: league, rounds: 12)
+draft = Draft.create(league_id: league.id, rounds: 12)
 
 # Create 7 more users and add them to the league
 
