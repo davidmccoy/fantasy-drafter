@@ -8,7 +8,7 @@
 
     <%= form_for [@draft.league.competition.game, @draft.league.competition, @draft.league, @draft] do |f| %>
       <%= f.label "Start Time: " %>
-      <%= f.datetime_field :start_time %>
+      <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.competition.date %>
 
     <%= f.submit %>
   <% end %>
