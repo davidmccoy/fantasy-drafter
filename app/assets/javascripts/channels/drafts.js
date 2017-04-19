@@ -1,4 +1,4 @@
-App.messages = App.cable.subscriptions.create('PicksChannel', {
+App.messages = App.cable.subscriptions.create({channel: 'DraftsChannel', draft: '1'}, {
   received: function(data) {
     $pick = $('#pick-' + data.number);
     $pickLeft = $pick.closest('.pick').position().left
