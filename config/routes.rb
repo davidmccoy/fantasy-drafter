@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   resources :games, only: [:index] do
     resources :competitions, only: [:index] do
       resources :leagues do
-        resources :league_users
+        resources :league_users do
+          match 'confirm', to: 'league_users#confirm', via: [:get]
+        end
         resources :teams
         resources :drafts do
           resources :picks

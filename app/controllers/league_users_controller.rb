@@ -15,6 +15,7 @@ class LeagueUsersController < ApplicationController
       new_competitor = @league.league_users.create(user_id: user.id)
       if new_competitor.save
         new_competitor.create_team(name: "#{new_competitor.user.name}'s Team")
+        LeagueMailer.invite(new_competitor).deliver_later
         flash[:notice] = "Successfully added #{user.name} to the league."
       else
         flash[:alert] = "Couldn't add #{user.name} to the league."
