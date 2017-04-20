@@ -24,8 +24,8 @@ class PicksController < ApplicationController
           @pick.draft.update(active: false, completed: true)
         end
 
-        PickMailer.next_pick(next_pick).deliver_later
-        ActionCable.server.broadcast 'picks',
+        # PickMailer.next_pick(next_pick).deliver_later
+        ActionCable.server.broadcast "draft_#{@pick.draft.id}",
           user_id: @pick.user.id,
           user_name: @pick.user.name,
           player_id: @pick.player_id,

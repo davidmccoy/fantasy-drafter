@@ -1,5 +1,6 @@
 class DraftsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'drafts_#{params[:draft]}'
+    # draft = Draft.find(params[:draft])
+    stream_from "draft_#{params[:draft]}"
   end
 end
