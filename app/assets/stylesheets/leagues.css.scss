@@ -1,0 +1,11 @@
+#league {
+  span {
+    &.unconfirmed {
+      font-style: italic;
+      color: lightgray;
+      a {
+        color: lightgray;
+      }
+    }
+  }
+}
