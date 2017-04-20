@@ -1,7 +1,7 @@
 $(document).on('ready turbolinks:load', function () {
   // find the draft id
-  var draftId = $("[data-draft]").data().draft}''
-
+  var draftId = $('[data-draft]').data().draft,
+      teamId = $('[data-team]').data().team;
   // if the draft id is present
   if (draftId) {
     // unsubscribe from previous draft subscriptions
@@ -30,27 +30,25 @@ $(document).on('ready turbolinks:load', function () {
         $player.remove();
         // change current pick text
         $currentPick.text(data.next_pick_user_name);
-        $nextPick.text('Picks Until You: ' + data.picks_until_your_pick);
         // update position of pick order banner
         $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
-
+        // update picks until you
+        $nextPick.text('Picks Until You: ' + $(data.pick_order).index(teamId));
         // update pick links
         $pickLinks.each(function(index) {
           $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('p').attr('id'));
 
-          if (data.your_pick === false) {
-            $(this).hide();
-          } else if (data.your_pick === true) {
+          if (data.next_pick_team_id === teamId) {
             $(this).show();
+            $audioElement.play();
+          } else {
+            $(this).hide();
           }
         })
 
-        if (data.add_to_your_lineup !== null) {
-          $lineup.append('<p>' + data.add_to_your_lineup + '</p>')
-        }
-
-        if (data.your_pick === true) {
-          $audioElement.play();
+        // add player to your lineup
+        if (data.team_id === teamId) {
+          $lineup.append('<p>' + data.player_name + '</p>')
         }
 
       }

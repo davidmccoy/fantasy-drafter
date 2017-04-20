@@ -5,39 +5,33 @@ class PicksController < ApplicationController
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
       if @pick.update(pick_params)
+        # Find the next pick
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
+        # Set the response protocol
         protocol = Rails.env.production? ? "https" : "http"
-
+        # Construct the next pick url
         next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.leagueable.game.id, competition_id: next_pick.draft.league.leagueable.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
+        # Find the next 16 picks
+        pick_order = Pick.order(:number).where(draft_id: @pick.draft).limit(16).offset(next_pick.number - 1).pluck(:team_id)
 
-        your_next_pick = Pick.where(draft_id: @pick.draft.id, team_id: current_user.team(@pick.draft.league).id, player_id: nil).order("number ASC").first
-
-        your_pick = next_pick.user == current_user || current_user == next_pick.draft.league.admin
-
-        add_to_your_lineup = nil
-
-        if @pick.user == current_user
-          add_to_your_lineup = @pick.player.name
-        end
-
+        # End draft it the last pick was made
         if @pick.number == @pick.draft.picks.count
           @pick.draft.update(active: false, completed: true)
         end
 
         # PickMailer.next_pick(next_pick).deliver_later
         ActionCable.server.broadcast "draft_#{@pick.draft.id}",
-          user_id: @pick.user.id,
+          team_id: @pick.team_id,
           user_name: @pick.user.name,
           player_id: @pick.player_id,
           player_name: @pick.player.name,
           number: @pick.number,
           next_pick_user_name: next_pick.user.name,
+          next_pick_team_id: next_pick.team_id,
           next_pick_id: next_pick.id,
           next_pick_url: next_pick_url,
           next_pick_number: next_pick.number,
-          picks_until_your_pick: your_next_pick.number - next_pick.number,
-          add_to_your_lineup: add_to_your_lineup,
-          your_pick: your_pick
+          pick_order: pick_order
         head :ok
 
         # flash[:notice] = "Successfully drafted #{@pick.player.name}."
