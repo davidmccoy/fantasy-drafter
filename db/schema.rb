@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420214630) do
+ActiveRecord::Schema.define(version: 20170421235321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20170420214630) do
     t.integer  "category",   default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.string   "token"
+    t.integer  "league_id"
+    t.integer  "inviting_user_id"
+    t.integer  "invited_user_id"
+    t.boolean  "accepted"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["token"], name: "index_invites_on_token", unique: true, using: :btree
   end
 
   create_table "league_users", force: :cascade do |t|
