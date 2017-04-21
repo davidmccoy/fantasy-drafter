@@ -28,12 +28,33 @@ class LeagueUsersController < ApplicationController
 
   end
 
+  # TODO notification email for accpted invite
+  def update
+    if @league_user.update(confirmed: true)
+      flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"
+      redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
+    else
+      flash[:alert] = "Something went wrong. Couldn't accept your invitiation to  #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
+      redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, @league_user)
+    end
+  end
+
+  # TODO notification email for declined invite
   def destroy
     league_user = LeagueUser.find(params[:id])
 
     if league_user
       if league_user.user == @league.admin
         flash[:alert] = "You can't remove the admin of the league."
+      elsif league_user.user == current_user
+        if league_user.destroy
+          flash[:notice] = "Successfully declined your invitation to #{league_user.league.admin.name}'s #{league_user.league.leagueable.name} Fantasy League."
+          redirect_to root
+        else
+          flash[:alert] = "Something went wrong. Couldn't remove you from  #{league_user.league.admin.name}'s #{league_user.league.leagueable.name} Fantasy League."
+          redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, league_user)
+        end
+
       else
         if league_user.destroy
           flash[:notice] = "Successfully removed #{league_user.user.name} from the league."
@@ -47,6 +68,10 @@ class LeagueUsersController < ApplicationController
 
     redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
 
+  end
+
+  def confirm
+    @league_user = LeagueUser.find(params[:league_user_id])
   end
 
 end

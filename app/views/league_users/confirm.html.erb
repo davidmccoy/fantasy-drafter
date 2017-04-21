@@ -1,0 +1,25 @@
+<div id="league-user" class="confirm">
+  <h1><%= @league.admin.name %>'s <%= @league.leagueable.name %> Fantasy League</h1>
+
+  <h3>League Info</h3>
+  <p>
+    League Commissioner: <%= @league.admin.name %>
+  </p>
+  <p>
+    Format: TBD
+  </p>
+  <p>
+    Duration: TBD
+  </p>
+
+  <h3>Please Accept Your Invitiation</h3>
+
+  <p>
+    <%= link_to "Accept", game_competition_league_league_user_path(@league.leagueable.game, @league.leagueable, @league, @league_user), method: :put %>
+  </p>
+
+  <p>
+    <%= link_to "Decline", game_competition_league_league_user_path(@league.leagueable.game, @league.leagueable, @league, @league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+  </p>
+
+</div>
