@@ -1,5 +1,7 @@
 class LeagueUsersController < ApplicationController
 
+  include ActionView::Helpers::UrlHelper
+
   load_and_authorize_resource
   # sets @competition for all actions
   load_and_authorize_resource :league
@@ -15,13 +17,13 @@ class LeagueUsersController < ApplicationController
       new_competitor = @league.league_users.create(user_id: user.id)
       if new_competitor.save
         new_competitor.create_team(name: "#{new_competitor.user.name}'s Team")
-        LeagueMailer.invite(new_competitor).deliver_later
+        InviteMailer.existing_user(new_competitor).deliver_later
         flash[:notice] = "Successfully added #{user.name} to the league."
       else
         flash[:alert] = "Couldn't add #{user.name} to the league."
       end
     else
-      flash[:alert] = "Couldn't find a Fantasy Pro Tour user with the email of #{params[:email]}. Click <a href=\"#{}\">here</a> to invite them anyway."
+      flash[:alert] = "Couldn't find a Fantasy Pro Tour user with the email of #{params[:email]}. Click #{link_to("Here", Rails.application.routes.url_helpers.invites_url(email: params[:email], league_id: @league, inviting_user_id: current_user.id), method: :post)} to invite them anyway."
       flash[:html_safe] = true
 
       # redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league), notice: %Q[Your artwork has been added to your portfolio. Upload a new piece <a href="#{upload_path(@user)}">here.</a>], flash: { html_safe: true }

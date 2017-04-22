@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     match '/user/leagues', to: 'users#leagues', via: [:get]
   end
 
+  resources :invites
+
   resources :games, only: [:index] do
     resources :competitions, only: [:index] do
       resources :leagues do

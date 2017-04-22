@@ -1,0 +1,22 @@
+class InvitesController < ApplicationController
+
+  load_and_authorize_resource
+
+  def create
+    invite = Invite.where(invite_params).first_or_create
+    league = League.find(params[:league_id])
+    if invite.save
+      flash[:notice] = "Invite sent to #{params[:email]}."
+    else
+      flash[:notice] = "Invite to #{params[:email]} failed to send."
+    end
+    redirect_to game_competition_league_league_users_path(league.leagueable.game, league.leagueable, league)
+  end
+
+  private
+
+  def invite_params
+    params.permit(:email, :league_id, :inviting_user_id)
+  end
+
+end
