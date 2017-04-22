@@ -2,6 +2,15 @@ class InvitesController < ApplicationController
 
   load_and_authorize_resource
 
+  def show
+    if @invite.token == params[:token]
+
+    else
+      flash[:alart] = "Invalid invite."
+      redirect_to root_path
+    end
+  end
+
   def create
     invite = Invite.where(invite_params).first_or_create
     league = League.find(params[:league_id])

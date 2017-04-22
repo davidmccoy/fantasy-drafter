@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :drafts, through: :leagues
   has_many :teams, through: :league_users
   has_many :picks, through: :teams
+  has_many :invites, class_name: "Invite", foreign_key: "invited_user_id"
+  has_many :invited_users, class_name: "Invite", foreign_key: "inviting_user_id"
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
