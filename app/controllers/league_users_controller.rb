@@ -21,7 +21,10 @@ class LeagueUsersController < ApplicationController
         flash[:alert] = "Couldn't add #{user.name} to the league."
       end
     else
-      flash[:alert] = "Couldn't find a user with that email."
+      flash[:alert] = "Couldn't find a Fantasy Pro Tour user with the email of #{params[:email]}. Click <a href=\"#{}\">here</a> to invite them anyway."
+      flash[:html_safe] = true
+
+      # redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league), notice: %Q[Your artwork has been added to your portfolio. Upload a new piece <a href="#{upload_path(@user)}">here.</a>], flash: { html_safe: true }
     end
 
     redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
