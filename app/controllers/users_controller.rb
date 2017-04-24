@@ -8,4 +8,8 @@ class UsersController < ApplicationController
   def leagues
   end
 
+  def invites
+    @invites = current_user.league_users.where(confirmed: false)
+  end
+
 end

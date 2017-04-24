@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     match '/user/leagues', to: 'users#leagues', via: [:get]
+    match '/user/invites', to: 'users#invites', via: [:get]
   end
 
   resources :invites

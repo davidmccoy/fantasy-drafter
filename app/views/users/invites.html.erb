@@ -1,0 +1,12 @@
+
+<% if @invites.length.nonzero? %>
+  <h1>Your Invites</h1>
+
+  <% @invites.each do |league_user| %>
+    <p>
+      <%= link_to league_user.league.leagueable.name, game_competition_league_league_user_confirm_path(league_user.league.leagueable.game, league_user.league.leagueable, league_user.league, league_user) %>
+    </p>
+  <% end %>
+<% else %>
+  <h3>No pending invites.</h3>
+<% end %>
