@@ -22,6 +22,10 @@ class InvitesController < ApplicationController
     redirect_to game_competition_league_league_users_path(league.leagueable.game, league.leagueable, league)
   end
 
+  def resend
+    
+  end
+
   private
 
   def invite_params

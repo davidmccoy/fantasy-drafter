@@ -71,12 +71,21 @@ class LeagueUsersController < ApplicationController
       flash[:alert] = "Couldn't find that competitor in this league."
     end
 
-    redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
+    redirect_to game_competition_league_league_users_path(@league.leagueable.game, @league.leagueable, @league)
 
   end
 
   def confirm
     @league_user = LeagueUser.find(params[:league_user_id])
+  end
+
+  def resend_invite
+    @league_user = LeagueUser.find(params[:league_user_id])
+    InviteMailer.existing_user(@league_user).deliver_later
+
+    flash[:notice] = "Invite resent to #{@league_user.user.email}."
+
+    redirect_to game_competition_league_league_users_path(@league_user.league.leagueable.game, @league_user.league.leagueable, @league_user.league)
   end
 
 end

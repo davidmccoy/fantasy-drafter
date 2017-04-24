@@ -8,9 +8,7 @@
         <% if league_user.confirmed %>
           <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (You)
         <% else %>
-          <span class="unconfirmed">
-            <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (You) (Unconfirmed)
-          </span>
+          <%= league_user.user.name %> (You) <%= link_to "(Accept Your Invite)", game_competition_league_league_user_confirm_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
         <% end %>
       <% elsif league_user.user == @league.admin %>
         <p>
@@ -21,12 +19,14 @@
           <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %>
         <% else %>
           <span class="unconfirmed">
-            <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (Unconfirmed)
+            <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_competition_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
           </span>
         <% end %>
       <% end %>
-      <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
-        <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+      <% if current_user == @league.admin %>
+        <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
+          <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+        <% end %>
       <% end %>
     </p>
   <% end %>

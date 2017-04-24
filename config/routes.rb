@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :leagues do
         resources :league_users do
           match 'confirm', to: 'league_users#confirm', via: [:get]
+          match 'resend_invite', to: 'league_users#resend_invite', via: [:get]
         end
         resources :teams
         resources :drafts do
