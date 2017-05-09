@@ -95,4 +95,15 @@ Rails.application.configure do
 
   # Allow origin requests
   config.action_cable.allowed_request_origins = ['https://fantasy-drafter.herokuapp.com', 'http://fantasy-drafter.herokuapp.com']
+
+  # Configure mailer
+  ActionMailer::Base.smtp_settings = {
+    :user_name => ENV["SENDGRID_USERNAME"],
+    :password => ENV["SENDGRID_PASSWORD"],
+    :domain => 'fantasypt.com',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 end
