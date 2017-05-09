@@ -79,17 +79,40 @@
       <h4>
         Available Players:
       </h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Rank
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
 
-      <% @available_players.each do |player| %>
-      <p id="<%= player.id %>">
-        <%= player.name %>
-        <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
-          <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
-        <% else %>
-          <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link", style: "display: none;"  %>
-        <% end %>
-      </p>
-      <% end %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @available_players.each do |player| %>
+          <tr>
+            <th scope="row" id="<%= player.id %>">
+              1
+            </th>
+            <td>
+              <%= player.name %>
+            </td>
+            <td>
+              <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
+              <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
+              <% else %>
+              <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link", style: "display: none;"  %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
     <div id="lineup" class="col-sm-6">
       <h4>
