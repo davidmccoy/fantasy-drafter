@@ -16,3 +16,5 @@
 //= require turbolinks
 //= require_tree .
 //= require_tree ./channels
+//= require moment
+//= require bootstrap-sortable

@@ -47,6 +47,10 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 
+# Sortable tables
+gem 'momentjs-rails'
+gem 'rails_bootstrap_sortable'
+
 # For sample data generation
 gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 
