@@ -15,7 +15,7 @@ class Invite < ApplicationRecord
   private
 
   def send_invite
-    InviteMailer.new_user(self).deliver_later
+    InviteMailer.new_user(self)
   end
 
 end
