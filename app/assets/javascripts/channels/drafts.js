@@ -15,7 +15,7 @@ $(document).on('ready turbolinks:load', function () {
       received: function(data) {
         $pick = $('#pick-' + data.number);
         $pickLeft = $pick.closest('.pick').position().left
-        $player = $('p#' + data.player_id);
+        $player = $('tr#' + data.player_id);
         $currentPick = $('#current-pick');
         $pickLinks = $('.pick-link');
         $nextPick = $('#until-next-pick');
@@ -36,7 +36,7 @@ $(document).on('ready turbolinks:load', function () {
         $nextPick.text('Picks Until You: ' + $(data.pick_order).index(teamId));
         // update pick links
         $pickLinks.each(function(index) {
-          $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('p').attr('id'));
+          $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('tr').attr('id'));
 
           if (data.next_pick_team_id === teamId) {
             $(this).show();

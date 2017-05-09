@@ -4,6 +4,7 @@ class PicksController < ApplicationController
 
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
+      return false if params[:player_id] === 0
       if @pick.update(pick_params)
         # Find the next pick
         next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
