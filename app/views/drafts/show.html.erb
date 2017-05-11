@@ -83,7 +83,7 @@
         <thead>
           <tr>
             <th>
-              Rank
+              Points
             </th>
             <th>
               Name
@@ -98,7 +98,11 @@
           <tr id="<%= player.id %>">
             <th scope="row">
               <% result = player.results.find_by(competition_id: Competition.find_by_name("Pro Tour Aether Revolt").id, player_id: player.id) %>
-              <%= result.points if result %>
+              <% if result %>
+                <%= result.points %>
+              <% else %>
+                0
+              <% end %>
             </th>
             <td>
               <%= player.name %>
