@@ -97,7 +97,8 @@
           <% @available_players.each do |player| %>
           <tr id="<%= player.id %>">
             <th scope="row">
-              <%= player.results.find_by(competition_id: Competition.find_by_name("Pro Tour Aether Revolt").id, player_id: player.id).points %> 
+              <% result = player.results.find_by(competition_id: Competition.find_by_name("Pro Tour Aether Revolt").id, player_id: player.id) %>
+              <%= result.points if result %>
             </th>
             <td>
               <%= player.name %>
