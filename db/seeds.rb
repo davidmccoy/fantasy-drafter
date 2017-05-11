@@ -8,6 +8,7 @@ Player.delete_all
 LeagueUser.delete_all
 League.delete_all
 User.delete_all
+Result.destroy_all
 
 # Create a game
 
@@ -85,11 +86,11 @@ basic = {
   name: "Basic",
   players: %w(
     Craig\ Chapman
-    Sam-Luca\ Rolph
-    Pip\ Griffiths
-    Jaime\ Archdekan
+    Sam\ Rolph
+    Philip\ Griffiths
+    Jamie\ Archdekin
     Mathew\ Stein
-    Pete\ Ward
+    Peter\ Ward
   )
 }
 
@@ -103,7 +104,7 @@ cardhoarder = {
     Andrew\ Tenjum
     Robert\ Graves
     Zachary\ Kiihne
-    Joe\ Lossett
+    Christopher\ Lossett
   )
 }
 
@@ -114,7 +115,7 @@ channelfireball_fire = {
   players: %w(
     Patrick\ Cox
     Matthew\ Nass
-    Martin\ Jůza
+    Martin\ Juza
     Josh\ Utter-Leyton
     Corey\ Burkhart
     Paul\ Cheon
@@ -130,7 +131,7 @@ channelfireball_ice = {
     Mike\ Sigrist
     Joel\ Larsson
     Ben\ Stark
-    Ondřej\ Stráský
+    Ondrej\ Strasky
     Eric\ Froehlich
   )
 }
@@ -170,9 +171,9 @@ dave_and_adams = {
   players: %w(
     Alex\ Bianchi
     Andrew\ Skorik
-    Nick\ D'Ambrose
+    Nick\ D’Ambrose
     Joey\ Manner
-    Jacky\ Wang
+    Jack\ Wang
     Alex\ Bastecki
   )
 }
@@ -183,11 +184,11 @@ dex_army = {
    name: "Dex Army",
    players: %w(
      Willy\ Edel
-     Márcio\ Carvalho
-     Carlos\ Romão
+     Marcio\ Carvalho
+     Carlos\ Romao
      Thiago\ Saporito
      Luis\ Salvatto
-     Antonio\ Del\ Moral\ León
+     Antonio\ Del\ Moral\ Leon
    )
 }
 
@@ -199,8 +200,8 @@ dexthird = {
     Felipe\ Valdivia
     Patrick\ Fernandes
     Cristian\ Cespedes
-    Jose\ Luis\ Echeverria
-    João\ Lucas\ Caparroz
+    Jose\ Luis\ Echeverria\ Paredes
+    Joao\ Lucas\ Caparroz
     Lucas\ Esper\ Berthoud
   )
 }
@@ -226,7 +227,7 @@ face_to_face_games = {
   players: %w(
     Alexander\ Hayne
     Samuel\ Pardee
-    Steve\ Rubin
+    Steven\ Rubin
     Jacob\ Wilson
     Ivan\ Floch
     Oliver\ Tiu
@@ -240,7 +241,7 @@ fire_squad = {
   players: %w(
     Thien\ Nguyen
     Nathaniel\ Smith
-    David\ Shiels
+    Dave\ Shiels
     Ben\ Hull
     Brandon\ Ayers
     Jonathan\ Morawski
@@ -257,7 +258,7 @@ genesis = {
     Seth\ Manfield
     Michael\ Majors
     Martin\ Dang
-    Martin\ Müller
+    Martin\ Muller
   )
 }
 
@@ -269,9 +270,9 @@ hareruya = {
     Tomoharu\ Saito
     Shuhei\ Nakamura
     Yuta\ Takahashi
-    Jérémy\ Dezani
+    Jeremy\ Dezani
     Oliver\ Polak-Rottmann
-    Petr\ Sochůrek
+    Petr\ Sochurek
   )
 }
 
@@ -280,11 +281,11 @@ teams << hareruya
 hotsauce_games = {
   name: "Hotsauce Games",
   players: %w(
-    Raymond\ Perez,\ Jr.
-    Gregory\ Orange
+    Raymond\ Perez
+    Greg\ Orange
     Tyler\ Hill
     Cody\ Lingelbach
-    Gabe\ Carleton-Barnes
+    Gabriel\ Carleton-Barnes
     Stephen\ Neal
   )
 }
@@ -323,7 +324,7 @@ lingering_souls = {
   name: "Lingering Souls",
   players: %w(
     Shaheen\ Soorani
-    Chris\ Fennell
+    Christopher\ Fennell
     Travis\ Woo
     Andreas\ Ganz
     Ashraf\ Abou\ Omar
@@ -369,7 +370,7 @@ massdrop_west = {
     Jiachen\ Tao
     Ari\ Lax
     Scott\ Lipp
-    Ben\ Weitz
+    Benjamin\ Weitz
   )
 }
 
@@ -383,7 +384,7 @@ mox_box_bowl = {
     Eugene\ Hwang
     Rob\ Pisano
     Brandon\ Fischer
-    Paul\ Yeem
+    Soohwang\ Yeem
   )
 }
 
@@ -406,12 +407,12 @@ teams << mtg_bent_card
 mtg_mint_card = {
   name: "MTG Mint Card",
   players: %w(
-    Lee\ Shi\ Tian
+    Shi\ Tian\ Lee
     Jason\ Chung
-    Huang\ Hao-Shan
+    Hao-Shan\ Huang
     Kelvin\ Chew
     Eduardo\ Sajgalik
-    Nam\ Sung\ Wook
+    Sung\ Wook\ Nam
   )
 }
 
@@ -505,7 +506,7 @@ top_level = {
   name: "Top Level",
   players: %w(
     Craig\ Wescoe
-    Raphaël\ Lévy
+    Raphael\ Levy
     Patrick\ Chapin
     Brian\ Braun-Duin
     Mike\ Hron
