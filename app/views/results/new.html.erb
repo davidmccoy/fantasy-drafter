@@ -1,0 +1,8 @@
+<%= form_tag game_competition_results_import_path(@game, @competition), multipart: true do %>
+
+  <%= label_tag :file %>
+  <%= file_field_tag :file,required: true %>
+
+  <%= submit_tag "Add Results" %>
+
+<% end %>
