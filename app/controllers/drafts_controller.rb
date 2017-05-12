@@ -10,7 +10,11 @@ class DraftsController < ApplicationController
 
       @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
 
-      @picks_until_your_pick = your_next_pick.number - @current_pick.number
+      if your_next_pick && @current_pick
+        @picks_until_your_pick = your_next_pick.number - @current_pick.number
+      else
+        @picks_until_your_pick = 0
+      end
 
       @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id).where.not(player_id: nil).order("number ASC")
 
