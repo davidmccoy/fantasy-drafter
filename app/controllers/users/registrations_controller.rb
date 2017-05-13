@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if params[:league_id] && params[:invite_id]
         league = League.find(params[:league_id])
         league_user = league.league_users.create(user_id: @user.id, confirmed: true)
-        league_user.create_team(name: "#{@user.name}'s Team'")
+        league_user.create_team(name: "#{@user.name}'s Team")
 
         invite = Invite.find(params[:invite_id])
         invite.update(invited_user_id: @user.id, accepted: true, token: nil)
