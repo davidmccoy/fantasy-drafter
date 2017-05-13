@@ -6,5 +6,18 @@ class Team < ApplicationRecord
   has_many :picks
   has_many :players, through: :picks
 
+  def points
+    points = 0
+
+    self.players.each do |player|
+      result = player.result(self.league.leagueable)
+      if result
+        points = points + result.points
+      end
+    end
+
+    points
+  end
+
 
 end

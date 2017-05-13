@@ -1,52 +1,88 @@
 <div id="league">
   <h2><%= @league.admin.name %>'s League For <%= @league.leagueable.name %></h2>
 
-  <h3>Registered Users:</h3>
-  <% @league.league_users.each do |league_user| %>
-    <p>
-      <% if league_user.user == current_user %>
-        <% if league_user.confirmed %>
-          <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (You)
-        <% else %>
-          <%= league_user.user.name %> (You) <%= link_to "(Accept Your Invite)", game_competition_league_league_user_confirm_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
-        <% end %>
-      <% elsif league_user.user == @league.admin %>
-        <p>
-          <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (Admin)
-        </p>
-      <% else %>
-        <% if league_user.confirmed %>
-          <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %>
-        <% else %>
-          <span class="unconfirmed">
-            <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_competition_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
-          </span>
-        <% end %>
-      <% end %>
-      <% if current_user == @league.admin %>
-        <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
-          <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
-        <% end %>
-      <% end %>
-    </p>
-  <% end %>
+  <% if @league.draft.completed? %>
 
-  <% if @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
-
-  <% if !@league.draft.completed %>
-  <%= link_to "Go To Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
-
-  <% end %>
+    <table class="table sortable">
+      <thead>
+        <tr>
+          <th>
+            Rank
+          </th>
+          <th>
+            Team
+          </th>
+          <th>
+            Points
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @league.standings.each_with_index do |team, index| %>
+          <tr id="<%= team.points %>">
+            <td>
+              <%= index + 1 %>
+            </td>
+            <td>
+              <%= team.name %>
+            </td>
+            <td>
+              <%= team.points %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
   <% else %>
-  <p>
-    <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league) %>
-  </p>
 
-  <% if current_user == @league.admin %>
-  <p>
-    <%= link_to "Set Up Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
-  </p>
-  <% end %>
+    <h3>Registered Users:</h3>
+    <% @league.league_users.each do |league_user| %>
+      <p>
+        <% if league_user.user == current_user %>
+          <% if league_user.confirmed %>
+            <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (You)
+          <% else %>
+            <%= league_user.user.name %> (You) <%= link_to "(Accept Your Invite)", game_competition_league_league_user_confirm_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
+          <% end %>
+        <% elsif league_user.user == @league.admin %>
+          <p>
+            <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %> (Admin)
+          </p>
+        <% else %>
+          <% if league_user.confirmed %>
+            <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team(@league)) %>
+          <% else %>
+            <span class="unconfirmed">
+              <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_competition_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
+            </span>
+          <% end %>
+        <% end %>
+        <% if current_user == @league.admin %>
+          <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
+            <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+          <% end %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
+
+      <% if !@league.draft.completed %>
+        <%= link_to "Go To Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
+
+      <% end %>
+
+    <% else %>
+      <p>
+        <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league) %>
+      </p>
+
+      <% if current_user == @league.admin %>
+        <p>
+          <%= link_to "Set Up Your Draft", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft) %>
+        </p>
+      <% end %>
+    <% end %>
   <% end %>
 </div>

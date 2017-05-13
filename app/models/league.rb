@@ -7,4 +7,14 @@ class League < ApplicationRecord
   has_one :draft, dependent: :destroy
   has_many :teams, through: :league_users
 
+  def standings
+    teams = []
+
+    self.teams.each do |team|
+      teams << team
+    end
+
+    teams.sort_by { |team| team.points }.reverse
+  end
+
 end
