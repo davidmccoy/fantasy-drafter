@@ -24,7 +24,7 @@
               <%= index + 1 %>
             </td>
             <td>
-              <%= team.name %>
+              <%= link_to team.name, game_competition_league_team_path(team.league.leagueable.game, team.league, team.league, team) %>
             </td>
             <td>
               <%= team.points %>
