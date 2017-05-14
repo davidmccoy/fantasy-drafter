@@ -7,8 +7,27 @@
   <% end %>
 </h1>
 
-<% @team.players.each do |player| %>
-  <p>
-    <%= player.name %>
-  </p>
-<% end %>
+<table class="table sortable">
+  <thead>
+    <tr>
+      <th>
+        Points
+      </th>
+      <th>
+        Player
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @team.players.each do |player| %>
+    <tr id="<%= player.name %>">
+      <td>
+        <%= player.result(@team.league.leagueable).points %>
+      </td>
+      <td>
+        <%= player.name %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
