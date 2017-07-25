@@ -9,6 +9,17 @@ class Player < ApplicationRecord
     self.results.find_by(competition_id: competition.id)
   end
 
+  def points_per_result
+    points = 0
+    num_results = self.results.count
+
+    self.results.each do |result|
+      points = points + result.points
+    end
+
+    return points / num_results
+  end
+
   def self.unaccent(name)
       player = self.where(
         "translate(
