@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       match 'results/import', to: 'results#import', via: [:post]
       resources :results do
       end
+      match 'players/import', to: 'competition_players#import', via: [:post]
+      resources :competition_players, path: 'players'
       resources :leagues do
         resources :league_users do
           match 'confirm', to: 'league_users#confirm', via: [:get]
