@@ -100,13 +100,28 @@
 
 // Navbar ======================================================================
 
-.navbar {
+.navbar-default {
   font-size: 1em;
   background: @blue;
   border-radius: 0px;
-  border: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: @gray-100;
   margin: 0;
+  .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
+    background-color: @blue;
+    color: @white;
+    .caret {
+      color: @secondary;
+    }
+  }
   .navbar-nav {
+    .open {
+      a {
+        background-color: @blue;
+      }
+    }
     li {
       a {
         color: @white;
@@ -116,6 +131,16 @@
       }
       .dropdown-menu {
         background: @blue;
+        padding: 0;
+        li {
+          a {
+            padding: 5px 20px;
+            &:hover {
+              background: white;
+              color: @black;
+            }
+          }
+        }
       }
       &.active {
         a {
