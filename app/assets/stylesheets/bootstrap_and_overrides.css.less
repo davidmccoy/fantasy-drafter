@@ -42,7 +42,7 @@
 @yellow:  #f0ad4e;
 @green:   #02B875;
 @teal:    #20c997;
-@cyan:    #17a2b8 ;
+@cyan:    #17a2b8;
 
 @primary:       @blue;
 @secondary:     @gray-500;
@@ -95,17 +95,40 @@
 
 // Variables ===================================================================
 
-@font-family-sans-serif: "Helvetica Neue", "Arial";
+@font-family-sans-serif: "Raleway", sans-serif;
 @font-family-serif:      Georgia, Cambria, "Times New Roman", Times, serif;
 
 // Navbar ======================================================================
 
 .navbar {
   font-size: 1em;
-  background: @white;
+  background: @blue;
   border-radius: 0px;
+  border: none;
+  margin: 0;
+  .navbar-nav {
+    li {
+      a {
+        color: @white;
+      }
+      .dropdown-menu {
+        background: @blue;
+      }
+    }
+  }
+  .navbar-brand {
+    color: @white;
+    padding: 20px 15px;
+    font-family: "beleren-bold", "Raleway", sans-serif;
+    font-size: 2.5em;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+  .navbar-toggle {
+    .icon-bar {
+      background-color: #FFF;
+    }
+  }
 }
-
 .bg-dark {
   background-color: @success !important;
 }
@@ -292,4 +315,11 @@ table,
 
 .list-group {
   font-size: 0.875em;
+}
+@media screen and (min-width: 768px) {
+  .navbar {
+    .navbar-brand {
+      padding: 24.5px 15px
+    }
+  }
 }

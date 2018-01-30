@@ -1,0 +1,36 @@
+/*
+ *= require_tree .
+ *= require_self
+ *= require bootstrap-sortable
+ */
+
+@import "variables";
+
+@font-face {
+    font-family: 'beleren-bold';
+    src: font-url('beleren-bold.eot');
+    src: font-url('beleren-bold.eot?#iefix') format('embedded-opentype'),
+         font-url('beleren-bold.woff2') format('woff2'),
+         font-url('beleren-bold.woff') format('woff'),
+         font-url('beleren-bold.ttf') format('truetype'),
+         font-url('beleren-bold.svg#Beleren-Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html {
+  height: 100%;
+  body {
+    font-size: 16px;
+    background: $blue;
+    #content {
+      background: $white;
+      height: 80%;
+    }
+  }
+}
+
+.tertiary-font {
+  font-family: "beleren-bold", "Raleway", sans-serif;
+}

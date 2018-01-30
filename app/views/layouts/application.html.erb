@@ -3,7 +3,7 @@
   <head>
     <title>FantasyDrafter</title>
     <%= csrf_meta_tags %>
-
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= action_cable_meta_tag %>
@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <%= nav_bar brand: "Fantasy Drafter", responsive: true do %>
+    <%= nav_bar brand: "Fantasy Pro Tour", responsive: true do %>
       <%= menu_group pull: :right do %>
         <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
           <%= drop_down "NOW DRAFTING" do %>
@@ -39,7 +39,8 @@
       <% end %>
     <% end %>
 
-    <div class="container-fluid">
+    <div id="content">
+      <!-- <div class="container-fluid"> -->
       <% if notice || alert  %>
       <div id="notice">
         <% if notice %>
@@ -51,6 +52,7 @@
       <% end %>
 
       <%= yield %>
+      <!-- </div> -->
     </div>
 
   </body>
