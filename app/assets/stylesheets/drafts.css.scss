@@ -10,7 +10,7 @@
       display: inline-block;
     }
     .pick-order-container {
-      overflow-y: scroll;
+      overflow-y: hidden;
       white-space: nowrap;
       .pick-order {
         display: inline-block;
