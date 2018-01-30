@@ -110,9 +110,20 @@
     li {
       a {
         color: @white;
+        &:hover {
+          color: @gray-100;
+        }
       }
       .dropdown-menu {
         background: @blue;
+      }
+      &.active {
+        a {
+          background-color: @white;
+          &:hover {
+            background-color: @gray-100;
+          }
+        }
       }
     }
   }
@@ -122,6 +133,9 @@
     font-family: "beleren-bold", "Raleway", sans-serif;
     font-size: 2.5em;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    &:hover {
+      color: @white;
+    }
   }
   .navbar-toggle {
     .icon-bar {
