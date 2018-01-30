@@ -40,7 +40,9 @@
     <% end %>
 
     <div id="content">
-      <!-- <div class="container-fluid"> -->
+      <% if request.env['PATH_INFO'] != "/" %>
+        <div class="container-fluid">
+      <% end %>
       <% if notice || alert  %>
       <div id="notice">
         <% if notice %>
@@ -52,7 +54,9 @@
       <% end %>
 
       <%= yield %>
-      <!-- </div> -->
+      <% if request.env['PATH_INFO'] != "/" %>
+        </div>
+      <% end %>
     </div>
     <footer>
       <div class="container copyright-notice-container">
