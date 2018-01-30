@@ -104,10 +104,7 @@
   font-size: 1em;
   background: @blue;
   border-radius: 0px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-color: @gray-100;
+  border: none;
   margin: 0;
   .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
     background-color: @blue;
@@ -145,8 +142,9 @@
       &.active {
         a {
           background-color: @white;
+          border-bottom: 1px solid @gray-100;
           &:hover {
-            background-color: @gray-100;
+            background-color: @white;
           }
         }
       }
