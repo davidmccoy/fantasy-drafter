@@ -16,20 +16,23 @@ $(document).on('ready turbolinks:load', function () {
         $pick = $('#pick-' + data.number);
         $pickLeft = $pick.closest('.pick').position().left
         $player = $('tr#' + data.player_id);
-        $currentPick = $('#current-pick');
+        $currentPickIndicator = $('#current-pick');
         $pickLinks = $('.pick-link');
+        $currentPick = $('#pick-' + (data.number + 1));
         $nextPick = $('#until-next-pick');
         $lineup = $('#lineup');
         $audioElement = $('audio')[0];
 
-
+        // assign current pick
+        $('.current-pick').removeClass('current-pick');
+        $currentPick.addClass('current-pick');
         // change pick text
         $pick.addClass('picked');
         $pick.find('.pick-info').append('<p>' + data.player_name + '</p>')
         // remove player from available players
         $player.remove();
         // change current pick text
-        $currentPick.text(data.next_pick_user_name);
+        $currentPickIndicator.text(data.next_pick_user_name);
         // update position of pick order banner
         $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
         // update picks until you

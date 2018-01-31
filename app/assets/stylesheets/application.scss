@@ -34,6 +34,18 @@ html {
       margin: 0;
       padding: 0;
       width: 100%;
+      .page-title {
+        text-align: center;
+        margin: 1rem 0;
+        h1 {
+          font-size: 3.5em;
+          margin: 1rem 0;
+        }
+        .page-instructions {
+          max-width: 700px;
+          margin: 0 auto 1em;
+        }
+      }
     }
     footer {
      position: absolute;
