@@ -43,9 +43,8 @@ gem 'omniauth-facebook'
 gem 'cancancan'
 
 # Integrating Bootstrap for styling
-gem "therubyracer"
-gem "less-rails"
-gem "twitter-bootstrap-rails"
+gem 'bootstrap', '~> 4.1.1'
+gem 'popper_js', '~> 1.12.9'
 
 # Sortable tables
 gem 'momentjs-rails'

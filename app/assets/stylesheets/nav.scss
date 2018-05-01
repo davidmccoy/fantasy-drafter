@@ -1,0 +1,22 @@
+.navbar {
+  font-size: 1em;
+  background: $blue;
+  border-radius: 0px;
+  border: none;
+  margin: 0;
+  .navbar-brand {
+    color: $white;
+    // padding: 20px 15px;
+    font-family: "marvin_visions", "Raleway", sans-serif;
+    font-size: 1.9em;
+    letter-spacing: 1px;
+    &:hover {
+      color: $white;
+    }
+  }
+  .navbar-toggle {
+    .icon-bar {
+      background-color: #FFF;
+    }
+  }
+}

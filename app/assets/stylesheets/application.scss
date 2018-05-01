@@ -1,10 +1,9 @@
-/*
- *= require_tree .
- *= require_self
- *= require bootstrap-sortable
- */
-
 @import "variables";
+@import "bootstrap";
+@import "drafts";
+@import "home";
+@import "leagues";
+@import "nav";
 
 @font-face {
     font-family: 'marvin_visions';
