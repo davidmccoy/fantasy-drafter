@@ -7,13 +7,11 @@
 @import "variables";
 
 @font-face {
-    font-family: 'beleren-bold';
-    src: font-url('beleren-bold.eot');
-    src: font-url('beleren-bold.eot?#iefix') format('embedded-opentype'),
-         font-url('beleren-bold.woff2') format('woff2'),
-         font-url('beleren-bold.woff') format('woff'),
-         font-url('beleren-bold.ttf') format('truetype'),
-         font-url('beleren-bold.svg#Beleren-Bold') format('svg');
+    font-family: 'marvin_visions';
+    src: font-url('MarvinVisions-Bold.eot');
+    src: font-url('MarvinVisions-Bold.eot?#iefix') format('embedded-opentype'),
+         font-url('MarvinVisions-Bold.woff2') format('woff2'),
+         font-url('MarvinVisions-Bold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -70,5 +68,6 @@ html {
 }
 
 .tertiary-font {
-  font-family: "beleren-bold", "Raleway", sans-serif;
+  font-family: "marvin_visions", "Raleway", sans-serif;
+  letter-spacing: 2px;
 }
