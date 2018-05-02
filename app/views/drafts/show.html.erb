@@ -105,82 +105,82 @@
       </div>
     </div>
   </div>
-    <div id="draft-details-container">
-      <div id="players" class="col-sm-6">
-        <h4>
-          Available Players:
-        </h4>
-        <table class="table sortable">
-          <thead>
-            <tr>
-              <th>
-                Avg Points
-              </th>
-              <th>
-                Competitions
-              </th>
-              <th>
-                Name
-              </th>
-              <th data-defaultsort='disabled'>
+  <div id="draft-details-container" class="row">
+    <div id="players" class="col-sm-6">
+      <h4>
+        Available Players
+      </h4>
+      <table class="table sortable">
+        <thead>
+          <tr>
+            <th>
+              Avg Points
+            </th>
+            <th>
+              Competitions
+            </th>
+            <th>
+              Name
+            </th>
+            <th data-defaultsort='disabled'>
 
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @available_players.each do |player| %>
-            <tr id="<%= player.id %>">
-              <td scope="row" data-defaultsort="desc">
-                <%= player.points_per_result %>
-              </td>
-              <td>
-                <%= player.results.count %>
-              </td>
-              <td>
-                <%= player.name %>
-              </td>
-              <td>
-                <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
-                <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
-                <% else %>
-                <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link", style: "display: none;"  %>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div id="lineup" class="col-sm-6">
-        <h4>
-          Your Lineup
-        </h4>
-        <% @your_lineup.each do |pick| %>
-        <p>
-          <%= pick.player.name %>
-        </p>
-        <% end %>
-      </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @available_players.each do |player| %>
+          <tr id="<%= player.id %>">
+            <td scope="row" data-defaultsort="desc">
+              <%= player.points_per_result %>
+            </td>
+            <td>
+              <%= player.results.count %>
+            </td>
+            <td>
+              <%= player.name %>
+            </td>
+            <td>
+              <% if @current_pick.user == current_user || current_user == @draft.league.admin %>
+              <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link"  %>
+              <% else %>
+              <%= link_to "Draft This Player", game_competition_league_draft_pick_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, @current_pick, player_id: player.id, protocol: "https"), method: :patch, remote: true, class: "pick-link", style: "display: none;"  %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-    <script>
+    <div id="lineup" class="col-sm-6">
+      <h4>
+        Your Lineup
+      </h4>
+      <% @your_lineup.each do |pick| %>
+      <p>
+        <%= pick.player.name %>
+      </p>
+      <% end %>
+    </div>
+  </div>
+  <script>
 
-      $(document).ready(function() {
-        // update position of pick order banner
-        <% if @current_pick.number == 1 %>
-        $pick = $('#pick-' + <%= @current_pick.number %>);
-        <% else %>
-        $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
-        <% end %>
-        $pickLeft = $pick.position().left
-        $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+    $(document).ready(function() {
+      // update position of pick order banner
+      <% if @current_pick.number == 1 %>
+      $pick = $('#pick-' + <%= @current_pick.number %>);
+      <% else %>
+      $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
+      <% end %>
+      $pickLeft = $pick.position().left
+      $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
 
-        // create an audio element for notification sound
-        var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
-        $('body').append(audioElement)
+      // create an audio element for notification sound
+      var audioElement = document.createElement('audio');
+      audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+      $('body').append(audioElement)
 
-      });
-    </script>
+    });
+  </script>
   <% else %>
     <p>
       Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
@@ -190,3 +190,8 @@
     </p>
   <% end %>
 </div>
+<%= content_tag :div,
+  id: "react-player-table",
+  data: @draft.id do %>
+<% end %>
+<%= javascript_pack_tag "hello_react" %>

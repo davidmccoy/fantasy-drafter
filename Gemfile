@@ -46,6 +46,9 @@ gem 'cancancan'
 gem 'bootstrap', '~> 4.1.1'
 gem 'popper_js', '~> 1.12.9'
 
+# React
+gem 'webpacker'
+
 # Sortable tables
 gem 'momentjs-rails'
 gem 'rails_bootstrap_sortable'
