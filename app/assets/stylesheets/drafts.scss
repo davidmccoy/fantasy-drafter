@@ -88,8 +88,8 @@
     margin: 1em 0;
     #players {
       color: $black;
-      table {
-        border: 1px solid #dddddd;
+      .pick-link {
+        width: 100%;
       }
     }
   }
