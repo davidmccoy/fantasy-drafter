@@ -11,16 +11,15 @@
     </div>
 
     <% if !@draft.start_time %>
-    <p>
-      Please select a start time for your draft.
-    </p>
+      <p>
+        Please select a start time for your draft.
+      </p>
 
-    <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
-    <%= f.label "Start Time: " %>
-    <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.leagueable.date %>
-
-    <%= f.submit %>
-    <% end %>
+      <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
+        <%= f.label "Start Time: " %>
+        <%= f.datetime_field :start_time,  min: Date.today %> <%#, max: @draft.league.leagueable.date %>
+        <%= f.submit %>
+      <% end %>
     <% elsif @draft.completed %>
     <p>
       Your draft has finished.

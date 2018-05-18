@@ -55,7 +55,9 @@ class AvailablePlayerTable extends React.Component {
                                         { draft: thisDraftID }), 1000 );
         },
         received: function (data) {
-          this.fetchData();
+          if (data.completed === false) {
+            this.fetchData();
+          }
         }.bind(this)
       }
     );
