@@ -1,7 +1,9 @@
 $(document).on('ready turbolinks:load', function () {
   // find the draft id
-  var draftId = $('[data-draft]').data().draft,
-      teamId = $('[data-team]').data().team;
+  var draftId = $('[data-draft]').data() === undefined ?
+                  null : $('[data-draft]').data().draft,
+      teamId = $('[data-draft]').data() === undefined ?
+                  null : $('[data-team]').data().team;
   // if the draft id is present
   if (draftId) {
     // unsubscribe from previous draft subscriptions
@@ -15,7 +17,7 @@ $(document).on('ready turbolinks:load', function () {
       received: function(data) {
         $pick = $('#pick-' + data.number);
         $pickLeft = $pick.closest('.pick').position().left
-        $player = $('tr#' + data.player_id);
+        // $player = $('tr#' + data.player_id);
         $currentPickIndicator = $('#current-pick');
         $pickLinks = $('.pick-link');
         $currentPick = $('#pick-' + (data.number + 1));
@@ -30,7 +32,8 @@ $(document).on('ready turbolinks:load', function () {
         $pick.addClass('picked');
         $pick.find('.pick-info').append('<p>' + data.player_name + '</p>')
         // remove player from available players
-        $player.remove();
+        // handled by react component
+        // $player.remove();
         // change current pick text
         $currentPickIndicator.text(data.next_pick_user_name);
         // update position of pick order banner

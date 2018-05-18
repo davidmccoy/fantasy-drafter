@@ -21,6 +21,7 @@ class AvailablePlayerTable extends React.Component {
 
   componentDidMount() {
     this.fetchData();
+    this.setupSubscription();
   }
 
   updateTableData() {
@@ -39,6 +40,25 @@ class AvailablePlayerTable extends React.Component {
         })
       }.bind(this)
     });
+  }
+
+  setupSubscription(){
+    const thisDraftID = this.props.draftId
+    App.comments = App.cable.subscriptions.create(
+      {
+        channel: "DraftsChannel",
+        draft: thisDraftID
+      },
+      {
+        connected: function () {
+          setTimeout(() => this.perform('subscribed',
+                                        { draft: thisDraftID }), 1000 );
+        },
+        received: function (data) {
+          this.fetchData();
+        }.bind(this)
+      }
+    );
   }
 
   render() {
