@@ -86,11 +86,16 @@
   }
   #draft-details-container {
     margin: 1em 0;
+
     #players {
       color: $black;
+      margin-top: 1em;
       .pick-link {
         width: 100%;
       }
+    }
+    #lineup {
+      margin-top: 1em;
     }
   }
 }

@@ -13,10 +13,21 @@ class AvailablePlayerTable extends React.Component {
     this.state = {
       data: []
     };
+
+    this.fetchData = this.fetchData.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateTableData = this.updateTableData.bind(this);
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  updateTableData() {
+    this.fetchData();
+  }
+
+  fetchData() {
     this.setState({ loading: true })
     $.ajax({
       url: `/api/drafts/${this.props.draftId}/available_players`,
@@ -28,10 +39,6 @@ class AvailablePlayerTable extends React.Component {
         })
       }.bind(this)
     });
-  }
-
-  editRow(event) {
-    console.log(event.value)
   }
 
   render() {
@@ -71,6 +78,7 @@ class AvailablePlayerTable extends React.Component {
                       data-remote="true"
                       rel="nofollow"
                       data-method="patch"
+                      onClick={this.updateTableData}
                     ><img src={plus} /></a>
                   )
                 }
@@ -96,7 +104,7 @@ class AvailablePlayerTable extends React.Component {
 document.addEventListener('DOMContentLoaded', () => {
   const node = document.getElementById('react-player-table')
   const draftId = node.getAttribute('data')
-  console.log(draftId)
+
   ReactDOM.render(
     <AvailablePlayerTable draftId={draftId} />,
     document.getElementById('react-player-table').appendChild(document.createElement('div')),
