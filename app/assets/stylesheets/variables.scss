@@ -270,3 +270,11 @@ table,
 html {
   font-size: 16px;
 }
+
+// Warnings
+.alert-danger {
+  background-color: $danger;
+}
+.alert-success {
+  background-color: $success;
+}

@@ -1,15 +1,19 @@
-<h1>Your Leagues</h1>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1>Your Leagues</h1>
 
-<% current_user.leagues.each do |league| %>
-  <p>
-    <%= link_to "#{league.admin.name}'s \"#{league.leagueable.name}\" League", game_competition_league_path(league.leagueable.game, league.leagueable, league) %>
-  </p>
-<% end %>
+    <% current_user.leagues.each do |league| %>
+    <p>
+      <%= link_to "#{league.admin.name}'s \"#{league.leagueable.name}\" League", game_competition_league_path(league.leagueable.game, league.leagueable, league) %>
+    </p>
+    <% end %>
 
 
-<h2>Create A New league</h2>
-<% Competition.all.each do |competition| %>
-  <p>
-    <%= link_to competition.name, new_game_competition_league_path(competition.game, competition) %>
-  </p>
-<% end %>
+    <h2>Create A New league</h2>
+    <% Competition.all.each do |competition| %>
+      <p>
+        <%= link_to competition.name, new_game_competition_league_path(competition.game, competition) %>
+      </p>
+    <% end %>
+  </div>
+</div>

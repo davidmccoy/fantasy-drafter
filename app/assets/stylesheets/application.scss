@@ -32,6 +32,9 @@ html {
       margin: 0;
       padding: 0;
       width: 100%;
+      .container-fluid {
+        margin-top: 1rem;
+      }
       .page-title {
         text-align: center;
         margin: 1rem 0;
@@ -64,4 +67,10 @@ html {
 .tertiary-font {
   font-family: "marvin_visions", "Raleway", sans-serif;
   letter-spacing: 2px;
+}
+
+form {
+  .control-label {
+    font-weight: bold;
+  }
 }

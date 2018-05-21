@@ -37,7 +37,7 @@ class LeagueUsersController < ApplicationController
   def update
     if @league_user.update(confirmed: true)
       flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"
-      redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
+      redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league)
     else
       flash[:alert] = "Something went wrong. Couldn't accept your invitiation to  #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
       redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, @league_user)

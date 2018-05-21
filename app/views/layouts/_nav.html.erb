@@ -17,13 +17,8 @@
           </div>
         </li>
       <% end %>
-      <% if current_user %>
-        <li class="nav-item">
-          <%= link_to "Your Leagues", user_leagues_path, class: "nav-link" %>
-        </li>
-      <% end %>
       <li class="nav-item">
-        <%= link_to "Find A Game", games_path, class: "nav-link" %>
+        <%= link_to "Start a League", games_path, class: "nav-link" %>
       </li>
       <% if current_user %>
         <li class="nav-item dropdown">
@@ -31,10 +26,8 @@
             <%= current_user.name %>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <%= link_to "Your Leagues", user_leagues_path, class: "dropdown-item" %>
             <%= link_to "Profile", user_path(current_user), class: "dropdown-item" %>
-            <% if current_user.league_users.where(confirmed: false).length.nonzero? %>
-              <%= link_to "Invites", invites_path, class: "dropdown-item" %>
-            <% end %>
             <%= link_to "Sign Out", destroy_user_session_path, method: "delete", class: "dropdown-item" %>
           </div>
         </li>

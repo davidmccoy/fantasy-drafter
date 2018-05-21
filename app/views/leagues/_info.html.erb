@@ -1,0 +1,17 @@
+<div id="league-info">
+  <h1><%= @league.leagueable.name %></h1>
+  <p>
+    Commissioner: <%= @league.admin.name %>
+  </p>
+  <p>
+    Draft Start:
+    <% if @league.draft.start_time %>
+      <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>
+    <% else %>
+      <%= link_to "Set a Time", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft), class: "btn btn-sm btn-info" %>
+    <% end %>
+  </p>
+  <p>
+    Event Start: <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+  </p>
+</div>

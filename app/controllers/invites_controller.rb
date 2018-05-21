@@ -14,10 +14,12 @@ class InvitesController < ApplicationController
   def create
     invite = Invite.where(invite_params).first_or_create
     league = League.find(params[:league_id])
+
+    # TODO fails because Invites use User ids rather than email
     if invite.save
       flash[:notice] = "Invite sent to #{params[:email]}."
     else
-      flash[:notice] = "Invite to #{params[:email]} failed to send."
+      flash[:alert] = "Invite to #{params[:email]} failed to send."
     end
     redirect_to game_competition_league_league_users_path(league.leagueable.game, league.leagueable, league)
   end

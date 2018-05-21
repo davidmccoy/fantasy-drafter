@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require popper
 //= require bootstrap-sprockets
-//= require turbolinks
+
 //= require_tree .
 //= require_tree ./channels
 //= require moment
