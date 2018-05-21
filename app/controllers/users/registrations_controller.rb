@@ -2,18 +2,40 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
 
   def create
-    super
+    build_resource(sign_up_params)
 
-    if @user.save
-      if params[:league_id] && params[:invite_id]
-        league = League.find(params[:league_id])
-        league_user = league.league_users.create(user_id: @user.id, confirmed: true)
-        league_user.create_team(name: "#{@user.name}'s Team")
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
 
-        invite = Invite.find(params[:invite_id])
-        invite.update(invited_user_id: @user.id, accepted: true, token: nil)
+        if @user.save
+          if params[:league_id] && params[:invite_id]
+            league = League.find(params[:league_id])
+            league_user = league.league_users.create(user_id: @user.id, confirmed: true)
+            league_user.create_team(name: "#{@user.name}'s Team")
+
+            invite = Invite.find(params[:invite_id])
+            invite.update(accepted: true, token: nil)
+
+            redirect_to game_competition_league_path(league.leagueable.game, league.leagueable, league) and return
+          else
+            respond_with resource, location: after_sign_up_path_for(resource) and return
+          end
+        end
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
     end
+
   end
 
   protected

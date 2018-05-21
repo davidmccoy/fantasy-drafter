@@ -10,130 +10,128 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170514153332) do
+ActiveRecord::Schema.define(version: 20180521230411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
-  create_table "competition_players", force: :cascade do |t|
+  create_table "competition_players", id: :serial, force: :cascade do |t|
     t.integer "competition_id"
     t.integer "player_id"
   end
 
-  create_table "competitions", force: :cascade do |t|
-    t.integer  "game_id"
-    t.string   "name"
+  create_table "competitions", id: :serial, force: :cascade do |t|
+    t.integer "game_id"
+    t.string "name"
     t.datetime "date"
-    t.string   "location"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "drafts", force: :cascade do |t|
-    t.integer  "league_id"
+  create_table "drafts", id: :serial, force: :cascade do |t|
+    t.integer "league_id"
     t.datetime "start_time"
-    t.integer  "rounds"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "active",     default: false, null: false
-    t.boolean  "completed",  default: false, null: false
+    t.integer "rounds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: false, null: false
+    t.boolean "completed", default: false, null: false
   end
 
-  create_table "games", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "category",   default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "games", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "category", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "invites", force: :cascade do |t|
-    t.string   "token"
-    t.integer  "league_id"
-    t.integer  "inviting_user_id"
-    t.integer  "invited_user_id"
-    t.boolean  "accepted",         default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.string   "email"
-    t.index ["token"], name: "index_invites_on_token", unique: true, using: :btree
+  create_table "invites", id: :serial, force: :cascade do |t|
+    t.string "token"
+    t.integer "league_id"
+    t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["token"], name: "index_invites_on_token", unique: true
   end
 
-  create_table "league_users", force: :cascade do |t|
+  create_table "league_users", id: :serial, force: :cascade do |t|
     t.integer "league_id"
     t.integer "user_id"
     t.boolean "confirmed", default: false, null: false
   end
 
-  create_table "leagues", force: :cascade do |t|
-    t.integer  "leagueable_id"
-    t.integer  "user_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.string   "leagueable_type"
-    t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id", using: :btree
+  create_table "leagues", id: :serial, force: :cascade do |t|
+    t.integer "leagueable_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "leagueable_type"
+    t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 
-  create_table "picks", force: :cascade do |t|
-    t.integer  "draft_id"
-    t.integer  "team_id"
-    t.integer  "player_id"
-    t.integer  "number"
+  create_table "picks", id: :serial, force: :cascade do |t|
+    t.integer "draft_id"
+    t.integer "team_id"
+    t.integer "player_id"
+    t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "players", force: :cascade do |t|
-    t.string   "name"
-    t.string   "team"
+  create_table "players", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "team"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "results", force: :cascade do |t|
-    t.integer  "player_id"
-    t.integer  "competition_id"
-    t.integer  "game_id"
-    t.integer  "points"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["player_id"], name: "index_results_on_player_id", using: :btree
-  end
-
-  create_table "seasons", force: :cascade do |t|
+  create_table "results", id: :serial, force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "competition_id"
     t.integer "game_id"
-    t.string  "name"
+    t.integer "points"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_results_on_player_id"
   end
 
-  create_table "teams", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "league_user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "points"
+  create_table "seasons", id: :serial, force: :cascade do |t|
+    t.integer "game_id"
+    t.string "name"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "teams", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "league_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "points"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.string "unconfirmed_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

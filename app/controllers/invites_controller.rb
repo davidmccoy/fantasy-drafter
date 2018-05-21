@@ -31,7 +31,7 @@ class InvitesController < ApplicationController
   private
 
   def invite_params
-    params.permit(:email, :league_id, :inviting_user_id)
+    params.permit(:email, :league_id)
   end
 
 end
