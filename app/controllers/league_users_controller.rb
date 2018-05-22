@@ -71,7 +71,7 @@ class LeagueUsersController < ApplicationController
     else
       flash[:alert] = "Couldn't find that competitor in this league."
     end
-
+    
     redirect_to game_competition_league_league_users_path(@league.leagueable.game, @league.leagueable, @league)
 
   end

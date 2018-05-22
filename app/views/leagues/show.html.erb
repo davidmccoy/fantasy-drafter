@@ -90,7 +90,7 @@
                 <% if current_user == @league.admin %>
                   <td>
                     <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
-                      <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user), method: :delete, data: { confirm: "Are you sure?" } %>
+                      <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user.league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
                     <% end %>
                   </td>
                 <% end %>
