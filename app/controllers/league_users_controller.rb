@@ -7,6 +7,7 @@ class LeagueUsersController < ApplicationController
   load_and_authorize_resource :league
 
   def index
+    @competition = Competition.find_by_id(params[:competition_id])
   end
 
   def create
