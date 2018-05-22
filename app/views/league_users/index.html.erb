@@ -11,9 +11,11 @@
           <th>
             Name
           </th>
-          <th>
-            Remove
-          </th>
+          <% if current_user == @league.admin %>
+            <th>
+              Remove
+            </th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -36,9 +38,11 @@
               <% end %>
             <% end %>
           </td>
-          <td>
-            <%= link_to "Remove", game_competition_league_league_user_path(@league.leagueable.game,@league.leagueable, @league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
-          </td>
+          <% if current_user == @league.admin %>
+            <td>
+              <%= link_to "Remove", game_competition_league_league_user_path(@league.leagueable.game,@league.leagueable, @league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          <% end %>
         </tr>
         <% end %>
       </tbody>

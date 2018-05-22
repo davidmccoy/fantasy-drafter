@@ -19,7 +19,7 @@ class CompetitionPlayersController < ApplicationController
 
     file.each do |row|
       name = row[0] + " " + row[1]
-      player = Player.find_by_name(name)
+      player = Player.unaccent(name)
 
       if player
         CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create

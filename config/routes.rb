@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :invites
 
   resources :games, only: [:index] do
-    resources :competitions, only: [:index] do
+    resources :competitions, only: [:index, :new, :create] do
       match 'results/import', to: 'results#import', via: [:post]
       resources :results do
       end

@@ -1,5 +1,15 @@
-<% @players.each do |player| %>
-  <p>
-    <%= player.player.name %>
-  </p>
-<% end %>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <% if @players.length > 0 %>
+      <% @players.each do |player| %>
+        <p>
+          <%= player.player.name %>
+        </p>
+      <% end %>
+    <% else %>
+      <p>
+        There are no players in this competition. Add some <%= link_to "here", new_game_competition_competition_player_path(@game, @competition) %>.
+      </p>
+    <% end %>
+  </div>
+</div>

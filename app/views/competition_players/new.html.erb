@@ -1,8 +1,18 @@
-<%= form_tag game_competition_players_import_path(@game, @competition), multipart: true do %>
-
-  <%= label_tag :file %>
-  <%= file_field_tag :file,required: true %>
-
-  <%= submit_tag "Add Results" %>
-
-<% end %>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Add Players to <%= @competition.name %></h2>
+    <% if @competition.players.length > 0 %>
+      <p>
+        This competition has already had players added to it.
+      </p>
+    <% else %>
+      <%= form_tag game_competition_players_import_path(@game, @competition), multipart: true do %>
+        <div class="form-group required">
+          <%= label_tag :file, nil, class: "control-label" %>
+          <%= file_field_tag :file, required: true, class: "form-control" %>
+        </div>
+        <%= submit_tag "Add Players", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

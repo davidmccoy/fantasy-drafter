@@ -1,5 +1,41 @@
-<% @results.each do |result| %>
-  <p>
-    <%= "#{result.points} #{result.player.name}" %>
-  </p>
-<% end %>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <% if @competition.results.length > 0 %>
+      <h1>Results From <%= @competition.name %></h1>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Place
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Points
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @results.each do |result| %>
+            <tr>
+              <td>
+                <%= result.place %>
+              </td>
+              <td>
+                <%= result.player.name %>
+              </td>
+              <td>
+                <%= result.points %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>
+        No results for <%= @competition.name %> have been submitted yet. Submit them <%= link_to "here", new_game_competition_result_path(@competition.game, @competition) %>.
+      </p>
+    <% end %>
+  </div>
+</div>
