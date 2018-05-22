@@ -33,6 +33,13 @@ class DraftsController < ApplicationController
     redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
   end
 
+  def start
+    @draft = Draft.find_by_id(params[:draft_id])
+    @draft.update(active: true)
+    @draft.create_picks
+    redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
+  end
+
   private
 
   def draft_params

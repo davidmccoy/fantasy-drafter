@@ -1,4 +1,4 @@
-$(document).on('ready turbolinks:load', function () {
+$(document).on('ready DOMContentLoaded', function () {
   // find the draft id
   var draftId = $('[data-draft]').data() === undefined ?
                   null : $('[data-draft]').data().draft,
@@ -15,6 +15,7 @@ $(document).on('ready turbolinks:load', function () {
     App.draft = App.cable.subscriptions.create({channel: 'DraftsChannel', draft: draftId}, {
       // when a message is received from the channel
       received: function(data) {
+        console.log('received')
         if (data.completed === true) {
           $('#picks').hide();
           $('#players').hide();
@@ -47,16 +48,16 @@ $(document).on('ready turbolinks:load', function () {
           // update picks until you
           $nextPick.text('Picks Until You: ' + $(data.pick_order).index(teamId));
           // update pick links
-          $pickLinks.each(function(index) {
-            $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('tr').attr('id'));
-
-            if (data.next_pick_team_id === teamId) {
-              $(this).show();
-              $audioElement.play();
-            } else {
-              $(this).hide();
-            }
-          })
+          // $pickLinks.each(function(index) {
+          //   $(this).attr('href', data.next_pick_url + '?player_id=' + $(this).closest('tr').attr('id'));
+          //
+          //   if (data.next_pick_team_id === teamId) {
+          //     $(this).show();
+          //     $audioElement.play();
+          //   } else {
+          //     $(this).hide();
+          //   }
+          // })
 
           // add player to your lineup
           if (data.team_id === teamId) {

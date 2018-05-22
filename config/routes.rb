@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         end
         resources :teams
         resources :drafts do
+          post 'start', to: 'drafts#start'
           resources :picks
         end
       end

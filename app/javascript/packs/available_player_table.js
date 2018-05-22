@@ -101,6 +101,7 @@ class AvailablePlayerTable extends React.Component {
                       rel="nofollow"
                       data-method="patch"
                       onClick={this.updateTableData}
+                      style={{display: row.value === undefined ? "none" : null}}
                     ><img src={plus} /></a>
                   )
                 }

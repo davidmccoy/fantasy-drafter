@@ -11,5 +11,5 @@ json.players @available_players do |player|
                 @current_pick,
                 player_id: player.id,
                 protocol: "https"
-              )
+              ) if current_user == @draft.league.admin || current_user == @current_pick.user
 end
