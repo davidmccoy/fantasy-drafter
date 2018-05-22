@@ -23,9 +23,9 @@ class DraftsController < ApplicationController
 
   def update
     if @draft.update(draft_params)
-      if @draft.picks.length.zero?
-        @draft.create_picks
-      end
+      # if @draft.picks.length.zero?
+      #   @draft.create_picks
+      # end
       flash[:notice] = "Successfully updated the draft start time."
     else
       flash[:alert] = "Update failed."
