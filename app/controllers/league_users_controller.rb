@@ -6,6 +6,8 @@ class LeagueUsersController < ApplicationController
   # sets @competition for all actions
   load_and_authorize_resource :league
 
+  before_action :set_competition
+
   def index
     @competition = Competition.find_by_id(params[:competition_id])
   end
@@ -71,7 +73,7 @@ class LeagueUsersController < ApplicationController
     else
       flash[:alert] = "Couldn't find that competitor in this league."
     end
-    
+
     redirect_to game_competition_league_league_users_path(@league.leagueable.game, @league.leagueable, @league)
 
   end
@@ -87,6 +89,12 @@ class LeagueUsersController < ApplicationController
     flash[:notice] = "Invite resent to #{@league_user.user.email}."
 
     redirect_to game_competition_league_league_users_path(@league_user.league.leagueable.game, @league_user.league.leagueable, @league_user.league)
+  end
+
+  private
+
+  def set_competition
+    @competition = Competition.find_by_id(params[:competition_id])
   end
 
 end
