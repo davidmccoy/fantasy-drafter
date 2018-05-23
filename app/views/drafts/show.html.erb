@@ -9,7 +9,7 @@
         You'll find the pick order, all available Pros, and your team's lineup below.
       </p>
     </div>
-    <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
+    <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time && !@draft.active) %>
     <div id="picks" class="row">
       <div class="current-pick-container col-sm-2">
         <div class="current-pick-info">
@@ -108,7 +108,7 @@
       Your draft has finished.
     </p>
     <p>
-      <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>
+      <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)), class: "btn btn-primary" %>
     </p>
   <% elsif @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
   <div id="draft-details-container" class="row">
@@ -127,7 +127,7 @@
           The "Points" column represents the average number of Match Points a player has earned per Pro Tour since the Team Series started. The "PT" column lists the number of Pro Tours each player has attended since the start of the Team Series.
         </p>
         <p>
-          You can sort each column by clicking on it. You can also add secondary  sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort. 
+          You can sort each column by clicking on it. You can also add secondary  sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
         </p>
         <p onclick="$('.available-players-instructions').toggle()">
           <em>(Hide)</em>
@@ -146,6 +146,9 @@
         <%= pick.player.name %>
       </p>
       <% end %>
+    </div>
+    <div id="draft-concluded">
+      The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>
     </div>
   </div>
   <script>
