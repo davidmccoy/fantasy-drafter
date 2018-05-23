@@ -8,9 +8,11 @@
     <% if @league.draft.start_time %>
       <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>
     <% else %>
-      <%= link_to "Set a Time", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft), class: "btn btn-sm btn-info" %>
+      <% if current_user = @league.admin %>
+        <%= link_to "Set a Time", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft), class: "btn btn-sm btn-info" %>
+      <% end %>
     <% end %>
-    <% if !@league.draft.completed && !@league.draft.active  %>
+    <% if !@league.draft.completed && !@league.draft.active && current_user = @league.admin %>
       <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
     <% end %>
   </p>
