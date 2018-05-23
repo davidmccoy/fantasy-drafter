@@ -13,6 +13,8 @@ class Player < ApplicationRecord
     points = 0
     num_results = self.results.count
 
+    return 0 if num_results == 0
+
     self.results.each do |result|
       points = points + result.points
     end

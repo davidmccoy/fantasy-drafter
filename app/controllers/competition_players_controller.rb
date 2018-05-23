@@ -1,5 +1,7 @@
 class CompetitionPlayersController < ApplicationController
 
+  require 'csv'
+
   load_and_authorize_resource
   load_and_authorize_resource :game
   load_and_authorize_resource :competition
@@ -18,6 +20,8 @@ class CompetitionPlayersController < ApplicationController
     file = CSV.read(params[:file].path)
 
     file.each do |row|
+      puts row[0]
+      puts row[1]
       name = row[0] + " " + row[1]
       player = Player.unaccent(name)
 

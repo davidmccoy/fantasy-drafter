@@ -90,6 +90,18 @@
     #players {
       color: $black;
       margin-top: 1em;
+      .available-players-title {
+        h4 {
+          display: inline-block;
+        }
+        button {
+          margin-bottom: 0.5rem;
+          margin-left: 0.5rem;
+        }
+      }
+      .available-players-instructions {
+        display: none;
+      }
       .pick-link {
         width: 100%;
       }

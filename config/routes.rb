@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   resources :invites
+  resources :players, only: [:new, :import]
+  post 'players/import', to: 'players#import'
 
   resources :games, only: [:index] do
     resources :competitions, only: [:index, :new, :create] do
