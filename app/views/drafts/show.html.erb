@@ -9,7 +9,7 @@
         You'll find the pick order, all available Pros, and your team's lineup below.
       </p>
     </div>
-    <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time && !@draft.active) %>
+    <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time && @draft.active) %>
     <div id="picks" class="row">
       <div class="current-pick-container col-sm-2">
         <div class="current-pick-info">
