@@ -3,7 +3,7 @@ class DraftsController < ApplicationController
   load_and_authorize_resource
 
   def show
-    if (@draft.active || (Time.now > @draft.start_time if @draft.start_time))
+    if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
       your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id, player_id: nil).order("number ASC").first
