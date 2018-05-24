@@ -3,6 +3,7 @@ class DraftsController < ApplicationController
   load_and_authorize_resource
 
   def show
+    redirect_to new_user_session_path and return unless current_user
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
