@@ -3,93 +3,140 @@
 #home {
   .hero-container {
     position: relative;
-    height: 600px;
+    height: 475px;
     background-image: image-url("front-page-hero.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    .container {
+    .hero-text-container {
       height: 100%;
       position: relative;
+      max-width: 1240px;
+      margin: 0 auto;
       .hero-text {
-        width: 500px;
-        height: 340px;
+        width: 345px;
+        height: 200px;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
+        right: 0;
         margin: auto;
-        font-size: 3em;
-        text-align: right;
+        font-size: 2.1em;
         color: white;
+        text-align: center;
       }
-    }
-  }
-  .gradient-divider {
-    height: 10px;
-    &.hero-first {
-      background: linear-gradient(black, $gray-100);
-    }
-    &.first-second {
-      background: linear-gradient($gray-100, $green);
     }
   }
   .section-container {
     padding: 5em 1em;
     &.first {
-      background: $gray-100;
-      .cta-container {
-        font-size: 0px;
-        .cta-half {
-          .cta-image-container {
-            background: $blue;
-          }
-        }
-      }
+      text-align: center;
     }
     &.second {
-      background: $green;
-      color: $white;
-      .cta-container {
-        font-size: 0px;
-        .cta-half {
-          .cta-image-container {
-            background: $gray-100;
-          }
-        }
-      }
+      text-align: center;
     }
     .cta-container {
       font-size: 0px;
-      .cta-half {
-        font-size: 16px;
-        width: 50%;
-        display: inline-block;
-        padding: 1em 2em;
-        vertical-align: middle;
-        &.left {
-          text-align: right;
-          div {
-            margin: 0 0 0 auto;
-          }
-        }
-        &.right {
-          div {
-            margin: 0 auto 0 0;
-          }
-        }
+      .row {
+        align-items: center;
         .cta-image-container {
-          padding: 5px;
-          border-radius: 1.3em;
-          width: 310px;
+          font-size: 16px;
+          margin: 1em 0;
           img {
-            width: 300px;
+            width: 100%;
             height: auto;
-            border-radius: 1em;
           }
         }
         .cta-text-container {
-          font-size: 1.5em;
+          font-size: 16px;
+          p {
+            font-size: 1.5em;
+            margin: 1em 0;
+          }
+        }
+      }
+    }
+  }
+  .section-divider {
+    width: 90%;
+    border-bottom: 1px solid darken($light, 5%);
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) {
+  #home {
+    .hero-container {
+      height: 400px;
+      .hero-text-container {
+        max-width: 1240px;
+        .hero-text {
+          width: 450px;
+          height: 275px;
+          font-size: 2.8em;
+          right: auto;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #home {
+    .hero-container {
+      background-position: -100px;
+      height: 500px;
+      .hero-text-container {
+        max-width: 1240px;
+        .hero-text {
+          width: 450px;
+          height: 275px;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          margin: auto;
+          font-size: 2.8em;
+          text-align: right;
+          color: white;
+        }
+      }
+    }
+    .section-container {
+      &.second {
+        text-align: left;;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  #home {
+    .hero-container {
+      background-position: center;
+      height: 600px;
+      .hero-text-container {
+        max-width: 1240px;
+        .hero-text {
+          width: 500px;
+          height: 340px;
+          font-size: 3em;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1500px) {
+  #home {
+    .hero-container {
+      .hero-text-container {
+        .hero-text {
+          width: 650px;
+          height: 400px;
+          font-size: 4em;
         }
       }
     }

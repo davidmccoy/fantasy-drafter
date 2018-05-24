@@ -1,39 +1,47 @@
 <div id="home">
   <div class="hero-container">
-    <div class="container">
+    <div class="hero-text-container">
       <div class="hero-text">
         Love the <span class="tertiary-font">Pro Tour</span>? Create a Fantasy Pro Tour league and draft your favorite Pros!
       </div>
     </div>
   </div>
-  <div class="gradient-divider hero-first">
-  </div>
   <div class="section-container first">
-    <div class="cta-container">
-      <div class="cta-half left">
-        <div class="cta-image-container">
-          <%= image_tag "watching-the-pt.jpg" %>
-        </div>
-      </div>
-      <div class="cta-half right">
-        <div class="cta-text-container">
-          Don't just watch Pro Tour Rivals of Ixalan. Invite your friends and compete in your own Fantasy Pro Tour Ixalan league.
+    <div class="cta-container homepage-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md">
+            <div class="cta-text-container">
+              <p>
+                Fantasy Pro Tour let's you draft a team of the top Magic Pros and compete against your friends.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="gradient-divider first-second">
+  <div class="section-divider">
   </div>
   <div class="section-container second">
-    <div class="cta-container">
-      <div class="cta-half left">
-        <div class="cta-text-container">
-          Don't just watch Pro Tour Rivals of Ixalan. Invite your friends and compete in your own Fantasy Pro Tour Ixalan league.
-        </div>
-      </div>
-      <div class="cta-half right">
-        <div class="cta-image-container">
-          <%= image_tag "watching-the-pt.jpg" %>
+    <div class="cta-container homepage-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md">
+            <div class="cta-image-container">
+              <%= image_tag "watching-the-pt.jpg" %>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="cta-text-container">
+              <p>
+                Don't just watch Pro Tour Dominaria. Invite your friends and compete in your own Fantasy Pro Tour Dominaria league.
+              </p>
+              <p>
+                <%= link_to "Start a League Now!", new_user_session_path, class: "btn btn-primary" %>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
