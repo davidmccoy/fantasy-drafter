@@ -20,7 +20,7 @@ $(document).on('ready DOMContentLoaded', function () {
           $('#picks').hide();
           $('#players').hide();
           $('#lineup').hide();
-          $('#draft-details-container').text('The draft is over!');
+          $('#draft-concluded').show();
         } else {
           $pick = $('#pick-' + data.number);
           $pickLeft = $pick.closest('.pick').position().left
