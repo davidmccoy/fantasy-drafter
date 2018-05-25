@@ -1,6 +1,11 @@
 class PicksController < ApplicationController
 
-  load_and_authorize_resource
+  before_action :set_game
+  before_action :set_competition
+  before_action :set_league
+  before_action :set_draft
+  before_action :set_pick
+  before_action :authorize_pick
 
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
@@ -13,7 +18,7 @@ class PicksController < ApplicationController
         if @pick.number == @pick.draft.picks.count
           @pick.draft.update(active: false, completed: true)
           # Email everyone to let them know the draft is over
-          # PickMailer.next_pick(next_pick).deliver_now
+          DraftMailer.draft_finished(@draft).deliver_now
           # Send the appropriate info over ActionCable
           ActionCable.server.broadcast "draft_#{@pick.draft.id}",
             team_id: nil,

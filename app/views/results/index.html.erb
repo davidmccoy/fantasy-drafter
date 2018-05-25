@@ -33,9 +33,15 @@
         </tbody>
       </table>
     <% else %>
-      <p>
-        No results for <%= @competition.name %> have been submitted yet. Submit them <%= link_to "here", new_game_competition_result_path(@competition.game, @competition) %>.
-      </p>
+      <% if current_user.admin %>
+        <p>
+          No results for <%= @competition.name %> have been submitted yet. Submit them <%= link_to "here", new_game_competition_result_path(@competition.game, @competition) %>.
+        </p>
+      <% else %>
+        <p>
+          No results for <%= @competition.name %> have been submitted yet.
+        </p>
+      <% end %>
     <% end %>
   </div>
 </div>

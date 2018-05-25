@@ -7,9 +7,15 @@
         </p>
       <% end %>
     <% else %>
-      <p>
-        There are no players in this competition. Add some <%= link_to "here", new_game_competition_competition_player_path(@game, @competition) %>.
-      </p>
+      <% if current_user.admin %>
+        <p>
+          There are no players in this competition. Add some <%= link_to "here", new_game_competition_competition_player_path(@game, @competition) %>.
+        </p>
+      <% else %>
+        <p>
+          There are no players in this competition. 
+        </p>
+      <% end %>
     <% end %>
   </div>
 </div>

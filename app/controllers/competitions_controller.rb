@@ -1,11 +1,11 @@
 class CompetitionsController < ApplicationController
 
-  load_and_authorize_resource
-  # sets @game
-  load_and_authorize_resource :game
+  before_action :set_game
+  before_action :set_competition, except: [:index]
+  before_action :authorize_competition
 
   def index
-
+    @competitions = Competition.all
   end
 
   def new

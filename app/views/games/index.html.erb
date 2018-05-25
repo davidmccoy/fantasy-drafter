@@ -1,5 +1,11 @@
-<% @games.each do |game| %>
-  <a href="<%= game_competitions_path(game) %>">
-    <h2><%= game.name %></h2>
-  </a>
-<% end %>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Select a Game for Your League</h2>
+
+    <% @games.each do |game| %>
+      <a href="<%= game_competitions_path(game) %>">
+        <p><%= game.name %></p>
+      </a>
+    <% end %>
+  </div>
+</div>

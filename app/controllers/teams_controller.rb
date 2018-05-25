@@ -1,6 +1,10 @@
 class TeamsController < ApplicationController
 
-  load_and_authorize_resource
+  before_action :set_game
+  before_action :set_competition
+  before_action :set_league
+  before_action :set_team
+  before_action :authorize_team
 
   def show
   end

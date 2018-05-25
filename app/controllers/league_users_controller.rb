@@ -2,11 +2,11 @@ class LeagueUsersController < ApplicationController
 
   include ActionView::Helpers::UrlHelper
 
-  load_and_authorize_resource
-  # sets @competition for all actions
-  load_and_authorize_resource :league
-
+  before_action :set_game
   before_action :set_competition
+  before_action :set_league
+  before_action :set_league_user
+  before_action :authorize_league_user
 
   def index
     @competition = Competition.find_by_id(params[:competition_id])
@@ -39,7 +39,12 @@ class LeagueUsersController < ApplicationController
   # TODO notification email for accpted invite
   def update
     if @league_user.update(confirmed: true)
-      flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"
+      if @league_user.user == current_user
+        flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"
+        LeagueMailer.invite_accepted(@league, @league_user.user).deliver_later
+      else
+        flash[:notice] = "Confirmed #{@league_user.user.name} to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
+      end
       redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league)
     else
       flash[:alert] = "Something went wrong. Couldn't accept your invitiation to  #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
@@ -55,12 +60,14 @@ class LeagueUsersController < ApplicationController
       if league_user.user == @league.admin
         flash[:alert] = "You can't remove the admin of the league."
       elsif league_user.user == current_user
+        user = league_user.user
         if league_user.destroy
           flash[:notice] = "Successfully declined your invitation to #{league_user.league.admin.name}'s #{league_user.league.leagueable.name} Fantasy League."
-          redirect_to root
+          LeagueMailer.invite_declined(@league, user).deliver_later
+          redirect_to root_path and return
         else
           flash[:alert] = "Something went wrong. Couldn't remove you from  #{league_user.league.admin.name}'s #{league_user.league.leagueable.name} Fantasy League."
-          redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, league_user)
+          redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, league_user) and return
         end
 
       else
@@ -74,12 +81,13 @@ class LeagueUsersController < ApplicationController
       flash[:alert] = "Couldn't find that competitor in this league."
     end
 
-    redirect_to game_competition_league_league_users_path(@league.leagueable.game, @league.leagueable, @league)
+    redirect_to game_competition_league_league_users_path(@league.leagueable.game, @league.leagueable, @league) and return
 
   end
 
   def confirm
-    @league_user = LeagueUser.find(params[:league_user_id])
+    @league_user = LeagueUser.find_by_id(params[:league_user_id])
+    redirect_to game_competition_league_path(@game, @competition, @league) unless @league_user
   end
 
   def resend_invite

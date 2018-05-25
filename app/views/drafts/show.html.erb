@@ -1,4 +1,4 @@
-<div id="draft" data-draft=<%= @draft.id %> data-user=<%= current_user.id %> data-team=<%= current_user.team(@draft.league).id %>>
+<div id="draft" data-draft=<%= @draft.id %> data-user=<%= current_user.id %> data-team=<%= current_user.team(@draft.league)&.id %>>
   <div id="draft-progress-container">
     <div class="page-title">
       <p class="page-instructions intro">
@@ -87,20 +87,25 @@
     </div>
     <% end %>
   </div>
-  <% if !@draft.start_time %>
+  <% if !@draft.start_time  %>
     <div id="draft-details-container" class="row">
       <div class="col-md-8 offset-md-2">
-        <p>
-          Please select a start time for your draft.
-        </p>
+        <% if (current_user == @league.admin || current_user.admin) %>
+          <p>
+            Please select a start time for your draft.
+          </p>
 
-        <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
-          <div class="form-group required">
-            <%= f.label :start_time, "Start Time", class: "control-label" %>
-            <%= f.datetime_field :start_time,  min: Date.today, required: true, class: "form-control" %>
-          </div>
-          <%= f.submit "Set Start Time", class: "btn btn-primary" %>
+          <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
+            <div class="form-group required">
+              <%= f.label :start_time, "Start Time", class: "control-label" %>
+              <%= f.datetime_field :start_time,  min: Date.today, required: true, class: "form-control" %>
+            </div>
+            <%= f.submit "Set Start Time", class: "btn btn-primary" %>
+          <% end %>
+        <% else %>
+          This draft doesn't have a start time yet.
         <% end %>
+
       </div>
     </div>
   <% elsif @draft.completed %>
@@ -148,7 +153,7 @@
       <% end %>
     </div>
     <div id="draft-concluded">
-      The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>
+      The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.
     </div>
   </div>
   <script>

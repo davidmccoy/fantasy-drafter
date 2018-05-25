@@ -2,22 +2,19 @@ class ResultsController < ApplicationController
 
   require 'csv'
 
-  load_and_authorize_resource
+  before_action :set_game
+  before_action :set_competition
+  before_action :set_result
+  before_action :authorize_result
 
   def index
-    @game = Game.find_by_id(params[:game_id])
-    @competition = Competition.find_by_id(params[:competition_id])
     @results = @competition.results.order("place ASC")
   end
 
   def new
-    @game = Game.find_by_id(params[:game_id])
-    @competition = Competition.find_by_id(params[:competition_id])
   end
 
   def import
-    @game = Game.find_by_id(params[:game_id])
-    @competition = Competition.find_by_id(params[:competition_id])
     failures = []
 
     file = CSV.read(params[:file].path)

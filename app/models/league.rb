@@ -17,4 +17,8 @@ class League < ApplicationRecord
     teams.sort_by { |team| team.points }.reverse
   end
 
+  def any_unconfirmed_users?
+    self.league_users.where(confirmed: false).count > 0
+  end
+
 end

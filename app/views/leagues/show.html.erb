@@ -47,16 +47,18 @@
           <% end %>
         <% end %>
         <h3>Registered Users</h3>
-        <p>
-          <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league), class: "btn btn-sm btn-primary" unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
-        </p>
+        <% if current_user == @league.admin || current_user.admin %>
+          <p>
+            <%= link_to "Add More Players", game_competition_league_league_users_path(@competition.game, @competition, @league), class: "btn btn-sm btn-primary" unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
+          </p>
+        <% end %>
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th>
                 Name
               </th>
-              <% if current_user == @league.admin %>
+              <% if current_user == @league.admin  || current_user.admin %>
                 <th>
                   Remove
                 </th>
@@ -82,12 +84,16 @@
                       <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team) %>
                     <% else %>
                       <span class="unconfirmed">
-                        <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_competition_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
+                        <% if current_user == @league.admin || current_user.admin %>
+                          <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_competition_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user)  %>
+                        <% else %>
+                          <%= league_user.user.name %> (Invite Pending)
+                        <% end %>
                       </span>
                     <% end %>
                   <% end %>
                 </td>
-                <% if current_user == @league.admin %>
+                <% if current_user == @league.admin || current_user.admin %>
                   <td>
                     <% unless @league.draft.active || (@league.draft.start_time && (@league.draft.active || Time.now > @league.draft.start_time)) %>
                       <%= link_to "Remove", game_competition_league_league_user_path(@competition.game, @competition, league_user.league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>

@@ -4,8 +4,8 @@
 
     <h1>
       <%= @team.name %>
-      <% if current_user == @team.user %>
-      <%= link_to "(Edit)", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
+      <% if current_user == @team.user || current_user == @team.league.admin || current_user.admin %>
+        <%= link_to "(Edit)", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
       <% end %>
     </h1>
 

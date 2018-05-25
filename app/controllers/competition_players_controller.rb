@@ -2,9 +2,10 @@ class CompetitionPlayersController < ApplicationController
 
   require 'csv'
 
-  load_and_authorize_resource
-  load_and_authorize_resource :game
-  load_and_authorize_resource :competition
+  before_action :set_game
+  before_action :set_competition
+  before_action :set_competition_player
+  before_action :authorize_competition_player
 
 
   def index

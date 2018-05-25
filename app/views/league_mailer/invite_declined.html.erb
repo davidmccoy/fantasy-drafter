@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Bad news, <%= @league_admin.name %>.</h1>
+    <p>
+      Unfortunately, <%= @user.name %> has declined their invite to your <%= @league.leagueable.name %> Fantasy Draft.
+    </p>
+    <p>
+      Your league now has <%= @league.league_users.where(confirmed: true).count %> confirmed and <%= @league.league_users.where(confirmed: false).count %> unconfirmed participants.
+    </p>
+    <p>
+      Click <%= link_to "here", @url %> whenever you're ready to start your draft.
+    </p>
+    <p>Thanks for using Fantasy Pro Tour!</p>
+  </body>
+</html>

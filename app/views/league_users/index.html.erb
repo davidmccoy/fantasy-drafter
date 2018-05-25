@@ -11,7 +11,7 @@
           <th>
             Name
           </th>
-          <% if current_user == @league.admin %>
+          <% if current_user == @league.admin || current_user.admin %>
             <th>
               Remove
             </th>
@@ -38,7 +38,7 @@
               <% end %>
             <% end %>
           </td>
-          <% if current_user == @league.admin %>
+          <% if current_user == @league.admin || current_user.admin %>
             <td>
               <%= link_to "Remove", game_competition_league_league_user_path(@league.leagueable.game,@league.leagueable, @league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
             </td>

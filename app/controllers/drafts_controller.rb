@@ -1,6 +1,10 @@
 class DraftsController < ApplicationController
 
-  load_and_authorize_resource
+  before_action :set_game
+  before_action :set_competition
+  before_action :set_league
+  before_action :set_draft
+  before_action :authorize_draft
 
   def show
     redirect_to new_user_session_path and return unless current_user
@@ -23,7 +27,9 @@ class DraftsController < ApplicationController
   end
 
   def update
-    if @draft.update(draft_params)
+    if @draft.update(draft_params.merge(
+      start_time: draft_params[:start_time].to_time.utc
+      ))
       # if @draft.picks.length.zero?
       #   @draft.create_picks
       # end
@@ -31,16 +37,20 @@ class DraftsController < ApplicationController
     else
       flash[:alert] = "Update failed."
     end
-    redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
+    redirect_to game_competition_league_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league)
   end
 
   def start
-    @draft = Draft.find_by_id(params[:draft_id])
-    @draft.update(active: true)
-    @draft.update(start_time: Time.now) if !@draft.start_time
-    @draft.create_picks
+    if @league.any_unconfirmed_users?
+      flash[:alert] = "There are unconfirmed users."
+      redirect_to game_competition_league_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league) and return
+    else
+      @draft.update(active: true)
+      @draft.update(start_time: Time.now) if !@draft.start_time
+      @draft.create_picks
 
-    redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
+      redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
+    end
   end
 
   private

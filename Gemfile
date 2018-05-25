@@ -40,7 +40,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 
 # For defining user abilities
-gem 'cancancan'
+gem 'pundit'
 
 # Integrating Bootstrap for styling
 gem 'bootstrap', '~> 4.1.1'
@@ -52,6 +52,9 @@ gem 'webpacker'
 # Sortable tables
 gem 'momentjs-rails'
 gem 'rails_bootstrap_sortable'
+
+# Get client timezones
+gem 'browser-timezone-rails'
 
 # For sample data generation
 gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'

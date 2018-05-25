@@ -2,6 +2,9 @@ class PlayersController < ApplicationController
 
   require 'csv'
 
+  before_action :set_player
+  before_action :authorize_player
+
   def new
 
   end
@@ -20,7 +23,7 @@ class PlayersController < ApplicationController
       end
     end
     puts players
-    
+
     redirect_to new_player_path
   end
 end
