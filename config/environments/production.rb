@@ -113,5 +113,5 @@ config.webpacker.check_yarn_integrity = false
   }
 
   # Set default host
-  Rails.application.routes.default_url_options[:host] = 'https://www.fantasypt.com'
+  Rails.application.routes.default_url_options[:host] = 'http://www.fantasypt.com'
 end
