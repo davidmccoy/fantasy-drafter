@@ -62,7 +62,7 @@ gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 gem 'will_paginate'
 
 # error logging
-gem 'honeybadger'
+gem 'raygun4ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
