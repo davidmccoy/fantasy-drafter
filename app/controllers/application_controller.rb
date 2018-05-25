@@ -54,6 +54,10 @@ class ApplicationController < ActionController::Base
     authorize @user
   end
 
+  def set_invite
+    @invite = Invite.find_by_id(params[:invite_id]) || Invite.find_by_id(params[:id])
+  end
+
   def set_game
     @game = Game.find_by_id(params[:game_id]) || Game.find_by_id(params[:id])
   end
