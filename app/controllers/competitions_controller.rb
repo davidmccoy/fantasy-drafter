@@ -26,6 +26,22 @@ class CompetitionsController < ApplicationController
     end
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @competition.update(competition_params)
+      flash[:notice] = "Successfully updated #{@competition.name}."
+      redirect_to game_competitions_path(@game, @competition) and return
+    else
+      flash[:alert] = "Failed to update #{@competition.name}."
+      redirect_to edit_game_competition_path(@game, @competition) and return
+    end
+  end
+
   private
 
   def competition_params
