@@ -7,8 +7,12 @@
         <%= f.text_field :name, required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
+        <%= f.label :slug, class: "control-label" %>
+        <%= f.text_field :slug, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
         <%= f.label :date, class: "control-label" %>
-        <%= f.date_field :date, required: true, class: "form-control" %>
+        <%= f.datetime_field :date, required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
         <%= f.label :location, class: "control-label" %>

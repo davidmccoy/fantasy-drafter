@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_game
-    @game = Game.find_by_id(params[:game_id]) || Game.find_by_id(params[:id])
+    @game = Game.find_by(slug: params[:game_slug]) || Game.find_by(slug: params[:id])
   end
 
   def authorize_game
@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_competition
-    @competition = Competition.find_by_id(params[:competition_id]) || Competition.find_by_id(params[:id])
+    @competition = Competition.find_by(slug: params[:competition_slug]) || Competition.find_by(slug: params[:id])
   end
 
   def authorize_competition

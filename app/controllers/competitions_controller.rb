@@ -29,7 +29,7 @@ class CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:name, :date, :location)
+    params.require(:competition).permit(:name, :date, :location, :slug)
   end
 
 end

@@ -5,4 +5,10 @@ class Game < ApplicationRecord
 
   enum category: [:Unknown, :TCG]
 
+  before_save { self.slug = slug.downcase if slug}
+
+  def to_param
+    slug
+  end
+
 end

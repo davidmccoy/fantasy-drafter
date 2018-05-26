@@ -8,4 +8,8 @@ class CompetitionPolicy <  ApplicationPolicy
     admin?
   end
 
+  def create?
+    admin?
+  end 
+
 end
