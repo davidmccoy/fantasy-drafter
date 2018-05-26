@@ -46,6 +46,7 @@ class DraftsController < ApplicationController
       redirect_to game_competition_league_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league) and return
     else
       @draft.update(active: true)
+      # TODO does this need to be adjusted for timezone?
       @draft.update(start_time: Time.now) if !@draft.start_time
       @draft.create_picks
 

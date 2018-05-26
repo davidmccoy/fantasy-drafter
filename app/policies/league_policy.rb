@@ -12,4 +12,12 @@ class LeaguePolicy <  ApplicationPolicy
     (user.leagues.include? record) || admin?
   end
 
+  def edit?
+    user == record.admin || admin?
+  end
+
+  def update?
+    edit?
+  end 
+
 end

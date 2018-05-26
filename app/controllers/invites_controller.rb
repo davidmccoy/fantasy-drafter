@@ -7,7 +7,7 @@ class InvitesController < ApplicationController
     if @invite.token == params[:token]
 
     else
-      flash[:alart] = "Invalid invite."
+      flash[:alert] = "Invalid invite."
       redirect_to root_path
     end
   end

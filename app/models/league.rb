@@ -7,6 +7,8 @@ class League < ApplicationRecord
   has_one :draft, dependent: :destroy
   has_many :teams, through: :league_users
 
+  accepts_nested_attributes_for :draft
+
   def standings
     teams = []
 
