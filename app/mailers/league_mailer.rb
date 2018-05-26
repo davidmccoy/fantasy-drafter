@@ -6,8 +6,8 @@ class LeagueMailer < ApplicationMailer
     @league_admin = league.admin
     @user = user
     @url = Rails.application.routes.url_helpers.game_competition_league_url(
-        game_id: @league.leagueable.game.id,
-        competition_id: @league.leagueable.id,
+        game_slug: @league.leagueable.game.slug,
+        competition_slug: @league.leagueable.slug,
         id: @league.id
       )
 
@@ -19,8 +19,8 @@ class LeagueMailer < ApplicationMailer
     @league_admin = league.admin
     @user = user
     @url = Rails.application.routes.url_helpers.game_competition_league_url(
-        game_id: @league.leagueable.game.id,
-        competition_id: @league.leagueable.id,
+        game_slug: @league.leagueable.game.slug,
+        competition_slug: @league.leagueable.slug,
         id: @league.id
       )
 

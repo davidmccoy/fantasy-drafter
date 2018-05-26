@@ -8,6 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        AdminMailer.new_user(@user).deliver_later
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 

@@ -19,6 +19,7 @@ class LeaguesController < ApplicationController
     league_user = league.league_users.create(user_id: current_user.id, confirmed: true)
     league_user.create_team(name: "#{current_user.name}'s Team")
     draft = Draft.create(league_id: league.id)
+    AdminMailer.new_league(league).deliver_later
     redirect_to game_competition_league_path(@competition.game, @competition, league)
   end
 

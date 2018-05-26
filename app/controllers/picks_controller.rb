@@ -37,7 +37,7 @@ class PicksController < ApplicationController
           # Find the next pick
           next_pick = Pick.find_by(draft_id: @pick.draft.id, number: @pick.number + 1)
           # Construct the next pick url
-          next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_id: next_pick.draft.league.leagueable.game.id, competition_id: next_pick.draft.league.leagueable.id, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
+          next_pick_url = Rails.application.routes.url_helpers.game_competition_league_draft_pick_url(game_slug: next_pick.draft.league.leagueable.game.slug, competition_slug: next_pick.draft.league.leagueable.slug, league_id: next_pick.draft.league.id, draft_id: next_pick.draft.id, id: next_pick.id, protocol: protocol)
           # Find the next 16 picks
           pick_order = Pick.order(:number).where(draft_id: @pick.draft).limit(16).offset(next_pick.number - 1).pluck(:team_id)
           # Email the person with the next pick
