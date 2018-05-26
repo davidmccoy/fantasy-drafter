@@ -3,8 +3,8 @@
     <% if current_user == @league.admin || current_user.admin %>
       <div class="actions">
         <p>
-          <%= link_to "Edit", edit_game_competition_league_path(@game, @competition, @league), class: "btn btn-sm btn-secondary" %>
           <% if !@league.draft.completed && !@league.draft.active %>
+            <%= link_to "Edit", edit_game_competition_league_path(@game, @competition, @league), class: "btn btn-sm btn-secondary" %>
             <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
           <% end %>
         </p>
