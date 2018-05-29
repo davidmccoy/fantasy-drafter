@@ -29,7 +29,7 @@ class LeaguesController < ApplicationController
   def update
     if @league.update(league_params.merge(
       draft_attributes: {
-        start_time: league_params[:draft_attributes][:start_time].to_time.utc
+        start_time: league_params[:draft_attributes][:start_time]&.to_time&.utc
       }
     ))
       flash[:notice] = "Successfully updated your league."
