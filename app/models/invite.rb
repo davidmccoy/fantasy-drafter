@@ -4,6 +4,7 @@ class Invite < ApplicationRecord
 
   belongs_to :league
 
+  before_save { self.email = email.downcase if email}
   after_create :send_invite
 
   def expired?

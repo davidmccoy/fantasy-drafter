@@ -43,6 +43,8 @@ class LeaguesController < ApplicationController
   def destroy
   end
 
+  private
+
   def league_params
     params.require(:league).permit(:num_draft_rounds, draft_attributes: [:start_time])
   end
