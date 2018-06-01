@@ -29,7 +29,8 @@ class LeaguesController < ApplicationController
   def update
     if @league.update(league_params.merge(
       draft_attributes: {
-        start_time: league_params[:draft_attributes][:start_time]&.to_time&.utc
+        start_time: league_params[:draft_attributes][:start_time]&.to_time&.utc,
+        id: league_params[:draft_attributes][:id]
       }
     ))
       flash[:notice] = "Successfully updated your league."
@@ -46,7 +47,7 @@ class LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:num_draft_rounds, draft_attributes: [:start_time])
+    params.require(:league).permit(:num_draft_rounds, draft_attributes: [:id, :start_time])
   end
 
 end

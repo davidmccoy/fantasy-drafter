@@ -35,7 +35,7 @@ class CompetitionsController < ApplicationController
   def update
     if @competition.update(competition_params)
       flash[:notice] = "Successfully updated #{@competition.name}."
-      redirect_to game_competitions_path(@game, @competition) and return
+      redirect_to game_competition_path(@game, @competition) and return
     else
       flash[:alert] = "Failed to update #{@competition.name}."
       redirect_to edit_game_competition_path(@game, @competition) and return
@@ -45,7 +45,7 @@ class CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:name, :date, :location, :slug)
+    params.require(:competition).permit(:name, :date, :location, :slug, :score_as_of_round)
   end
 
 end

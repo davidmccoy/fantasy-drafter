@@ -4,7 +4,11 @@
       <%= render "info" %>
 
       <% if @league.draft.completed? %>
-
+        <% if @league.leagueable.score_as_of_round > 0 %>
+          <p>
+            <em>(Through Round <%= @league.leagueable.score_as_of_round %>)</em>
+          </p>
+        <% end %>
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
