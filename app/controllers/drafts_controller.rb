@@ -21,7 +21,7 @@ class DraftsController < ApplicationController
         @picks_until_your_pick = 0
       end
 
-      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id).where.not(player_id: nil).order("number ASC")
+      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
 
     end
   end
