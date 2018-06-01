@@ -17,7 +17,7 @@
             Current Pick
           </p>
           <p id="current-pick">
-            <%= @current_pick.user.name %>
+            <%= @current_pick&.user&.name %>
           </p>
           <p id="until-next-pick">
             Picks Until You: <%= @picks_until_your_pick %>
