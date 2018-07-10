@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @competitions.where("date >= ?", Date.today).each do |competition| %>
+          <% @competitions.where("name = ?", "Pro Tour Dominaria").each do |competition| %>
             <tr>
               <td>
                 <%= competition.name %>

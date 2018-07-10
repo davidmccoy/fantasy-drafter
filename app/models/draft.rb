@@ -5,6 +5,9 @@ class Draft < ApplicationRecord
   has_many :users, through: :leagues
   has_many :teams, through: :leagues
 
+  # find completed drafts per competition:
+  # Draft.joins("LEFT JOIN leagues ON leagues.id = drafts.league_id").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where(drafts: {completed: true}, competitions: {id: 7})
+
 
   def create_picks
     pick_order = self.league.users.shuffle
