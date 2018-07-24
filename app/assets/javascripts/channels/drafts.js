@@ -19,7 +19,7 @@ $(document).on('ready DOMContentLoaded', function () {
         if (data.completed === true) {
           $('#picks').hide();
           $('#players').hide();
-          $('#lineup').hide();
+          $('#left-tabbed-panel').hide();
           $('#draft-concluded').show();
         } else {
           $pick = $('#pick-' + data.number);
@@ -29,7 +29,7 @@ $(document).on('ready DOMContentLoaded', function () {
           $pickLinks = $('.pick-link');
           $currentPick = $('#pick-' + (data.number + 1));
           $nextPick = $('#until-next-pick');
-          $lineup = $('#lineup');
+          $lineup = $('#my-team');
           $audioElement = $('audio')[0];
 
           // assign current pick

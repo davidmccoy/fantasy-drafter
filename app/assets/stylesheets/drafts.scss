@@ -86,7 +86,7 @@
   }
   #draft-details-container {
     margin: 1em 0;
-
+    width: 100%;
     #players {
       color: $black;
       margin-top: 1em;
@@ -105,8 +105,12 @@
       .pick-link {
         width: 100%;
       }
+      .star-link {
+        background-color: gold;
+        border-color: gold;
+      }
     }
-    #lineup {
+    #left-tabbed-panel {
       margin-top: 1em;
     }
     #draft-concluded {

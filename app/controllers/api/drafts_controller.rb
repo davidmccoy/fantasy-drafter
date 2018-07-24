@@ -17,6 +17,32 @@ class Api::DraftsController < ApplicationController
     end
   end
 
+  def all_teams
+    current_team = @draft.league.teams.find_by_id(current_user.team(@draft.league))
+    @my_team = {
+      user_id: current_user.id,
+      team_id: current_team.id,
+      name: current_team.name,
+      players: current_team.players
+    }
+    @teams = []
+    @draft.league.teams.where.not(id: current_user.team(@draft.league)).each do |team|
+      players = []
+      team.players.each do |player|
+        players << {
+          id: player.id,
+          name: player.name
+        }
+      end
+      @teams << {
+        user_id: team.user.id,
+        team_id: team.id,
+        name: team.name,
+        players: players
+      }
+    end
+  end
+
   private
 
   def set_draft

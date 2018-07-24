@@ -116,42 +116,8 @@
       <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)), class: "btn btn-primary" %>
     </p>
   <% elsif @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
-  <div id="draft-details-container" class="row">
-    <div id="players" class="col-md-6">
-      <div class="available-players-title">
-        <h4>
-          Available Players
-        </h4>
-        <%= button_tag "?", onclick: "$('.available-players-instructions').toggle()", class: "btn btn-sm btn-secondary" %>
-      </div>
-      <div class="available-players-instructions">
-        <p>
-          Below are the players that are still available to draft. Currently, these are restricted to players that are (or have been) on a Pro Tour team in the Pro Tour Team Series.
-        </p>
-        <p>
-          The "Points" column represents the average number of Match Points a player has earned per Pro Tour since the Team Series started. The "PT" column lists the number of Pro Tours each player has attended since the start of the Team Series.
-        </p>
-        <p>
-          You can sort each column by clicking on it. You can also add secondary  sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
-        </p>
-        <p onclick="$('.available-players-instructions').toggle()">
-          <em>(Hide)</em>
-        </p>
-      </div>
-      <div id="react-player-table" data="<%= @draft.id %>">
-      </div>
-      <%= javascript_pack_tag "available_player_table" %>
-    </div>
-    <div id="lineup" class="col-md-6">
-      <h4>
-        Your Lineup
-      </h4>
-      <% @your_lineup.each do |pick| %>
-      <p>
-        <%= pick.player.name %>
-      </p>
-      <% end %>
-    </div>
+  <div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>">
+    <%= javascript_pack_tag "draft_viewer" %>
     <div id="draft-concluded">
       The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.
     </div>

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :drafts do
       get 'available_players', to: 'drafts#available_players'
+      get 'all_teams', to: 'drafts#all_teams'
     end
   end
 end
