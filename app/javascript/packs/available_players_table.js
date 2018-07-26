@@ -23,7 +23,7 @@ class AvailablePlayersTable extends React.Component {
                 {
                   Header: "Star",
                   accessor: "star_link",
-                  maxWidth: 52,
+                  maxWidth: 54,
                   Cell: row => (
                     <a
                       href={row.value}

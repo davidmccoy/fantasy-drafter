@@ -1,13 +1,34 @@
 .navbar {
   font-size: 1em;
-  background: $blue;
+  background: $purple;
   border-radius: 0px;
   border: none;
   margin: 0;
+  &.home {
+    background: none !important;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    .navbar-brand {
+      padding-left: 1rem;
+      .logo {
+        width: 250px;
+        height: auto;
+      }
+    }
+    .navbar-collapse {
+      padding-right: 1rem;
+    }
+    .navbar-nav {
+      .nav-link {
+      color: white;
+      }
+    }
+  }
   .navbar-brand {
     color: $white;
     // padding: 20px 15px;
-    font-family: "marvin_visions", "Raleway", sans-serif;
+    font-family: "marvin_visions", "Roboto", sans-serif;
     font-size: 1.9em;
     letter-spacing: 1px;
     &:hover {

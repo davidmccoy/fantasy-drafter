@@ -1,8 +1,22 @@
 <div id="home">
   <div class="hero-container">
-    <div class="hero-text-container">
-      <div class="hero-text">
-        Love the <span class="tertiary-font">Pro Tour</span>? Create a Fantasy Pro Tour league and draft your favorite Pros!
+    <div class="container">
+      <div class="hero-text-container row">
+        <div class="hero-text col-md">
+          <div class="hero-intro">
+            Don't just watch the Pro Tour.
+          </div>
+          <div class="hero-cta">
+            <p>
+              Invite your friends and draft your favorite Magic pros to compete in your own Fantasy Pro Tour league!
+            </p>
+            <p>
+              <%= link_to "Create a League", new_user_session_path, class: "btn btn-dark" %>
+            </p>
+          </div>
+        </div>
+        <div class="hero-text col-md placeholder">
+        </div>
       </div>
     </div>
   </div>
@@ -12,8 +26,44 @@
         <div class="row">
           <div class="col-md">
             <div class="cta-text-container">
+              <div class="cta-image-container">
+                <%= image_tag "create-a-league.png" %>
+              </div>
+              <h3>Create a League</h3>
               <p>
-                Fantasy Pro Tour let's you draft a team of the top Magic Pros and compete against your friends.
+                Join a league or create your own.
+              </p>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="cta-text-container">
+              <div class="cta-image-container">
+                <%= image_tag "invite-your-friends.png" %>
+              </div>
+              <h3>Invite Your Friends</h3>
+              <p>
+                Invite your friends and create your teams.
+              </p>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="cta-text-container">
+              <div class="cta-image-container">
+                <%= image_tag "draft-your-pros.png" %>
+              </div>
+              <h3>Draft Your Pros</h3>
+              <p>
+                Draft your favorite Magic pros and create the perfect lineup.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md">
+            <div class="cta-text-container homepage-actions">
+              <p>
+                <%= link_to "Create a League", new_user_session_path, class: "btn btn-lg btn-primary" %>
+                <%= link_to "Join a League", new_user_session_path, class: "btn btn-lg btn-dark" %>
               </p>
             </div>
           </div>
@@ -21,25 +71,46 @@
       </div>
     </div>
   </div>
-  <div class="section-divider">
-  </div>
   <div class="section-container second">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" preserveAspectRatio="none">
+      <polygon fill="white" points="0,0  10,10  10,0"/>
+    </svg>
     <div class="cta-container homepage-section">
       <div class="container">
-        <div class="row">
+        <div class="row split-row">
           <div class="col-md">
-            <div class="cta-image-container">
-              <%= image_tag "watching-the-pt.jpg" %>
+            <div class="cta-text-container">
+              <h3>The best fantasy stats for Magic: the Gathering</h3>
+              <p>
+                Our dataset includes every Pro Tour and every Grand Prix, starting with Pro Tour Los Angeles in 1998.
+              </p>
             </div>
           </div>
           <div class="col-md">
             <div class="cta-text-container">
+              <h3>Upcoming Events</h3>
               <p>
-                Don't just watch Pro Tour Dominaria. Invite your friends and compete in your own Fantasy Pro Tour Dominaria league.
+                Pro Tour Guilds of Ravnica (August 3-5)
               </p>
               <p>
-                <%= link_to "Start a League Now!", new_user_session_path, class: "btn btn-primary" %>
+                World Championship (September 21-23)
               </p>
+              <p>
+                Pro Tour Ravnica Allegiance (TBA)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-container third">
+    <div class="cta-container homepage-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md">
+            <div class="">
+              <h3>Sign up for news and updates about Fantasy Pro Tour!</h3>
             </div>
           </div>
         </div>
