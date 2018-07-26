@@ -61,6 +61,12 @@ gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 
 gem 'will_paginate'
 
+# Mailchimp integration
+gem 'gibbon'
+
+# ENV config
+gem 'figaro'
+
 # error logging
 gem 'raygun4ruby'
 

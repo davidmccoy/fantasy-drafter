@@ -44,5 +44,6 @@ Rails.application.routes.draw do
       get 'available_players', to: 'drafts#available_players'
       get 'all_teams', to: 'drafts#all_teams'
     end
+    resource :subscriber, only: [:create]
   end
 end

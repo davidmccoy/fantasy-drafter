@@ -111,6 +111,14 @@
           <div class="col-md">
             <div class="">
               <h3>Sign up for news and updates about Fantasy Pro Tour!</h3>
+              <div class="subscribe">
+                <form>
+                  <div class="form-group">
+                    <input type="email" class="form-control" id="subscribe-email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <button type="submit" id="subscribe" class="btn btn-primary">Subscribe</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -118,3 +126,27 @@
     </div>
   </div>
 </div>
+
+<script>
+$(document).ready(function () {
+  $('#subscribe').click(function (e) {
+    e.preventDefault();
+    console.log('clicked');
+    var email = $('#subscribe-email').val();
+    $.ajax({
+      url: '<%= api_subscriber_path %>',
+      type: 'post',
+      dataType: 'json',
+      data: {
+        subscribe: {
+          email: email
+        }
+      },
+      success: function (data) {
+        console.log(data);
+        $('.subscribe').html('<p>Thanks for subscribing!</p>');
+      }
+    })
+  });
+});
+</script>
