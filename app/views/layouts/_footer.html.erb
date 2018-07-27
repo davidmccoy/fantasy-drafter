@@ -15,10 +15,10 @@
                   How It Works
                 </li>
                 <li>
-                  Start A League
+                  <%= link_to "Start A League", game_competitions_path(Game.find_by_name("Magic: the Gathering")) %>
                 </li>
                 <li>
-                  Wizards of the Coast
+                  <a href="http://www.magic.wizards.com" target="_blank">Wizards of the Coast</a>
                 </li>
               </ul>
             </div>
@@ -27,13 +27,13 @@
             <div class="">
               <ul>
                 <li>
-                  Sign In
+                  <%= link_to "Sign In", new_user_session_path %>
                 </li>
                 <li>
-                  Blog
+                  <a href="http://www.hipstersofthecoast.com" target="_blank">Blog</a>
                 </li>
                 <li>
-                  Contact Us
+                  <a href="http://www.twitter.com/fantasyprotour" target="_blank">Contact Us</a>
                 </li>
               </ul>
             </div>

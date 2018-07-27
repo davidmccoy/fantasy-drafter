@@ -8,7 +8,7 @@
           </div>
           <div class="hero-cta">
             <p>
-              Invite your friends and draft your favorite Magic pros to compete in your own Fantasy Pro Tour league!
+              Invite your friends and draft your favorite Magic pros to compete in your own Fantasy Pro Tour league! It's completely free!
             </p>
             <p>
               <%= link_to "Create a League", new_user_session_path, class: "btn btn-dark" %>
@@ -31,7 +31,7 @@
               </div>
               <h3>Create a League</h3>
               <p>
-                Join a league or create your own.
+                Join or create your own league at no cost.
               </p>
             </div>
           </div>
@@ -78,26 +78,32 @@
     <div class="cta-container homepage-section">
       <div class="container">
         <div class="row split-row">
-          <div class="col-md">
+          <div class="col-md left">
             <div class="cta-text-container">
               <h3>The best fantasy stats for Magic: the Gathering</h3>
               <p>
-                Our dataset includes every Pro Tour and every Grand Prix, starting with Pro Tour Los Angeles in 1998.
+                Choose the best players for your team with our advanced metrics, including average pick positions and Elo ratings.
+              </p>
+              <p>
+                Our dataset includes every Pro Tour from the Team Series era and is rapidly expanding.
               </p>
             </div>
           </div>
-          <div class="col-md">
+          <div class="col-md right">
             <div class="cta-text-container">
               <h3>Upcoming Events</h3>
-              <p>
-                Pro Tour Guilds of Ravnica (August 3-5)
-              </p>
-              <p>
-                World Championship (September 21-23)
-              </p>
-              <p>
-                Pro Tour Ravnica Allegiance (TBA)
-              </p>
+              <div class="event-container">
+                <p class="event-button">25th Anniversary Pro Tour (August 3-5)</p>
+              </div>
+              <div class="event-container">
+                <p class="event-button">World Championship (September 21-23)</p>
+              </div>
+              <div class="event-container">
+                <p class="event-button">Pro Tour Guilds of Ravnica (November 9-11)</p>
+              </div>
+              <div class="event-container">
+                <p class="event-button">Pro Tour Ravnica Allegiance (TBA)</p>
+              </div>
             </div>
           </div>
         </div>
@@ -148,5 +154,37 @@ $(document).ready(function () {
       }
     })
   });
+
+  var container = $('.second')[0],
+      innerContainer = $('.second .cta-container')[0],
+      leftElement = $('.col-md.left')[0],
+      rightElement = $('.col-md.right')[0],
+      containerPadding = parseInt($(container).css('padding-top').replace(/[^-\d\.]/g, '')),
+      containerHeight = $(container).outerHeight(),
+      leftPadding = parseInt($(innerContainer).css('padding-top').replace(/[^-\d\.]/g, '')),
+      leftHeight = $(leftElement).outerHeight(),
+      gradientPercent = ((leftHeight + leftPadding + containerPadding) / containerHeight) * 100;
+
+  if ($(window).width() < 768) {
+    $(container).css('background', 'linear-gradient(to bottom, #191919 0%, #191919 ' + gradientPercent + '%, #453c77 ' + gradientPercent + '%, #453c77 100%)')
+  }
+
+  $(window).on('resize', function(){
+    container = $('.second')[0];
+    innerContainer = $('.second .cta-container')[0]
+    leftElement = $('.col-md.left')[0];
+    rightElement = $('.col-md.right')[0];
+    containerPadding = parseInt($(container).css('padding-top').replace(/[^-\d\.]/g, ''));
+    containerHeight = $(container).outerHeight();
+    leftPadding = parseInt($(innerContainer).css('padding-top').replace(/[^-\d\.]/g, ''));
+    leftHeight = $(leftElement).outerHeight();
+    gradientPercent = ((leftHeight + leftPadding + containerPadding) / containerHeight) * 100;
+    if ($(window).width() < 768) {
+      $(container).css('background', 'linear-gradient(to bottom, #191919 0%, #191919 ' + gradientPercent + '%, #453c77 ' + gradientPercent + '%, #453c77 100%)')
+    } else {
+      $(container).css('background', 'linear-gradient(to right, #191919 0%, #191919 50%, #453c77 50%, #453c77 100%)')
+    }
+  });
 });
+
 </script>

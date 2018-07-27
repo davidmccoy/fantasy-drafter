@@ -22,7 +22,6 @@ html {
   padding: 0;
   height: 100%;
   background: $black;
-  overflow-x: hidden;
   body {
     font-size: 16px;
     font-weight: 300;
@@ -52,41 +51,49 @@ html {
       }
     }
     footer {
-     position: absolute;
-     bottom: 0;
-     width: 100%;
-     // height: 60px;
-     background: $black;
-     color: $white;
-     font-weight: 100;
-     text-align: center;
-     font-size: 1rem;
-     // border-top: 1px solid $gray-100;
-     .logo-container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      // height: 60px;
+      background: $black;
+      color: $white;
+      font-weight: 100;
+      text-align: center;
+      font-size: 1rem;
+      // border-top: 1px solid $gray-100;
+      .logo-container {
        text-align: center;
        padding-bottom: 1rem;
        .logo {
          width: 100%;
          height: auto;
        }
-     }
-     .copyright-notice-container {
+      }
+      .copyright-notice-container {
        padding: 0 2rem 2rem;
        p {
          &:last-child {
            margin-bottom: 0;
          }
        }
-     }
-     .logo-and-menu-container {
+      }
+      .logo-and-menu-container {
        padding: 4rem 2rem;
        align-items: center;
        ul {
          margin: 0;
          list-style: none;
          text-align: center;
+         padding: 0;
        }
-     }
+      }
+      a {
+        color: $white;
+        text-decoration: none;
+        &:hover {
+          color: $white;
+        }
+      }
     }
   }
 }
@@ -110,6 +117,7 @@ form {
         .logo-and-menu-container {
           ul {
             text-align: left;
+            padding-left: 2rem;
           }
         }
       }
@@ -117,10 +125,11 @@ form {
   }
 }
 
+
 @media (min-width: 768px) {
   html {
     body {
-      padding-bottom: 300px;
+      padding-bottom: 320px;
       footer {
        .logo-container {
          text-align: right;
@@ -139,6 +148,22 @@ form {
          }
        }
       }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  html {
+    body {
+      padding-bottom: 302px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    body {
+      padding-bottom: 320px;
     }
   }
 }

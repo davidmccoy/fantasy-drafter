@@ -3,7 +3,7 @@
 #home {
   .hero-container {
     position: relative;
-    height: 475px;
+    height: 550px;
     background-image: image-url("front-page-hero.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -22,7 +22,8 @@
         color: white;
         text-align: center;
         .hero-intro {
-          font-weight: 300;
+          font-size: 3rem;
+          font-weight: bold;
         }
         .hero-cta {
           font-size: 1.5rem;
@@ -49,6 +50,7 @@
       color: $white;
       font-weight: 100;
       position: relative;
+      overflow: hidden;
       svg {
         position: absolute;
         top: 0;
@@ -66,6 +68,21 @@
             }
             &:nth-child(2) {
               padding-top: 5rem;
+            }
+            .event-container {
+              margin: 1.5rem 0;
+              &:last-child {
+                margin-bottom: 0;
+              }
+              .event-button {
+                border: 1px solid white;
+                padding: 0.7rem 1rem;
+                margin: 0;
+                display: inline-block;
+                &:hover {
+                  // border: 1px solid #00f1ff;
+                }
+              }
             }
           }
         }
@@ -105,16 +122,14 @@
         }
         .cta-text-container {
           text-align: left;
-          font-size: 1rem;
+          font-size: 1.2rem;
           &.homepage-actions {
             text-align: center;
-          }
-          p {
-            font-size: 1.5em;
-            margin: 1em 0;
-            a {
-              &:last-child {
-                margin-left: 20px;
+            p {
+              font-size: 1.5em;
+              margin: 1em 0;
+              a {
+                margin: 10px;
               }
             }
           }
@@ -133,6 +148,22 @@
     font-weight: 100;
   }
 }
+@media (max-width: 380px) {
+  #home {
+    .hero-container {
+      .hero-text-container {
+        .hero-text {
+          .hero-intro {
+            font-size: 2.5rem;
+          }
+          .hero-cta {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+}
 
 @media (min-width: 576px) {
   #home {
@@ -140,8 +171,14 @@
       // height: 400px;
       .hero-text-container {
         .hero-text {
-          font-size: 2.8em;
+          font-size: 3.1rem;
           text-align: left;
+          .hero-intro {
+            font-size: 3.1rem;
+          }
+          .hero-cta {
+            font-size: 1.5rem;
+          }
         }
       }
     }
@@ -151,8 +188,8 @@
 @media (min-width: 768px) {
   #home {
     .hero-container {
-      background-position: -100px;
-      height: 500px;
+      background-position: -200px;
+      height: 575px;
       .hero-text-container {
         .hero-text {
           font-size: 2.8em;
@@ -161,8 +198,11 @@
           &.placeholder {
             display: block;
           }
+          .hero-intro {
+            font-size: 2.9rem;
+          }
           .hero-cta {
-            font-size: 1.7rem;
+            font-size: 1.5rem;
           }
         }
       }
@@ -170,13 +210,21 @@
     .section-container {
       &.second {
         background: linear-gradient(to right, #191919 0%, #191919 50%, #453c77 50%, #453c77 100%);
-        text-align: left;;
+        text-align: left;
+        margin-top: -3em;
       }
       .cta-container {
         .row {
           .cta-text-container {
             &.homepage-actions {
               text-align: right;
+              p {
+                a {
+                  &:last-child {
+                    margin-right: 0;
+                  }
+                }
+              }
             }
           }
           .cta-image-container {
@@ -206,15 +254,14 @@
   #home {
     .hero-container {
       background-position: center;
-      height: 600px;
+      height: 670px;
       .hero-text-container {
         max-width: 1240px;
         .hero-text {
           font-size: 3em;
           .hero-intro {
-            font-size: 4rem;
+            font-size: 3.5rem;
             line-height: 5rem;
-            font-weight: bold;
           }
           .hero-cta {
             p {
@@ -224,6 +271,11 @@
             }
           }
         }
+      }
+    }
+    .section-container {
+      &.second {
+        margin-top: -4em;
       }
     }
   }
