@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse pull-left" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <%= link_to "How It Works", game_competitions_path(Game.find_by(name: "Magic: the Gathering")), class: "nav-link" %>
+        <%= link_to "How It Works", faq_path, class: "nav-link" %>
       </li>
       <% if current_user %>
         <li class="nav-item dropdown">
@@ -15,6 +15,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <%= link_to "Your Leagues", user_leagues_path, class: "dropdown-item" %>
+            <%= link_to "Create League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "dropdown-item" %>
             <%= link_to "Profile", user_path(current_user), class: "dropdown-item" %>
             <%= link_to "Sign Out", destroy_user_session_path, method: "delete", class: "dropdown-item" %>
             <div class="dropdown-divider"></div>

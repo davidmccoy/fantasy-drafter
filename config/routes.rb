@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :invites
   resources :players, only: [:new, :import]
   post 'players/import', to: 'players#import'
+  resource :faq
 
   resources :games, param: :slug, only: [:index, :new] do
     resources :competitions, param: :slug do

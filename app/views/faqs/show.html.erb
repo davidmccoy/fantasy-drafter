@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div id="faq">
+      <h1>How It Works</h1>
+      <h5>What Is It?</h5>
+      <p>
+        Magic: the Gathering is a trading card game designed by <%= link_to "Wizards of the Coast", "http://www.magic.wizards.com", target: "_blank" %>. Many times a year, Wizards hosts invite-only tournaments called Pro Tours, where the best players compete for the title of Pro Tour Champion.
+      </p>
+      <p>
+        Fantasy Pro Tour gives Pro Tour fans another way of enjoying the tournament by allowing you to draft your favorite Magic pros and follow their success throughout the event. <%= link_to "Create a league", game_competitions_path(Game.find_by_name("Magic: the Gathering")) %>, invite your friends, and experience the Pro Tour like you never have before!
+      </p>
+      <h5>League Structures</h5>
+      <p>
+        Currently, Fantasy Pro Tour supports traditional fantasy drafting leagues, meaning you and your friends will set a draft time and take turns choosing players to form your teams.
+      </p>
+      <h5>Drafting</h5>
+      <p>
+        During the draft, the players that are still available to draft are in listed in the "Available Players" table. Currently, these are restricted to players that are (or have been) on a Pro Tour team in the Pro Tour Team Series.
+      </p>
+      <p>
+        The "Points" column represents the average number of Match Points a player has earned per Pro Tour since the Team Series started. The "PT" column lists the number of Pro Tours each player has attended since the start of the Team Series.
+      </p>
+      <p>
+        You can sort each column by clicking on it. You can also add secondary sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
+      </p>
+      <p>
+        Click the <button class="btn btn-sm star-link"><%= image_tag "star-gold.svg", class: "star-gold-image" %><%= image_tag "star.svg", class: "star-image" %></button> to save a list of your favorite players to pick when it's your turn.
+      </p>
+      <p>
+        Click the <button class="btn btn-sm btn-success pick-link"><%= image_tag "plus.svg" %></button> to draft a player and add them to your team.
+      </p>
+      <h5>Setting Your Lineup</h5>
+      <p>
+        All players you draft are automatically in your starting lineup. Easy!
+      </p>
+      <h5>Scoring</h5>
+      <p>
+        Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 8. The team with the most points wins the league.
+      </p>
+    </div>
+  </div>
+</div>
