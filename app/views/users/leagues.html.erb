@@ -55,7 +55,7 @@
 
     <h1>Your Past Leagues</h1>
 
-    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 60.days).length > 0 %>
+    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 7.days).length > 0 %>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -77,7 +77,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 60.days).each do |league| %>
+          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 7.days).each do |league| %>
             <tr>
               <td>
                 <%= league.leagueable.name %>
