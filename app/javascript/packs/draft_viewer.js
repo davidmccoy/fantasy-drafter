@@ -151,6 +151,7 @@ class DraftViewer extends React.Component {
             data={this.state.data}
             loading={this.state.loading}
             handleStar={this.starPlayer}
+            currentPick={this.state.currentPick}
             myPicks={this.props.myPicks}
             myStars={this.state.myStars}
           />
