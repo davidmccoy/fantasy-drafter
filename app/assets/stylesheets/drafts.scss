@@ -101,14 +101,73 @@
       }
       .available-players-instructions {
         display: none;
+        .pick-link {
+          width: inherit;
+        }
       }
       .pick-link {
         width: 100%;
       }
-      .star-link {
-        background-color: gold;
-        border-color: gold;
+      .form-group.row {
+        align-items: center;
+        .col-form-label {
+          font-size: 1.1rem;
+        }
       }
+    }
+    .star-link {
+      background-color: white;
+      border-color: gold;
+      .minus-image {
+        display: none;
+      }
+      .star-image {
+        display: none;
+      }
+      &:hover {
+        background-color: gold;
+        // border-color: darken(gold, 5%);
+        .star-image {
+          display: block;
+        }
+        .star-gold-image {
+          display: none;
+        }
+      }
+      &.already-starred {
+        background-color: gold;
+        .star-gold-image {
+          display: none;
+        }
+        .star-image {
+          display: block;
+        }
+        &:hover {
+          background-color: red;
+          border-color: red;
+          .star-image {
+            display: none;
+          }
+          .minus-image {
+            display: block;
+          }
+        }
+      }
+      &.remove-star {
+        &:hover {
+          background-color: red;
+          border-color: red;
+          .star-image {
+            display: none;
+          }
+          .minus-image {
+            display: block;
+          }
+        }
+      }
+    }
+    .tab-pane {
+      padding: 1rem 0;
     }
     #left-tabbed-panel {
       margin-top: 1em;

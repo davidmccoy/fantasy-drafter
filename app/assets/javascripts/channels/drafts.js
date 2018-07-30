@@ -60,9 +60,9 @@ $(document).on('ready DOMContentLoaded', function () {
           // })
 
           // add player to your lineup
-          if (data.team_id === teamId) {
-            $lineup.append('<p>' + data.player_name + '</p>')
-          }
+          // if (data.team_id === teamId) {
+          //   $lineup.append('<p>' + data.player_name + '</p>')
+          // }
         }
       }
     });

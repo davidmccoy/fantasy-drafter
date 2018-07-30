@@ -43,6 +43,9 @@ class Api::DraftsController < ApplicationController
     end
   end
 
+  def show 
+  end
+
   private
 
   def set_draft

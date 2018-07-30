@@ -21,7 +21,7 @@ class TeamList extends React.Component {
       <div>
         { this.props.team !== undefined  &&
           <div>
-            <h3>{this.props.team.name}</h3>
+            <h4>{this.props.team.name}</h4>
             <ul>
                 {players}
             </ul>

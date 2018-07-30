@@ -34,6 +34,7 @@ Rails.application.routes.draw do
         resources :drafts do
           post 'start', to: 'drafts#start'
           resources :picks
+          resources :stars
         end
       end
     end
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
     resources :drafts do
       get 'available_players', to: 'drafts#available_players'
       get 'all_teams', to: 'drafts#all_teams'
+      resources :stars, only: [:index]
     end
     resource :subscriber, only: [:create]
   end

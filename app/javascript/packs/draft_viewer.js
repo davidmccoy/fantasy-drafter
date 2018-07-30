@@ -11,7 +11,8 @@ class DraftViewer extends React.Component {
     super();
     this.state = {
       data: [],
-      teams: []
+      loading: true,
+      myStars: []
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -19,9 +20,15 @@ class DraftViewer extends React.Component {
     this.fetchTeams = this.fetchTeams.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.updateTableData = this.updateTableData.bind(this);
+    this.starPlayer = this.starPlayer.bind(this);
+    this.pickPlayer = this.pickPlayer.bind(this);
   }
 
   componentDidMount() {
+    this.setState({
+      currentPick: this.props.currentPick,
+      currentPickId: this.props.currentPickId
+    })
     this.fetchData();
     this.setupSubscription();
   }
@@ -33,6 +40,7 @@ class DraftViewer extends React.Component {
   fetchData() {
     this.fetchPlayers();
     this.fetchTeams();
+    this.fetchStars();
   }
 
   fetchPlayers() {
@@ -62,6 +70,51 @@ class DraftViewer extends React.Component {
     });
   }
 
+  fetchStars() {
+    $.ajax({
+      url: `/api/drafts/${this.props.draftId}/stars`,
+      dataType: 'json',
+      success: function(data){
+        this.setState({
+          myStars: data.stars
+        })
+      }.bind(this)
+    });
+  }
+
+  starPlayer(url, method) {
+    $.ajax({
+      url: url,
+      method: method,
+      dataType: 'json',
+      success: function(data){
+        if (this.state.myStars.some(item => data.star.id === item.id) === false) {
+          let currentState = this.state.myStars;
+          currentState.push(data.star);
+          this.setState({
+            myStars: currentState
+          })
+        } else {
+          this.setState({
+            myStars: this.state.myStars.filter(e => e.id !== data.star.id)
+          })
+        }
+      }.bind(this)
+    });
+  }
+
+  pickPlayer(url) {
+    let pickUrl = url.replace('pick-number', this.state.currentPickId)
+    $.ajax({
+      url: pickUrl,
+      method: 'PUT',
+      dataType: 'json',
+      success: function(data){
+
+      }.bind(this)
+    });
+  }
+
   setupSubscription(){
     const thisDraftID = this.props.draftId
     App.comments = App.cable.subscriptions.create(
@@ -76,7 +129,13 @@ class DraftViewer extends React.Component {
         },
         received: function (data) {
           if (data.completed === false) {
-            this.fetchData();
+            this.setState({
+              currentPick: data.next_pick_number,
+              currentPickId: data.next_pick_id,
+              myStars: this.state.myStars.filter(e => e.player_id !== data.player_id),
+              data: this.state.data.filter(e => e.player_id !== data.player_id)
+            })
+            this.fetchTeams();
           }
         }.bind(this)
       }
@@ -91,12 +150,21 @@ class DraftViewer extends React.Component {
           <AvailablePlayersTable
             data={this.state.data}
             loading={this.state.loading}
+            handleStar={this.starPlayer}
+            myPicks={this.props.myPicks}
+            myStars={this.state.myStars}
           />
         </div>
         <div id="left-tabbed-panel" className="col-md-6">
           <DraftViewerLeftPanel
             otherTeams={this.state.otherTeams}
             myTeam={this.state.myTeam}
+            myStars={this.state.myStars}
+            currentPick={this.state.currentPick}
+            myPicks={this.props.myPicks}
+            handleStar={this.starPlayer}
+            handlePick={this.pickPlayer}
+            draftId={this.props.draftId}
           />
         </div>
       </div>
@@ -108,11 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const node = document.getElementById('draft-details-container');
   const draftId = node.getAttribute('data');
   const teamId = node.getAttribute('data-team');
+  const currentPick = parseInt(node.getAttribute('data-current-pick'));
+  const currentPickId = node.getAttribute('data-current-pick-id');
+  const myPicks = JSON.parse(node.getAttribute('data-your-picks'));
   const container = document.createElement('div');
   container.id = 'draft-details-container';
 
   ReactDOM.render(
-    <DraftViewer draftId={draftId} teamId={teamId} />,
+    <DraftViewer
+      draftId={draftId}
+      teamId={teamId}
+      currentPick={currentPick}
+      currentPickId={currentPickId}
+      myPicks={myPicks}
+    />,
     document.getElementById('draft-details-container').appendChild(container),
   )
 })

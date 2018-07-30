@@ -1,4 +1,4 @@
-<div id="draft" data-draft=<%= @draft.id %> data-user=<%= current_user.id %> data-team=<%= current_user.team(@draft.league)&.id %>>
+<div id="draft" data-draft="<%= @draft.id %>" data-user="<%= current_user.id %>" data-team="<%= current_user.team(@draft.league)&.id %>">
   <div id="draft-progress-container">
     <div class="page-title">
       <p class="page-instructions intro">
@@ -116,7 +116,7 @@
       <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)), class: "btn btn-primary" %>
     </p>
   <% elsif @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
-  <div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>">
+  <div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick.number %>" data-current-pick-id="<%= @current_pick.id %>" data-your-picks="<%= @your_picks %>">
     <%= javascript_pack_tag "draft_viewer" %>
     <div id="draft-concluded">
       The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.
@@ -135,9 +135,9 @@
       $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
 
       // create an audio element for notification sound
-      var audioElement = document.createElement('audio');
-      audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
-      $('body').append(audioElement)
+      // var audioElement = document.createElement('audio');
+      // audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+      // $('body').append(audioElement)
 
     });
   </script>

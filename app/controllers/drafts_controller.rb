@@ -13,6 +13,8 @@ class DraftsController < ApplicationController
 
       your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id, player_id: nil).order("number ASC").first
 
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("number ASC").pluck(:number)
+
       @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
 
       if your_next_pick && @current_pick

@@ -147,4 +147,10 @@ class ApplicationController < ActionController::Base
     @pick ||= Pick.new
     authorize @pick
   end
+
+  def set_star
+    @star = Star.find_by_id(params[:star_id]) || Star.find_by_id(params[:id])
+  end
+
+  # TODO authorize_star
 end
