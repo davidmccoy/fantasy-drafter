@@ -1,7 +1,7 @@
 class Draft < ApplicationRecord
 
   belongs_to :league
-  has_many :picks
+  has_many :picks, dependent: :destroy
   has_many :users, through: :leagues
   has_many :teams, through: :leagues
 
