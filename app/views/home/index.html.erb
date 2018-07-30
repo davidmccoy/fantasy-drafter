@@ -11,7 +11,11 @@
               Invite your friends and draft your favorite Magic pros to compete in your own Fantasy Pro Tour league! It's completely free!
             </p>
             <p>
-              <%= link_to "Create a League", new_user_registration_path, class: "btn btn-dark" %>
+              <% if current_user %>
+                <%= link_to "Create a League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "btn btn-dark" %>
+              <% else %>
+                <%= link_to "Create a League", new_user_registration_path, class: "btn btn-dark" %>
+              <% end %>
             </p>
           </div>
         </div>
@@ -62,7 +66,11 @@
           <div class="col-md">
             <div class="cta-text-container homepage-actions">
               <p>
-                <%= link_to "Create a League", new_user_registration_path, class: "btn btn-lg btn-primary" %>
+                <% if current_user %>
+                  <%= link_to "Create a League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "btn btn-primary" %>
+                <% else %>
+                  <%= link_to "Create a League", new_user_registration_path, class: "btn btn-primary" %>
+                <% end %>
                 <%= link_to "How It Works", faq_path, class: "btn btn-lg btn-dark" %>
               </p>
             </div>
