@@ -21,6 +21,11 @@ class AvailablePlayersTable extends React.Component {
     this.displayPickLink = this.displayPickLink.bind(this);
   }
 
+  onPick(e, url) {
+    e.preventDefault();
+    this.props.handlePick(url);
+  }
+
   onStar(e, url, starId) {
     e.preventDefault();
     let method = null
@@ -119,15 +124,15 @@ class AvailablePlayersTable extends React.Component {
                   sortable: false,
                   filterable: false,
                   Cell: row => (
-                    <a
-                      href={row.value}
+                    <button
+                      // href={row.value}
                       className="btn btn-sm btn-success pick-link"
-                      data-remote="true"
+                      // data-remote="true"
                       rel="nofollow"
                       data-method="patch"
-                      // onClick={this.updateTableData}
+                      onClick={(e) => {this.onPick(e, row.value)}}
                       style={{display: this.displayPickLink() === false  ? "none" : null}}
-                    ><img src={plus} /></a>
+                    ><img src={plus} /></button>
                   )
                 }
               ]
