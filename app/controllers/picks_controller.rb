@@ -10,6 +10,7 @@ class PicksController < ApplicationController
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
       return false if params[:player_id] == 0 || params[:player_id] == "undefined"
+      return false if @pick.player_id
       if @pick.update(pick_params)
         # Set the response protocol
         protocol = Rails.env.production? ? "https" : "http"
