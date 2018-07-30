@@ -18,11 +18,11 @@
             <%= link_to "Create League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "dropdown-item" %>
             <%= link_to "Profile", user_path(current_user), class: "dropdown-item" %>
             <%= link_to "Sign Out", destroy_user_session_path, method: "delete", class: "dropdown-item" %>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown-item p-4 text-warning" style="padding-top:0.25rem !important; padding-bottom:0.25rem !important">
-                Drafting Now:
-            </div>
             <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item p-4 text-warning" style="padding-top:0.25rem !important; padding-bottom:0.25rem !important">
+                Drafting Now:
+              </div>
               <% current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).each do |draft| %>
                 <%= link_to draft.league.leagueable.name, game_competition_league_draft_path(draft.league.leagueable.game, draft.league.leagueable, draft.league, draft), class: "dropdown-item" %>
               <% end %>
