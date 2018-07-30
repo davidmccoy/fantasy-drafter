@@ -9,7 +9,6 @@ class LeagueUsersController < ApplicationController
   before_action :authorize_league_user
 
   def index
-    @competition = Competition.find_by_id(params[:competition_id])
   end
 
   def create
@@ -97,12 +96,6 @@ class LeagueUsersController < ApplicationController
     flash[:notice] = "Invite resent to #{@league_user.user.email}."
 
     redirect_to game_competition_league_league_users_path(@league_user.league.leagueable.game, @league_user.league.leagueable, @league_user.league)
-  end
-
-  private
-
-  def set_competition
-    @competition = Competition.find_by_id(params[:competition_id])
   end
 
 end

@@ -11,7 +11,9 @@ class DraftsController < ApplicationController
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
-      your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id, player_id: nil).order("number ASC").first
+      your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id, player_id: nil).order("number ASC").first
+
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("number ASC").pluck(:number)
 
       @current_pick = @draft.picks.where(player_id: nil).sort_by{ |pick| pick.number }.first
 
@@ -21,7 +23,7 @@ class DraftsController < ApplicationController
         @picks_until_your_pick = 0
       end
 
-      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league).id).where.not(player_id: nil).order("number ASC")
+      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
 
     end
   end
@@ -46,6 +48,7 @@ class DraftsController < ApplicationController
       redirect_to game_competition_league_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league) and return
     else
       @draft.update(active: true)
+      # TODO does this need to be adjusted for timezone?
       @draft.update(start_time: Time.now) if !@draft.start_time
       @draft.create_picks
 

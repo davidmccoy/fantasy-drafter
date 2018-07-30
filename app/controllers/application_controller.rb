@@ -54,8 +54,12 @@ class ApplicationController < ActionController::Base
     authorize @user
   end
 
+  def set_invite
+    @invite = Invite.find_by_id(params[:invite_id]) || Invite.find_by_id(params[:id])
+  end
+
   def set_game
-    @game = Game.find_by_id(params[:game_id]) || Game.find_by_id(params[:id])
+    @game = Game.find_by(slug: params[:game_slug]) || Game.find_by(slug: params[:slug])
   end
 
   def authorize_game
@@ -73,7 +77,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_competition
-    @competition = Competition.find_by_id(params[:competition_id]) || Competition.find_by_id(params[:id])
+    @competition = Competition.find_by(slug: params[:competition_slug]) || Competition.find_by(slug: params[:slug])
   end
 
   def authorize_competition
@@ -143,4 +147,10 @@ class ApplicationController < ActionController::Base
     @pick ||= Pick.new
     authorize @pick
   end
+
+  def set_star
+    @star = Star.find_by_id(params[:star_id]) || Star.find_by_id(params[:id])
+  end
+
+  # TODO authorize_star
 end

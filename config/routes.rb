@@ -17,9 +17,10 @@ Rails.application.routes.draw do
   resources :invites
   resources :players, only: [:new, :import]
   post 'players/import', to: 'players#import'
+  resource :faq
 
-  resources :games, only: [:index, :new] do
-    resources :competitions, only: [:index, :new, :create] do
+  resources :games, param: :slug, only: [:index, :new] do
+    resources :competitions, param: :slug do
       match 'results/import', to: 'results#import', via: [:post]
       resources :results do
       end
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
         resources :drafts do
           post 'start', to: 'drafts#start'
           resources :picks
+          resources :stars
         end
       end
     end
@@ -42,6 +44,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :drafts do
       get 'available_players', to: 'drafts#available_players'
+      get 'all_teams', to: 'drafts#all_teams'
+      resources :stars, only: [:index]
     end
+    resource :subscriber, only: [:create]
   end
 end

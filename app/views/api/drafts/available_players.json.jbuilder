@@ -1,4 +1,12 @@
 json.players @available_players do |player|
+  json.star_link game_competition_league_draft_stars_path(
+                @draft.league.leagueable.game,
+                @draft.league.leagueable,
+                @draft.league,
+                @draft,
+                player_id: player.id,
+                protocol: "https"
+              )
   json.player_id player.id
   json.points_per_result player.points_per_result
   json.results player.results.count

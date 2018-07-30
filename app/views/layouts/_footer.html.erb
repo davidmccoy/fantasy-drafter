@@ -1,5 +1,54 @@
 <footer>
+  <div class="container">
+    <div class="row logo-and-menu-container">
+      <div class="col-md">
+        <div class="logo-container">
+          <%= image_tag "fantasy-pro-tour-logo-white.png", class: "logo" %>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="row">
+          <div class="col-sm">
+            <div class="">
+              <ul>
+                <li>
+                  <%= link_to "How It Works", faq_path %>
+                </li>
+                <li>
+                  <%= link_to "Start A League", game_competitions_path(Game.find_by_name("Magic: the Gathering")) %>
+                </li>
+                <li>
+                  <a href="http://www.magic.wizards.com" target="_blank">Wizards of the Coast</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="">
+              <ul>
+                <li>
+                  <%= link_to "Sign In", new_user_session_path %>
+                </li>
+                <li>
+                  <a href="http://www.hipstersofthecoast.com" target="_blank">Blog</a>
+                </li>
+                <li>
+                  <a href="http://www.twitter.com/fantasyprotour" target="_blank">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
   <div class="container copyright-notice-container">
-    Powered by Hipsters of the Coast  &copy; <%= Date.today.year %>. Magic: the Gathering and the Pro Tour are copyrights of Wizards of the Coast.
+    <p>
+      Powered by Hipsters of the Coast &copy; <%= Date.today.year %>.
+    </p>
+    <p>
+      Magic: the Gathering is a copyright of Wizards of the Coast.
+    </p>
   </div>
 </footer>

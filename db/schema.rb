@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524231511) do
+ActiveRecord::Schema.define(version: 20180727023649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,9 @@ ActiveRecord::Schema.define(version: 20180524231511) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.integer "score_as_of_round", default: 0
+    t.index ["slug"], name: "index_competitions_on_slug", unique: true
   end
 
   create_table "drafts", id: :serial, force: :cascade do |t|
@@ -45,6 +48,8 @@ ActiveRecord::Schema.define(version: 20180524231511) do
     t.integer "category", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_games_on_slug", unique: true
   end
 
   create_table "invites", id: :serial, force: :cascade do |t|
@@ -69,6 +74,7 @@ ActiveRecord::Schema.define(version: 20180524231511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "leagueable_type"
+    t.integer "num_draft_rounds", default: 6
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 
@@ -102,6 +108,12 @@ ActiveRecord::Schema.define(version: 20180524231511) do
   create_table "seasons", id: :serial, force: :cascade do |t|
     t.integer "game_id"
     t.string "name"
+  end
+
+  create_table "stars", force: :cascade do |t|
+    t.integer "draft_id"
+    t.integer "team_id"
+    t.integer "player_id"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|

@@ -1,19 +1,108 @@
 <div class="row">
   <div class="col-md-8 offset-md-2">
-    <h1>Your Leagues</h1>
-
-    <% current_user.leagues.each do |league| %>
+    <h1>Your Active Leagues</h1>
     <p>
-      <%= link_to "#{league.admin.name}'s \"#{league.leagueable.name}\" League", game_competition_league_path(league.leagueable.game, league.leagueable, league) %>
+      <%= link_to "Create a League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "btn btn-sm btn-primary" %>
     </p>
-    <% end %>
+    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date > ?", Date.today - 7.days).length > 0 %>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Competition
+            </th>
+            <th>
+              Event Date
+            </th>
+            <th>
+              Commissioner
+            </th>
+            <th>
+              Players
+            </th>
+            <th>
 
-
-    <h2>Create A New league</h2>
-    <% Competition.all.each do |competition| %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date > ?", Date.today - 7.days).each do |league| %>
+          <tr>
+            <td>
+              <%= league.leagueable.name %>
+            </td>
+            <td>
+              <%= league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+            </td>
+            <td>
+              <%= league.admin.name %>
+            </td>
+            <td>
+              <%= league.users.count %>
+            </td>
+            <td>
+              <%= link_to "View", game_competition_league_path(league.leagueable.game, league.leagueable, league), class: "btn btn-sm btn-primary" %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
       <p>
-        <%= link_to competition.name, new_game_competition_league_path(competition.game, competition) %>
+        You don't have any active leagues.
       </p>
     <% end %>
+
+    <h1>Your Past Leagues</h1>
+
+    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 60.days).length > 0 %>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Competition
+            </th>
+            <th>
+              Event Date
+            </th>
+            <th>
+              Commissioner
+            </th>
+            <th>
+              Players
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.date < ?", Date.today - 60.days).each do |league| %>
+            <tr>
+              <td>
+                <%= league.leagueable.name %>
+              </td>
+              <td>
+                <%= league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+              </td>
+              <td>
+                <%= league.admin.name %>
+              </td>
+              <td>
+                <%= league.users.count %>
+              </td>
+              <td>
+                <%= link_to "View", game_competition_league_path(league.leagueable.game, league.leagueable, league), class: "btn btn-sm btn-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>
+        You haven't participated in any previous leagues.
+      </p>
+    <% end %>
+
   </div>
 </div>

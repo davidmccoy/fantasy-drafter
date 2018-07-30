@@ -1,24 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="<%= root_url %>">Fantasy Pro Tour</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary <%= 'home' if current_page?(root_path) %>">
+  <a class="navbar-brand" href="<%= root_url %>"><%= image_tag "fantasy-pro-tour-logo-white.png", class: "logo" %></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse pull-left" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
-      <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Now Drafting
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <% current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).each do |draft| %>
-              <%= link_to draft.league.leagueable.name, game_competition_league_draft_path(draft.league.leagueable.game, draft.league.leagueable, draft.league, draft), class: "dropdown-item" %>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
       <li class="nav-item">
-        <%= link_to "Start a League", games_path, class: "nav-link" %>
+        <%= link_to "How It Works", faq_path, class: "nav-link" %>
       </li>
       <% if current_user %>
         <li class="nav-item dropdown">
@@ -27,8 +15,18 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <%= link_to "Your Leagues", user_leagues_path, class: "dropdown-item" %>
+            <%= link_to "Create League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "dropdown-item" %>
             <%= link_to "Profile", user_path(current_user), class: "dropdown-item" %>
             <%= link_to "Sign Out", destroy_user_session_path, method: "delete", class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item p-4 text-warning" style="padding-top:0.25rem !important; padding-bottom:0.25rem !important">
+                Drafting Now:
+            </div>
+            <% if current_user && !current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).length.zero? %>
+              <% current_user.drafts.where("start_time < ? AND completed = ?", Time.now, false).each do |draft| %>
+                <%= link_to draft.league.leagueable.name, game_competition_league_draft_path(draft.league.leagueable.game, draft.league.leagueable, draft.league, draft), class: "dropdown-item" %>
+              <% end %>
+            <% end %>
           </div>
         </li>
       <% else %>

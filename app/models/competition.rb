@@ -7,4 +7,10 @@ class Competition < ApplicationRecord
   has_many :players, through: :competition_players
   has_many :results
 
+  before_save { self.slug = slug.downcase if slug}
+
+  def to_param
+    slug
+  end
+
 end

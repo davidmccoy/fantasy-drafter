@@ -1,24 +1,30 @@
 <div id="league-info">
   <h1><%= @league.leagueable.name %></h1>
+    <% if current_user == @league.admin || current_user.admin %>
+      <div class="actions">
+        <p>
+          <% if !@league.draft.completed && !@league.draft.active %>
+            <%= link_to "Edit", edit_game_competition_league_path(@game, @competition, @league), class: "btn btn-sm btn-secondary" %>
+            <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
+          <% end %>
+        </p>
+      </div>
+    <% end %>
   <p>
-    Commissioner: <%= @league.admin.name %>
+    <strong>Commissioner:</strong> <%= @league.admin.name %>
   </p>
   <p>
-    Draft Start:
+    <strong>Rounds:</strong> <%= @league.num_draft_rounds %>
+  </p>
+  <p>
+    <strong>Draft Start:</strong>
     <% if @league.draft.start_time %>
       <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>
     <% else %>
-      <% if current_user == @league.admin || current_user.admin %>
-        <%= link_to "Set a Time", game_competition_league_draft_path(@competition.game, @competition, @league, @league.draft), class: "btn btn-sm btn-info" %>
-      <% else %>
-        No time has been set
-      <% end %>
-    <% end %>
-    <% if !@league.draft.completed && !@league.draft.active && (current_user == @league.admin || current_user.admin) %>
-      <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
+      No time has been set
     <% end %>
   </p>
   <p>
-    Event Start: <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+    <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
   </p>
 </div>

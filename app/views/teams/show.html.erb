@@ -8,6 +8,9 @@
         <%= link_to "(Edit)", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
       <% end %>
     </h1>
+    <p>
+      <em>(Through Round <%= @team.league.leagueable.score_as_of_round %>)</em>
+    </p>
 
     <table class="table table-bordered table-hover">
       <thead>
@@ -24,7 +27,7 @@
         <% @team.players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
         <tr id="<%= player.name %>">
           <td>
-            <%= player.result(@team.league.leagueable)&.points %>
+            <%= player.result(@team.league.leagueable)&.points ? player.result(@team.league.leagueable)&.points : "N/A" %>
           </td>
           <td>
             <%= player.name %>

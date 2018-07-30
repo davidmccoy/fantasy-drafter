@@ -1,15 +1,35 @@
 .navbar {
   font-size: 1em;
-  background: $blue;
+  background: $purple;
   border-radius: 0px;
   border: none;
   margin: 0;
+  width: 100%;
+  z-index: 1;
+  &.home {
+    background: none !important;
+    position: absolute;
+
+    .navbar-nav {
+      .nav-link {
+      color: white;
+      }
+    }
+  }
+  .navbar-collapse {
+    padding-right: 1rem;
+  }
   .navbar-brand {
     color: $white;
     // padding: 20px 15px;
-    font-family: "marvin_visions", "Raleway", sans-serif;
+    font-family: "marvin_visions", "Roboto", sans-serif;
     font-size: 1.9em;
     letter-spacing: 1px;
+    padding-left: 1rem;
+    .logo {
+      width: 250px;
+      height: auto;
+    }
     &:hover {
       color: $white;
     }
@@ -17,6 +37,25 @@
   .navbar-toggle {
     .icon-bar {
       background-color: #FFF;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar {
+    &.home {
+      .navbar-brand {
+        padding-left: 0;
+        .logo {
+          width: 195px;
+        }
+      }
+    }
+    .navbar-brand {
+      padding-left: 0;
+      .logo {
+        width: 195px;
+      }
     }
   }
 }

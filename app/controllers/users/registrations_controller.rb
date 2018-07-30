@@ -8,6 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        AdminMailer.new_user(@user).deliver_later
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 
@@ -43,5 +44,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :password, :password_confirmation])
+  end
+
+  def after_sign_up_path_for(resource)
+    game_competitions_path(Game.find_by_name("Magic: the Gathering"))
   end
 end

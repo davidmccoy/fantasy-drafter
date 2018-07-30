@@ -2,21 +2,20 @@
   <div class="col-md-8 offset-md-2">
     <% if @competition.results.length > 0 %>
       <p>
-        There are already results for this competition.
+        There are already results for this competition. Add them anyway?
       </p>
-    <% else %>
-      <p>
-        The .csv of event results must be in the following format: <em>place, name, points</em>
-      </p>
-      <%= form_tag game_competition_results_import_path(@game, @competition), multipart: true do %>
-        <div class="form-group required">
-          <%= label_tag :file, "File", class: "control-label" %>
-          <%= file_field_tag :file, type: :file, accept: ".csv", required: true, class: "form-control" %>
-        </div>
+    <% end %>
+    <p>
+      The .csv of event results must be in the following format: <em>place, name, points</em>
+    </p>
+    <%= form_tag game_competition_results_import_path(@game, @competition), multipart: true do %>
+      <div class="form-group required">
+        <%= label_tag :file, "File", class: "control-label" %>
+        <%= file_field_tag :file, type: :file, accept: ".csv", required: true, class: "form-control" %>
+      </div>
 
-        <%= submit_tag "Add Results", class: "btn btn-primary" %>
+      <%= submit_tag "Add Results", class: "btn btn-primary" %>
 
-      <% end %>
     <% end %>
   </div>
 </div>

@@ -6,8 +6,8 @@ class DraftMailer < ApplicationMailer
     @league = draft.league
     @league_user_emails = @league.league_users.includes(:user).pluck(:email)
     @url = Rails.application.routes.url_helpers.game_competition_league_url(
-        game_id: @league.leagueable.game.id,
-        competition_id: @league.leagueable.id,
+        game_slug: @league.leagueable.game.slug,
+        competition_slug: @league.leagueable.slug,
         id: @league.id
       )
 
