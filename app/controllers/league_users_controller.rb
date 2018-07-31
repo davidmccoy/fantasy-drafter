@@ -13,7 +13,7 @@ class LeagueUsersController < ApplicationController
 
   def create
 
-    user = User.find_by_email(params["email"])
+    user = User.find_by_email(params["email"]&.downcase)
 
     if user
       new_competitor = @league.league_users.create(user_id: user.id)

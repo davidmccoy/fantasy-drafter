@@ -5,7 +5,13 @@ class InvitesController < ApplicationController
 
   def show
     if @invite.token == params[:token]
+      if params[:errors]&.include? "password"
+        @password_message = "Your password is #{params[:errors][:password].first[:error]&.humanize&.downcase}. The minimum length is #{params[:errors][:password].first[:count]&.humanize&.downcase}."
+      end
 
+      if params[:errors]&.include? "password_confirmation"
+        @password_confirmation_message = "Your passwords don't match."
+      end
     else
       flash[:alert] = "Invalid invite."
       redirect_to root_path
