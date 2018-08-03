@@ -16,6 +16,7 @@
 /config/application.yml
 
 /dump.rdb
+/latest.dump
 
 /.byebug_history
 /public/packs
