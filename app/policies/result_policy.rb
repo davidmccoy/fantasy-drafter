@@ -10,6 +10,10 @@ class ResultPolicy <  ApplicationPolicy
 
   def import?
     admin?
+  end
+
+  def team_import?
+    import?
   end 
 
 end

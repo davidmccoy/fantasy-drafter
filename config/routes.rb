@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :games, param: :slug, only: [:index, :new] do
     resources :competitions, param: :slug do
       match 'results/import', to: 'results#import', via: [:post]
+      match 'results/team_import', to: 'results#team_import', via: [:post]
       resources :results do
       end
       match 'players/import', to: 'competition_players#import', via: [:post]

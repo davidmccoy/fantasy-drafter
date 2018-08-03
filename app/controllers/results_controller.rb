@@ -48,4 +48,36 @@ class ResultsController < ApplicationController
     redirect_to game_competition_results_path
   end
 
+  def team_import
+    failures = []
+
+    teams_file = CSV.read(params[:teams_file].path)
+    results_file = CSV.read(params[:results_file].path)
+
+    results_file.each do |row|
+      place = row[0].to_i
+      names = row[1]
+      subbed_name = nil
+      points = row[2].to_i
+
+      full_players = teams_file.find_all { |el| el[3] == names }
+
+      full_players.each do |player|
+        player_name = "#{player[0]} #{player[1]}"
+        player = Player.unaccent(player_name)
+
+        if player
+          result = Result.where(game_id: @game.id, competition_id: @competition.id, player_id: player.id).first_or_create
+          result.update(points: points, place: place)
+        else
+          puts "No record found for #{player_name}"
+          failures << row
+        end
+      end
+    end
+
+    puts failures
+    redirect_to game_competition_results_path
+  end
+
 end
