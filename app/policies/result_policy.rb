@@ -8,12 +8,20 @@ class ResultPolicy <  ApplicationPolicy
     admin?
   end
 
+  def edit?
+    new?
+  end
+
+  def update?
+    edit?
+  end
+
   def import?
     admin?
   end
 
   def team_import?
     import?
-  end 
+  end
 
 end

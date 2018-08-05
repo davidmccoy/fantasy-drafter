@@ -14,6 +14,18 @@ class ResultsController < ApplicationController
   def new
   end
 
+  def edit
+  end
+
+  def update
+    if @result.update(result_params)
+      flash[:notice] = "Successfully updated result."
+    else
+      flash[:alert] = "Failed to update result."
+    end
+    redirect_to game_competition_results_path(@game, @competition)
+  end
+
   def import
     failures = []
 
@@ -78,6 +90,12 @@ class ResultsController < ApplicationController
 
     puts failures
     redirect_to game_competition_results_path
+  end
+
+  private
+
+  def result_params
+    params.require(:result).permit(:points)
   end
 
 end
