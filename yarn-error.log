@@ -1,14 +1,14 @@
 Arguments: 
-  /usr/local/Cellar/node/10.7.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js check --integrity
+  /Users/david/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js check --integrity
 
 PATH: 
-  /Users/david/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/bin:/Users/david/.rbenv/versions/2.5.1/bin:/usr/local/Cellar/rbenv/1.1.0/libexec:/Users/david/.rbenv/shims:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mongodb/bin
+  /Users/david/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/bin:/Users/david/.rbenv/versions/2.5.1/bin:/usr/local/Cellar/rbenv/1.1.0/libexec:/Users/david/.nvm/versions/node/v8.9.4/bin:/Users/david/.rbenv/shims:/usr/local/heroku/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mongodb/bin
 
 Yarn version: 
   1.5.1
 
 Node version: 
-  10.7.0
+  8.9.4
 
 Platform: 
   darwin x64
@@ -6249,3 +6249,4 @@ Trace:
       at Generator.next (<anonymous>)
       at step (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:98:30)
       at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:109:13
+      at <anonymous>
