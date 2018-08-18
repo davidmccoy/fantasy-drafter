@@ -1,4 +1,4 @@
-# README
+![logo](app/assets/images/fantasy-pro-tour-logo-white.png)
 
 MVP for an E-Sports fantasy drafter using Action Cable for live drafting.
 
