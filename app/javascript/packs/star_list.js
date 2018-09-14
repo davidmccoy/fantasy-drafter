@@ -35,7 +35,11 @@ class StarList extends React.Component {
   }
 
   displayPickLink() {
-    return this.props.myPicks.some(item => this.props.currentPick === item)
+    if (this.props.draftType === 'snake') {
+      return this.props.myPicks.some(item => this.props.currentPick === item)
+    } else {
+      return true
+    }
   }
 
   render() {

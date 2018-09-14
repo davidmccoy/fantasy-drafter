@@ -12,26 +12,50 @@ class LeagueUsersController < ApplicationController
   end
 
   def create
-
-    user = User.find_by_email(params["email"]&.downcase)
-
-    if user
-      new_competitor = @league.league_users.create(user_id: user.id)
-      if new_competitor.save
-        new_competitor.create_team(name: "#{new_competitor.user.name}'s Team")
-        InviteMailer.existing_user(new_competitor).deliver_later
-        flash[:notice] = "Successfully added #{user.name} to the league."
+    if request.referrer.include? "join"
+      league_user = LeagueUser.new(
+                      league_id: @league.id,
+                      user_id: current_user.id,
+                      confirmed: true
+                    )
+      if league_user.save
+        # create team
+        team = league_user.create_team(team_params)
+        # create picks
+        @league.num_draft_rounds.times {
+          Pick.create(
+            draft_id: @league.draft.id,
+            team_id: team.id
+          )
+        }
+        flash[:notice] = "Successfully joined this league."
+        redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league) and return
       else
-        flash[:alert] = "Couldn't add #{user.name} to the league."
+        flash[:alert] = "Failed to join this league."
+        redirect_to game_competition_league_join_path(@league.leagueable.game,@league.leagueable, @league) and return
       end
     else
-      flash[:alert] = "Couldn't find a Fantasy Pro Tour user with the email of #{params[:email]}. Click #{link_to("here", Rails.application.routes.url_helpers.invites_url(email: params[:email], league_id: @league.id), method: :post)} to invite them anyway."
-      flash[:html_safe] = true
+      user = User.find_by_email(params["email"]&.downcase)
 
-      # redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league), notice: %Q[Your artwork has been added to your portfolio. Upload a new piece <a href="#{upload_path(@user)}">here.</a>], flash: { html_safe: true }
+      if user
+        new_competitor = @league.league_users.create(user_id: user.id)
+        if new_competitor.save
+          new_competitor.create_team(name: "#{new_competitor.user.name}'s Team")
+          InviteMailer.existing_user(new_competitor).deliver_later
+          flash[:notice] = "Successfully added #{user.name} to the league."
+        else
+          flash[:alert] = "Couldn't add #{user.name} to the league."
+        end
+      else
+        flash[:alert] = "Couldn't find a Fantasy Pro Tour user with the email of #{params[:email]}. Click #{link_to("here", Rails.application.routes.url_helpers.invites_url(email: params[:email], league_id: @league.id), method: :post)} to invite them anyway."
+        flash[:html_safe] = true
+
+        # redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league), notice: %Q[Your artwork has been added to your portfolio. Upload a new piece <a href="#{upload_path(@user)}">here.</a>], flash: { html_safe: true }
+      end
+
+      redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league) and return
     end
 
-    redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league)
 
   end
 
@@ -96,6 +120,12 @@ class LeagueUsersController < ApplicationController
     flash[:notice] = "Invite resent to #{@league_user.user.email}."
 
     redirect_to game_competition_league_league_users_path(@league_user.league.leagueable.game, @league_user.league.leagueable, @league_user.league)
+  end
+
+  private
+
+  def team_params
+    params.require(:team).permit(:name)
   end
 
 end

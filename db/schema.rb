@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180727023649) do
+ActiveRecord::Schema.define(version: 20180818234849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,9 @@ ActiveRecord::Schema.define(version: 20180727023649) do
     t.datetime "updated_at", null: false
     t.string "leagueable_type"
     t.integer "num_draft_rounds", default: 6
+    t.boolean "public", default: false
+    t.integer "draft_type"
+    t.string "name"
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 

@@ -1,0 +1,86 @@
+<div class="competition-header-image hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <%= @competition.name %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="featured-leagues">
+      <h3>Featured Public Leagues</h3>
+      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Date.today - 7.days, true).length > 0 %>
+      <table class="table table-outer-border">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+              Type
+            </th>
+            <th>
+              Prizes
+            </th>
+            <th>
+              Entries
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Date.today - 7.days, true).each do |league| %>
+            <tr>
+              <td>
+                <%= league.name %>
+              </td>
+              <td>
+                <%= league.leagueable.date.localtime.strftime('%m/%d/%Y') %>
+              </td>
+              <td>
+                <%= league.draft_type.humanize.titleize %>
+              </td>
+              <td>
+                $
+              </td>
+              <td>
+                <%= league.league_users.count %>
+              </td>
+              <td>
+                <%= link_to 'Play Now', game_competition_league_path(league.leagueable.game, league.leagueable, league), class: 'btn btn-sm btn-primary' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% end %>
+    </div>
+    <div class="create-a-leage">
+      <h3> Create Your Own League!</h3>
+      <p>
+        There are tons of ways to play Fantasy Pro Tour! Choose one a create your own league <%= link_to 'now', new_game_competition_league_path(@game, @competition) %>!
+      </p>
+      <h5>Snake Draft</h5>
+      <p>
+        <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+      </p>
+      <p>
+        You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
+      </p>
+      <h5>Pick X Players</h5>
+      <p>
+        <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+      </p>
+      <p>
+        You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
+      </p>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@
 @import "drafts";
 @import "home";
 @import "leagues";
+@import "competitions";
 @import "nav";
 @import "react-table";
 
@@ -111,6 +112,10 @@ form {
   .control-label {
     font-weight: bold;
   }
+}
+
+.table-outer-border {
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 576px) {

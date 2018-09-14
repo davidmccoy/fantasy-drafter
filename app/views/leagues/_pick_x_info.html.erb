@@ -1,0 +1,31 @@
+<div id="league-info">
+  <h1><%= @league.leagueable.name %></h1>
+  <p>
+    <% if current_user.leagues.include? @league %>
+      <%= link_to 'Draft Now', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-success' %>
+    <% else %>
+      <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' if @league.leagueable.date > Time.now%>
+    <% end %>
+  </p>
+  <% if @league.public %>
+    <p>
+      <em>Public league</em>
+    </p>
+  <% else %>
+    <p>
+      <strong>Commissioner:</strong> <%= @league.admin.name %>
+    </p>
+  <% end %>
+  <p>
+    <strong>Draft Type:</strong> <%= @league.draft_type.humanize.titleize %> (?)
+  </p>
+  <p>
+    <strong>Prizes:</strong> $
+  </p>
+  <p>
+    <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
+  </p>
+  <p>
+    <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+  </p>
+</div>

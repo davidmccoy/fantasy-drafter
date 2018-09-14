@@ -44,10 +44,14 @@ class LeaguesController < ApplicationController
   def destroy
   end
 
+  def join
+    @league_user = LeagueUser.new
+  end
+
   private
 
   def league_params
-    params.require(:league).permit(:num_draft_rounds, draft_attributes: [:id, :start_time])
+    params.require(:league).permit(:num_draft_rounds, :draft_type, draft_attributes: [:id, :start_time])
   end
 
 end

@@ -24,7 +24,12 @@ class DraftsController < ApplicationController
       end
 
       @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
+    elsif @draft.league.draft_type == 'pick_x'
+      @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
+
+      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
     end
   end
 

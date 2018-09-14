@@ -6,7 +6,7 @@ import TeamList from './team_list';
 import StarList from './star_list';
 import DraftInfo from './draft_info'
 
-class DraftViewerLeftPanel extends React.Component {
+class DraftViewerRightPanel extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -35,6 +35,8 @@ class DraftViewerLeftPanel extends React.Component {
               team={this.props.myTeam}
               currentPick={this.props.currentPick}
               myPicks={this.props.myPicks}
+              draftType={this.props.draftType}
+              handleRemovePlayer={this.props.handleRemovePlayer}
             />
             <StarList
               data={this.props.myStars}
@@ -42,6 +44,7 @@ class DraftViewerLeftPanel extends React.Component {
               myPicks={this.props.myPicks}
               handlePick={this.props.handlePick}
               handleStar={this.props.handleStar}
+              draftType={this.props.draftType}
             />
           </div>
           <div className="tab-pane fade" id="other_teams" role="tabpanel" aria-labelledby="other_teams-tab">
@@ -60,4 +63,4 @@ class DraftViewerLeftPanel extends React.Component {
   }
 }
 
-export default DraftViewerLeftPanel;
+export default DraftViewerRightPanel;

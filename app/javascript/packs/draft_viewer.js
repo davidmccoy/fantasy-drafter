@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import AvailablePlayersTable from "./available_players_table";
 import DraftInstructions from "./draft_instructions";
-import DraftViewerLeftPanel from "./draft_viewer_left_panel";
+import DraftViewerRightPanel from "./draft_viewer_right_panel";
 
 class DraftViewer extends React.Component {
   constructor() {
@@ -104,13 +104,25 @@ class DraftViewer extends React.Component {
   }
 
   pickPlayer(url) {
-    let pickUrl = url.replace('pick-number', this.state.currentPickId)
+    let pickUrl = this.props.draftType === 'snake' ? url.replace('pick-number', this.state.currentPickId) : url.replace('pick-number', 'pick_x') + '&my_picks=' + this.props.myPicks.toString();
+
     $.ajax({
       url: pickUrl,
       method: 'PUT',
       dataType: 'json',
       success: function(data){
 
+      }.bind(this)
+    });
+  }
+
+  removePlayer(url) {
+    $.ajax({
+      url: url,
+      method: 'PUT',
+      dataType: 'json',
+      success: function(data){
+        console.log(data);
       }.bind(this)
     });
   }
@@ -132,8 +144,8 @@ class DraftViewer extends React.Component {
             this.setState({
               currentPick: data.next_pick_number,
               currentPickId: data.next_pick_id,
-              myStars: this.state.myStars.filter(e => e.player_id !== data.player_id),
-              data: this.state.data.filter(e => e.player_id !== data.player_id)
+              myStars: (data.removed_player_star !== undefined && data.removed_player_star !== null) && !this.state.myStars.some(item => data.removed_player_star.player_id === item.player_id) ? [...this.state.myStars, data.removed_player_star] : this.state.myStars.filter(e => e.player_id !== data.player_id),
+              data: data.removed_player !== undefined && !this.state.data.some(item => data.removed_player.player_id === item.player_id) ? [...this.state.data, data.removed_player] : this.state.data.filter(e => e.player_id !== data.player_id)
             })
             this.fetchTeams();
           }
@@ -155,10 +167,12 @@ class DraftViewer extends React.Component {
             handlePick={this.pickPlayer}
             myPicks={this.props.myPicks}
             myStars={this.state.myStars}
+            myTeam={this.state.myTeam}
+            draftType={this.props.draftType}
           />
         </div>
         <div id="left-tabbed-panel" className="col-md-6">
-          <DraftViewerLeftPanel
+          <DraftViewerRightPanel
             otherTeams={this.state.otherTeams}
             myTeam={this.state.myTeam}
             myStars={this.state.myStars}
@@ -166,7 +180,9 @@ class DraftViewer extends React.Component {
             myPicks={this.props.myPicks}
             handleStar={this.starPlayer}
             handlePick={this.pickPlayer}
+            handleRemovePlayer={this.removePlayer}
             draftId={this.props.draftId}
+            draftType={this.props.draftType}
           />
         </div>
       </div>
@@ -181,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentPick = parseInt(node.getAttribute('data-current-pick'));
   const currentPickId = node.getAttribute('data-current-pick-id');
   const myPicks = JSON.parse(node.getAttribute('data-your-picks'));
+  const draftType = node.getAttribute('data-draft-type');
   const container = document.createElement('div');
   container.id = 'draft-details-container';
 
@@ -191,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPick={currentPick}
       currentPickId={currentPickId}
       myPicks={myPicks}
+      draftType={draftType}
     />,
     document.getElementById('draft-details-container').appendChild(container),
   )

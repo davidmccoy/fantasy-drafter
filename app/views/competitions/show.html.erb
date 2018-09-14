@@ -1,11 +1,6 @@
 <div class="row">
   <div class="col-md-8 offset-md-2">
     <h2><%= @competition.name %></h2>
-    <% if current_user.admin %>
-      <p>
-        <%= link_to "Edit", edit_game_competition_path(@game, @competition), class: "btn btn-sm btn-secondary" %>
-      </p>
-    <% end %>
     <p>
       Date: <%= @competition.date.localtime.strftime("%m/%d/%Y") %>
     </p>

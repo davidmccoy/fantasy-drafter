@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1>Create New League</h1>
+    <%= form_for @league, url: admin_leagues_path do |f| %>
+
+      <div class="form-group required">
+        <%= f.label :name, class: "control-label" %>
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :leagueable_id, "Competition", class: "control-label" %>
+        <%= select_tag "league[leagueable_id]", options_from_collection_for_select(Competition.all.reverse, 'id', 'name'), include_blank: "Select League Type", required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :leagueable_type, "League Type", class: "control-label" %>
+        <%= select_tag "league[leagueable_type]", options_for_select([["Individual Competition", "Competition"], ["Season", "Season"]]), include_blank: "Select League Type", required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :draft_type, "Draft Type", class: "control-label" %>
+        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"], ["Pick 'Em", "pick_em"]]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :public, "Public League?", class: "control-label" %>
+        <%= select_tag "league[public]", options_for_select(%w[True False]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :num_draft_rounds, "Number of Picks Per Player", class: "control-label" %>
+        <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Create League", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
