@@ -57,7 +57,7 @@ class AvailablePlayersTable extends React.Component {
   displayPickLink() {
     if (this.props.draftType === 'snake') {
       return this.props.myPicks.some(item => this.props.currentPick === item)
-    } else if (this.props.myTeam.players && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) {
+    } else if (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) {
       return false
     } else {
       return true
