@@ -3,14 +3,24 @@ class Api::DraftsController < ApplicationController
 
   def available_players
     if !@draft.completed
-      @available_players = @draft.league.leagueable.players
-      .where.not(
-        id: @draft.picks.pluck(:player_id)
-      )
+      if @draft.league.draft_type == 'snake'
+        @available_players = @draft.league.leagueable.players
+        .where.not(
+          id: @draft.picks.pluck(:player_id)
+        )
 
-      @current_pick = @draft.picks
-      .where(player_id: nil)
-      .sort_by{ |pick| pick.number }.first
+        @current_pick = @draft.picks
+        .where(player_id: nil)
+        .sort_by{ |pick| pick.number }.first
+      else
+        @available_players = @draft.league.leagueable.players.where.not(
+          id: current_user.team(@draft.league).players.pluck(:id)
+        )
+
+        @current_pick = @draft.picks
+        .where(player_id: nil)
+        .sort_by{ |pick| pick.number }.first
+      end
     else
       @available_players = nil
       @current_pick = nil
