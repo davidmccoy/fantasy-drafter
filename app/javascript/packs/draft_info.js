@@ -37,9 +37,16 @@ class DraftInfo extends React.Component {
           <h4>
             Draft Info
           </h4>
-          <p>
-            <strong>Draft Rounds:</strong> {this.state.rounds}
-          </p>
+          { this.props.draftType === 'snake' &&
+            <p>
+              <strong>Draft Rounds:</strong> {this.state.rounds}
+            </p>
+          }
+          { this.props.draftType !== 'snake' &&
+            <p>
+              <strong>Players Per Team:</strong> {this.state.rounds}
+            </p>
+          }
           <p>
             <strong>Competition:</strong> {this.state.competition_name}
           </p>
