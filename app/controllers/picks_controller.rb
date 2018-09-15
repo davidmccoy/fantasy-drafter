@@ -79,13 +79,15 @@ class PicksController < ApplicationController
     if pick.update(player_id: pick_params[:player_id])
       protocol = Rails.env.production? ? "https" : "http"
 
-      ActionCable.server.broadcast "draft_#{pick.draft.id}",
+      @response = {
         team_id: pick.team_id,
         user_name: pick.user.name,
         player_id: pick.player_id,
         player_name: pick.player.name,
         completed: false
-      head :ok
+      }
+    else
+
     end
   end
 
@@ -120,17 +122,14 @@ class PicksController < ApplicationController
         pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}")
       }
       if @pick.update(pick_params)
-        # Set the response protocol
-        protocol = Rails.env.production? ? "https" : "http"
-          # Send the appropriate info over ActionCable
-        ActionCable.server.broadcast "draft_#{@pick.draft.id}",
+        @response = {
           team_id: @pick.team_id,
           user_name: @pick.user.name,
           pick_id: @pick.id,
           removed_player: player_info,
           removed_player_star: player_star,
           completed: false
-        head :ok
+        }
       end
     end
   end

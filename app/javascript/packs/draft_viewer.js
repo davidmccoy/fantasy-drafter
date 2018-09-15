@@ -22,6 +22,7 @@ class DraftViewer extends React.Component {
     this.updateTableData = this.updateTableData.bind(this);
     this.starPlayer = this.starPlayer.bind(this);
     this.pickPlayer = this.pickPlayer.bind(this);
+    this.removePlayer = this.removePlayer.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +31,9 @@ class DraftViewer extends React.Component {
       currentPickId: this.props.currentPickId
     })
     this.fetchData();
-    this.setupSubscription();
+    if (this.props.draftType === 'snake') {
+      this.setupSubscription();
+    }
   }
 
   updateTableData() {
@@ -111,7 +114,13 @@ class DraftViewer extends React.Component {
       method: 'PUT',
       dataType: 'json',
       success: function(data){
-
+        if (this.props.draftType !== 'snake') {
+          this.setState({
+            myStars: this.state.myStars.filter(e => e.player_id !== data.response.player_id),
+            data: this.state.data.filter(e => e.player_id !== data.response.player_id)
+          })
+          this.fetchTeams();
+        }
       }.bind(this)
     });
   }
@@ -122,7 +131,13 @@ class DraftViewer extends React.Component {
       method: 'PUT',
       dataType: 'json',
       success: function(data){
-        console.log(data);
+        if (this.props.draftType !== 'snake') {
+          this.setState({
+            myStars: (data.response.removed_player_star !== undefined && data.response.removed_player_star !== null) && !this.state.myStars.some(item => data.response.removed_player_star.player_id === item.player_id) ? [...this.state.myStars, data.response.removed_player_star] : this.state.myStars,
+            data: [...this.state.data, data.response.removed_player]
+          })
+          this.fetchTeams();
+        }
       }.bind(this)
     });
   }
