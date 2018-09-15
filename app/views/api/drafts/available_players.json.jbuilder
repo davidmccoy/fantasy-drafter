@@ -11,5 +11,5 @@ json.players @available_players do |player|
   json.points_per_result player.points_per_result
   json.results player.results.count
   json.name player.name
-  json.pick_link "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}" if current_user == @draft.league.admin || current_user == @current_pick.user
+  json.pick_link "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}" if current_user == @draft.league.admin || (@current_pick && current_user == @current_pick.user)
 end
