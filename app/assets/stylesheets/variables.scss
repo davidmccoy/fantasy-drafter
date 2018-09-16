@@ -229,7 +229,10 @@ table,
 .alert {
   border: none;
   color: $white;
-  font-size: 0.875em;
+  font-size: 1rem;
+  min-height: 49px;
+  display: flex;
+  align-items: center;
 
   &, p {
     font-family: $font-family-sans-serif;
@@ -241,11 +244,17 @@ table,
     text-decoration: underline;
   }
 
-  // $each $color, $value in $theme-colors {
-  //   &-#{$color} {
-  //     background-color: $value;
-  //   }
-  // }
+  &.alert-success {
+    border-color: darken($green, 5%)
+  }
+
+  &.alert-danger {
+    border-color: darken($red, 5%)
+  }
+
+  &.alert-fixed {
+    position: fixed;
+  }
 }
 
 .badge {

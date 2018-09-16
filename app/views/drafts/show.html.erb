@@ -6,3 +6,15 @@
     <%= render 'pick_x_draft' %>
   <% end %>
 </div>
+<script>
+  $(window).scroll(function(event) {
+    var submitMessage = $('.alert-ready-to-submit');
+    if (submitMessage !== undefined) {
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - $('footer').outerHeight()) {
+        $(submitMessage).removeClass('alert-fixed');
+      } else {
+        $(submitMessage).addClass('alert-fixed');
+      }
+    }
+  })
+</script>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import AvailablePlayersTable from "./available_players_table";
 import DraftInstructions from "./draft_instructions";
 import DraftViewerRightPanel from "./draft_viewer_right_panel";
+import SubmitMessage from "./submit_message";
 
 class DraftViewer extends React.Component {
   constructor() {
@@ -12,7 +13,8 @@ class DraftViewer extends React.Component {
     this.state = {
       data: [],
       loading: true,
-      myStars: []
+      myStars: [],
+      completed: false
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -117,7 +119,8 @@ class DraftViewer extends React.Component {
         if (this.props.draftType !== 'snake') {
           this.setState({
             myStars: this.state.myStars.filter(e => e.player_id !== data.response.player_id),
-            data: this.state.data.filter(e => e.player_id !== data.response.player_id)
+            data: this.state.data.filter(e => e.player_id !== data.response.player_id),
+            completed: data.response.completed
           })
           this.fetchTeams();
         }
@@ -140,6 +143,10 @@ class DraftViewer extends React.Component {
         }
       }.bind(this)
     });
+  }
+
+  footerVisible() {
+    return $(window).scrollTop() + $(window).height() > $(document).height() - $('footer').outerHeight()
   }
 
   setupSubscription(){
@@ -200,6 +207,14 @@ class DraftViewer extends React.Component {
             draftType={this.props.draftType}
           />
         </div>
+        { this.props.draftType !== 'snake' &&
+          <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.name !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
+            <SubmitMessage
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+            />
+          </div>
+        }
       </div>
     );
   }

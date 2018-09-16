@@ -48,7 +48,7 @@ class TeamList extends React.Component {
           { this.props.team !== undefined &&
             <div id="react-stared-player-table">
               <h4>{this.props.team.name}</h4>
-              <p>Draft {this.props.myPicks !== undefined ? this.props.myPicks.length : 6} players to form your team.</p>
+              <p>Draft {this.props.myPicks !== undefined ? this.props.myPicks.length : 6} players your roster then submit your team below.</p>
               <ReactTable
                 columns={[
                   {

@@ -1,6 +1,7 @@
 @import "variables";
 
 #draft {
+  padding-bottom: 70px;
   #draft-progress-container {
     background: linear-gradient($gray-900 35%, $gray-800);
     color: $white;
@@ -123,6 +124,30 @@
     }
     #draft-concluded {
       display: none;
+    }
+    #submit-message {
+      z-index: 100;
+      position: absolute;
+      padding: 1rem;
+      margin-bottom: -1.1rem;
+      bottom: 0;
+      top: auto;
+      width: 100%;
+      text-align: center;
+      background-color: $light;
+      border: 1px solid darken($light, 5%);
+      &.alert-fixed {
+        margin: 0;
+        position: fixed;
+      }
+      &.alert-ready-to-submit {
+        color: white;
+        background-color: $primary;
+        border: 1px solid darken($primary, 5%);
+      }
+      button {
+        margin-left: 1rem;
+      }
     }
   }
 }

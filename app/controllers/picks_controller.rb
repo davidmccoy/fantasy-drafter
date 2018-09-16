@@ -79,12 +79,18 @@ class PicksController < ApplicationController
     if pick.update(player_id: pick_params[:player_id])
       protocol = Rails.env.production? ? "https" : "http"
 
+      if Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id).length > 0
+        completed = false
+      else
+        completed = true
+      end
+
       @response = {
         team_id: pick.team_id,
         user_name: pick.user.name,
         player_id: pick.player_id,
         player_name: pick.player.name,
-        completed: false
+        completed: completed
       }
     else
 
