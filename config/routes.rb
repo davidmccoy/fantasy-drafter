@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         resources :teams
         resources :drafts do
           post 'start', to: 'drafts#start'
+          post 'submit', to: 'drafts#submit'
           put 'picks/pick_x', to: 'picks#pick_x'
           put 'picks/remove_player', to: 'picks#remove_player'
           resources :picks

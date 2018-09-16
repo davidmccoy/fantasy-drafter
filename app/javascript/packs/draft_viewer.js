@@ -212,6 +212,7 @@ class DraftViewer extends React.Component {
             <SubmitMessage
               myTeam={this.state.myTeam}
               myPicks={this.props.myPicks}
+              draftSubmitLink={this.props.draftSubmitLink}
             />
           </div>
         }
@@ -228,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentPickId = node.getAttribute('data-current-pick-id');
   const myPicks = JSON.parse(node.getAttribute('data-your-picks'));
   const draftType = node.getAttribute('data-draft-type');
+  const draftSubmitLink = node.getAttribute('data-submit-link');
   const container = document.createElement('div');
   container.id = 'draft-details-container';
 
@@ -239,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPickId={currentPickId}
       myPicks={myPicks}
       draftType={draftType}
+      draftSubmitLink={draftSubmitLink}
     />,
     document.getElementById('draft-details-container').appendChild(container),
   )

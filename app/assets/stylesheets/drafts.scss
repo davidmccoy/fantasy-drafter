@@ -1,7 +1,7 @@
 @import "variables";
 
 #draft {
-  padding-bottom: 70px;
+  padding-bottom: 55px;
   #draft-progress-container {
     background: linear-gradient($gray-900 35%, $gray-800);
     color: $white;
@@ -145,7 +145,8 @@
         background-color: $primary;
         border: 1px solid darken($primary, 5%);
       }
-      button {
+      button, form {
+        display: inline-block;
         margin-left: 1rem;
       }
     }

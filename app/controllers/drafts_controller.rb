@@ -8,6 +8,7 @@ class DraftsController < ApplicationController
 
   def show
     redirect_to new_user_session_path and return unless current_user
+    redirect_to game_competition_league_path(@game, @competition, @league) and return if current_user.team(@league).submitted
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
@@ -58,6 +59,17 @@ class DraftsController < ApplicationController
       @draft.create_picks
 
       redirect_to game_competition_league_draft_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft)
+    end
+  end
+
+  def submit
+    team = current_user.team(@league)
+    if team.update(submitted: true)
+      flash[:notice] = "You've submitted your team!"
+      redirect_to game_competition_league_path(@game, @competition, @league) and return
+    else
+      flash[:alert] = "Something went wrong with submitting your team. Please try again."
+      redirect_to game_competition_league_draft_path(@game, @competition, @league, @draft) and return
     end
   end
 
