@@ -25,9 +25,6 @@
               Type
             </th>
             <th>
-              Prizes
-            </th>
-            <th>
               Entries
             </th>
             <th>
@@ -48,9 +45,6 @@
                 <%= league.draft_type.humanize.titleize %>
               </td>
               <td>
-                $
-              </td>
-              <td>
                 <%= league.league_users.count %>
               </td>
               <td>
@@ -62,7 +56,7 @@
       </table>
       <% end %>
     </div>
-    <div class="create-a-leage">
+    <!-- <div class="create-a-league">
       <h3> Create Your Own League!</h3>
       <p>
         There are tons of ways to play Fantasy Pro Tour! Choose one a create your own league <%= link_to 'now', new_game_competition_league_path(@game, @competition) %>!
@@ -81,6 +75,6 @@
       <p>
         You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
       </p>
-    </div>
+    </div> -->
   </div>
 </div>
