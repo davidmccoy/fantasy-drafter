@@ -6,7 +6,7 @@
     <div>
       <% if @competitions.where("date >= ?", Time.now).length > 0 %>
         <% @competitions.where("date >= ?", Time.now).each do |competition| %>
-            <div class="competition-header-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
+            <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
               <div class="container">
                 <div class="row">
                   <div class="col-md">
@@ -88,3 +88,6 @@
     </div>
   </div>
 </div>
+<script>
+  $('.table').stacktable();
+</script>

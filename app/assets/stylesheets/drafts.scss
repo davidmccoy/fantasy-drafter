@@ -7,6 +7,9 @@
     color: $white;
     margin: -1em;
     padding: 1em;
+    h1 {
+      font-size: 3em;
+    }
     #picks {
       margin: 1em 0;
       padding: .1em 0;
@@ -209,6 +212,16 @@
       }
       .minus-image {
         display: block;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #draft {
+    #draft-progress-container {
+      h1 {
+        font-size: 3.5em;
       }
     }
   }
