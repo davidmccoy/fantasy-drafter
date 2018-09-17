@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
 
+  helper_method :authenticate_admin
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
@@ -21,8 +23,18 @@ class ApplicationController < ActionController::Base
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path) and return
     else
-      flash[:alert] = "You are not authorized to perform this action. Please sign in."
+      flash[:alert] = "You'll have to sign in before you can do that!"
       redirect_to new_user_session_path(url: request.path) and return
+    end
+  end
+
+  def admin_signed_in?
+    signed_in? && current_user.admin
+  end
+
+  def authenticate_admin
+    unless admin_signed_in?
+      redirect_to request.referer || root_path
     end
   end
 

@@ -3,7 +3,7 @@ class LeaguesController < ApplicationController
   before_action :set_game
   before_action :set_competition
   before_action :set_league, except: [:index, :new, :create]
-  before_action :authorize_league
+  before_action :authorize_league, except: [:index]
 
   def index
   end
@@ -44,10 +44,14 @@ class LeaguesController < ApplicationController
   def destroy
   end
 
+  def join
+    @league_user = LeagueUser.new
+  end
+
   private
 
   def league_params
-    params.require(:league).permit(:num_draft_rounds, draft_attributes: [:id, :start_time])
+    params.require(:league).permit(:num_draft_rounds, :draft_type, draft_attributes: [:id, :start_time])
   end
 
 end

@@ -3,6 +3,7 @@
 @import "drafts";
 @import "home";
 @import "leagues";
+@import "competitions";
 @import "nav";
 @import "react-table";
 
@@ -61,6 +62,7 @@ html {
       text-align: center;
       font-size: 1rem;
       // border-top: 1px solid $gray-100;
+      min-height: 495px;
       .logo-container {
        text-align: center;
        padding-bottom: 1rem;
@@ -113,11 +115,27 @@ form {
   }
 }
 
+table {
+  &.small-only {
+    .st-head-row-main {
+      display: none;
+    }
+  }
+  &.large-only {
+    display: none;
+  }
+}
+
+.table-outer-border {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 @media (min-width: 576px) {
   html {
     body {
       padding-bottom: 416px;
       footer {
+        min-height: 416px;
         .logo-and-menu-container {
           ul {
             text-align: left;
@@ -125,6 +143,14 @@ form {
           }
         }
       }
+    }
+  }
+  table {
+    &.small-only {
+      display: none;
+    }
+    &.large-only {
+      display: table;
     }
   }
 }
@@ -135,6 +161,7 @@ form {
     body {
       padding-bottom: 320px;
       footer {
+        min-height: 320px;
        .logo-container {
          text-align: right;
          padding-bottom: 0;
@@ -160,6 +187,9 @@ form {
   html {
     body {
       padding-bottom: 302px;
+      footer {
+        min-height: 302px;
+      }
     }
   }
 }
@@ -168,6 +198,9 @@ form {
   html {
     body {
       padding-bottom: 320px;
+      footer {
+        min-height: 320px;
+      }
     }
   }
 }

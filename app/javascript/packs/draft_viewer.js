@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 import AvailablePlayersTable from "./available_players_table";
 import DraftInstructions from "./draft_instructions";
-import DraftViewerLeftPanel from "./draft_viewer_left_panel";
+import DraftViewerRightPanel from "./draft_viewer_right_panel";
+import SubmitMessage from "./submit_message";
 
 class DraftViewer extends React.Component {
   constructor() {
@@ -12,7 +13,8 @@ class DraftViewer extends React.Component {
     this.state = {
       data: [],
       loading: true,
-      myStars: []
+      myStars: [],
+      completed: false
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -22,6 +24,7 @@ class DraftViewer extends React.Component {
     this.updateTableData = this.updateTableData.bind(this);
     this.starPlayer = this.starPlayer.bind(this);
     this.pickPlayer = this.pickPlayer.bind(this);
+    this.removePlayer = this.removePlayer.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +33,9 @@ class DraftViewer extends React.Component {
       currentPickId: this.props.currentPickId
     })
     this.fetchData();
-    this.setupSubscription();
+    if (this.props.draftType === 'snake') {
+      this.setupSubscription();
+    }
   }
 
   updateTableData() {
@@ -104,15 +109,44 @@ class DraftViewer extends React.Component {
   }
 
   pickPlayer(url) {
-    let pickUrl = url.replace('pick-number', this.state.currentPickId)
+    let pickUrl = this.props.draftType === 'snake' ? url.replace('pick-number', this.state.currentPickId) : url.replace('pick-number', 'pick_x') + '&my_picks=' + this.props.myPicks.toString();
+
     $.ajax({
       url: pickUrl,
       method: 'PUT',
       dataType: 'json',
       success: function(data){
-
+        if (this.props.draftType !== 'snake') {
+          this.setState({
+            myStars: this.state.myStars.filter(e => e.player_id !== data.response.player_id),
+            data: this.state.data.filter(e => e.player_id !== data.response.player_id),
+            completed: data.response.completed
+          })
+          this.fetchTeams();
+        }
       }.bind(this)
     });
+  }
+
+  removePlayer(url) {
+    $.ajax({
+      url: url,
+      method: 'PUT',
+      dataType: 'json',
+      success: function(data){
+        if (this.props.draftType !== 'snake') {
+          this.setState({
+            myStars: (data.response.removed_player_star !== undefined && data.response.removed_player_star !== null) && !this.state.myStars.some(item => data.response.removed_player_star.player_id === item.player_id) ? [...this.state.myStars, data.response.removed_player_star] : this.state.myStars,
+            data: [...this.state.data, data.response.removed_player]
+          })
+          this.fetchTeams();
+        }
+      }.bind(this)
+    });
+  }
+
+  footerVisible() {
+    return $(window).scrollTop() + $(window).height() > $(document).height() - $('footer').outerHeight()
   }
 
   setupSubscription(){
@@ -132,8 +166,8 @@ class DraftViewer extends React.Component {
             this.setState({
               currentPick: data.next_pick_number,
               currentPickId: data.next_pick_id,
-              myStars: this.state.myStars.filter(e => e.player_id !== data.player_id),
-              data: this.state.data.filter(e => e.player_id !== data.player_id)
+              myStars: (data.removed_player_star !== undefined && data.removed_player_star !== null) && !this.state.myStars.some(item => data.removed_player_star.player_id === item.player_id) ? [...this.state.myStars, data.removed_player_star] : this.state.myStars.filter(e => e.player_id !== data.player_id),
+              data: data.removed_player !== undefined && !this.state.data.some(item => data.removed_player.player_id === item.player_id) ? [...this.state.data, data.removed_player] : this.state.data.filter(e => e.player_id !== data.player_id)
             })
             this.fetchTeams();
           }
@@ -155,10 +189,12 @@ class DraftViewer extends React.Component {
             handlePick={this.pickPlayer}
             myPicks={this.props.myPicks}
             myStars={this.state.myStars}
+            myTeam={this.state.myTeam}
+            draftType={this.props.draftType}
           />
         </div>
         <div id="left-tabbed-panel" className="col-md-6">
-          <DraftViewerLeftPanel
+          <DraftViewerRightPanel
             otherTeams={this.state.otherTeams}
             myTeam={this.state.myTeam}
             myStars={this.state.myStars}
@@ -166,9 +202,20 @@ class DraftViewer extends React.Component {
             myPicks={this.props.myPicks}
             handleStar={this.starPlayer}
             handlePick={this.pickPlayer}
+            handleRemovePlayer={this.removePlayer}
             draftId={this.props.draftId}
+            draftType={this.props.draftType}
           />
         </div>
+        { this.props.draftType !== 'snake' &&
+          <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.name !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
+            <SubmitMessage
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+              draftSubmitLink={this.props.draftSubmitLink}
+            />
+          </div>
+        }
       </div>
     );
   }
@@ -181,6 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentPick = parseInt(node.getAttribute('data-current-pick'));
   const currentPickId = node.getAttribute('data-current-pick-id');
   const myPicks = JSON.parse(node.getAttribute('data-your-picks'));
+  const draftType = node.getAttribute('data-draft-type');
+  const draftSubmitLink = node.getAttribute('data-submit-link');
   const container = document.createElement('div');
   container.id = 'draft-details-container';
 
@@ -191,6 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPick={currentPick}
       currentPickId={currentPickId}
       myPicks={myPicks}
+      draftType={draftType}
+      draftSubmitLink={draftSubmitLink}
     />,
     document.getElementById('draft-details-container').appendChild(container),
   )

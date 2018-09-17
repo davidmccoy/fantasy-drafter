@@ -1,0 +1,68 @@
+<% if @league.leagueable.date < Time.now %>
+  <% if @league.leagueable.score_as_of_round > 0 %>
+    <p>
+      <em>(Through Round <%= @league.leagueable.score_as_of_round %>)</em>
+    </p>
+  <% end %>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>
+          Rank
+        </th>
+        <th>
+          Team
+        </th>
+        <th>
+          Points
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @league.standings.each_with_index do |team, index| %>
+      <tr id="<%= team.points %>">
+        <td>
+          <%= index + 1 %>
+        </td>
+        <td>
+          <%= link_to team.name, game_competition_league_team_path(team.league.leagueable.game, team.league, team.league, team) %>
+        </td>
+        <td>
+          <%= team.points %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<!-- If the draft hasn't been completed -->
+<% else %>
+  <h3>Registered Teams</h3>
+
+  <% if @league.league_users.length > 0 %>
+  <table class="table table-outer-border table-hover">
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @league.league_users.each do |league_user| %>
+        <tr>
+          <td>
+            <%= league_user.team.name %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+    <p>
+      No one has signed up yet! Be the first one to join this league.
+    </p>
+    <p>
+      <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' %>
+    </p>
+  <% end %>
+<% end %>

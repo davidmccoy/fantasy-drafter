@@ -1,43 +1,40 @@
 <div class="row">
   <div class="col-md-8 offset-md-2">
     <div>
-      <h2>Active <%= @game.name %> Events</h2>
-      <p>
-        <%= link_to "Add New Competition", new_game_competition_path(@game), class: "btn btn-sm btn-light" if current_user.admin %>
-      </p>
+      <h2>Featured <%= @game.name %> Events</h2>
     </div>
     <div>
       <% if @competitions.where("date >= ?", Time.now).length > 0 %>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>
-                Name
-              </th>
-              <th>
-                Date
-              </th>
-              <th>
-
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @competitions.where("date >= ?", Time.now).each do |competition| %>
-              <tr>
-                <td>
-                  <%= competition.name %>
-                </td>
-                <td>
-                  <%= competition.date.localtime.strftime("%m/%d/%Y") %>
-                </td>
-                <td>
-                  <%= link_to "Create League!", new_game_competition_league_path(competition.game, competition), class: "btn btn-primary" %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <% @competitions.where("date >= ?", Time.now).each do |competition| %>
+            <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md">
+                    <%= competition.name %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="competition-info">
+              <div class="row">
+                <div class="col-md">
+                  <p>
+                    Date: <%= competition.date.localtime.strftime("%m/%d/%Y") %>
+                  </p>
+                </div>
+                <div class="col-md">
+                  <p>
+                    Location: <%= competition.location %>
+                  </p>
+                </div>
+                <div class="col-md">
+                  <p>
+                    <%= link_to "View Leagues", game_competition_leagues_path(competition.game, competition), class: "btn btn-primary" %>
+                  </p>
+                </div>
+              </div>
+            </div>
+        <% end %>
       <% else %>
         <p>
           There are no active events. Check back soon!
@@ -45,7 +42,7 @@
       <% end %>
     </div>
     <div>
-      <h2>Previous <%= @game.name %> Events</h2>
+      <h2>Previous Events</h2>
     </div>
     <div>
       <table class="table table-bordered table-hover">
@@ -60,7 +57,7 @@
             <th>
 
             </th>
-            <% if current_user.admin %>
+            <% if current_user&.admin %>
               <th>
 
               </th>
@@ -79,7 +76,7 @@
               <td>
                 <%= link_to "Results", game_competition_results_path(competition.game, competition), class: "btn btn-primary" %>
               </td>
-              <% if current_user.admin %>
+              <% if current_user&.admin %>
                 <td>
                   <%= link_to "View", game_competition_path(@game, competition), class: "btn btn-secondary" %>
                 </td>
@@ -91,3 +88,6 @@
     </div>
   </div>
 </div>
+<script>
+  $('.table').stacktable();
+</script>

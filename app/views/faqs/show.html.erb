@@ -1,7 +1,14 @@
 <div class="row">
   <div class="col-md-6 offset-md-3">
     <div id="faq">
-      <h1>How It Works</h1>
+      <p>
+        Need support? Find us on Twitter or join our Discord!
+      </p>
+      <p>
+        <%= link_to "Twitter", "https://www.twitter.com/fantasyprotour", class: "btn btn-dark", target: "_blank" %>
+        <%= link_to "Discord", "https://discord.gg/CRVwFzf", class: "btn btn-dark", target: "_blank" %>
+      </p>
+      <h1>How Fantasy Pro Tour Works</h1>
       <h5>What Is It?</h5>
       <p>
         Magic: the Gathering is a trading card game designed by <%= link_to "Wizards of the Coast", "http://www.magic.wizards.com", target: "_blank" %>. Many times a year, Wizards hosts invite-only tournaments called Pro Tours, where the best players compete for the title of Pro Tour Champion.
@@ -11,14 +18,23 @@
       </p>
       <h5>League Structures</h5>
       <p>
-        Currently, Fantasy Pro Tour supports traditional fantasy drafting leagues, meaning you and your friends will set a draft time and take turns choosing players to form your teams.
+        Fantasy Pro Tour supports multiple fantasy drafting league structures, though not every event supports every league type.
+      </p>
+      <p>
+        Every event has a public "Pick X Players" league, which allow you to take your time and pick your favorite X players, no matter what players anyone else in the league has chosen.
+      </p>
+      <p>
+        Most events can support traditional fantasy snake drafts, meaning you and your friends will set a draft time and take turns choosing players to form your teams, removing each player chosen from the pool of available players.
       </p>
       <h5>Drafting</h5>
       <p>
         During the draft, the players that are still available to draft are in listed in the "Available Players" table. Currently, these are restricted to players that are (or have been) on a Pro Tour team in the Pro Tour Team Series.
       </p>
       <p>
-        The "Points" column represents the average number of Match Points a player has earned per Pro Tour since the Team Series started. The "PT" column lists the number of Pro Tours each player has attended since the start of the Team Series.
+        The "xRank" column is the player's rank in the latest Fantasy Pro Tour Power Rankings. These rankings are determined by using a combination of ELO rating (explained below), Top 25 ranking, as well as a player's success in the formats played at this event.
+      </p>
+      <p>
+        The "ELO" column lists the player's ELO rating, which is a scoring system where every player starts with a rating of 1500. After each match, the winning player takes points from the losing player. The amount of points at stake is determined by the difference in the players' ratings.
       </p>
       <p>
         You can sort each column by clicking on it. You can also add secondary sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.

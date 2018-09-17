@@ -12,4 +12,12 @@ class DraftPolicy <  ApplicationPolicy
     update?
   end
 
+  def submit?
+    if record.league.public
+      true
+    else
+      index?
+    end
+  end
+
 end

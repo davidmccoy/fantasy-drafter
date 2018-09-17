@@ -1,4 +1,7 @@
 class LeaguePolicy <  ApplicationPolicy
+  def index?
+    true
+  end
 
   def new?
     true
@@ -9,7 +12,7 @@ class LeaguePolicy <  ApplicationPolicy
   end
 
   def show?
-    (user.leagues.include? record) || admin?
+    record.public || (user.leagues.include? record) || admin?
   end
 
   def edit?
@@ -18,6 +21,9 @@ class LeaguePolicy <  ApplicationPolicy
 
   def update?
     edit?
-  end 
+  end
 
+  def join?
+    record.public
+  end
 end

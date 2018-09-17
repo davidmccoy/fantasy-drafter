@@ -93,7 +93,7 @@ config.webpacker.check_yarn_integrity = false
   config.active_record.dump_schema_after_migration = false
 
   # Set default host
-  Rails.application.routes.default_url_options[:host] = 'fantasy-drafter.herokuapp.com'
+  Rails.application.routes.default_url_options[:host] = ENV['DEFAULT_URL']
 
   # Set Action Cable url
   config.web_socket_server_url = "wss:/fantasy-drafter.herokuapp.com/cable"
@@ -111,7 +111,4 @@ config.webpacker.check_yarn_integrity = false
     :authentication => :plain,
     :enable_starttls_auto => true
   }
-
-  # Set default host
-  Rails.application.routes.default_url_options[:host] = 'http://www.fantasypt.com'
 end

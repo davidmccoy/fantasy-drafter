@@ -5,7 +5,7 @@ class PicksController < ApplicationController
   before_action :set_league
   before_action :set_draft
   before_action :set_pick
-  before_action :authorize_pick
+  before_action :authorize_pick, except: [:pick_x]
 
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
@@ -71,10 +71,81 @@ class PicksController < ApplicationController
     # redirect_to game_competition_league_draft_path(@pick.draft.league.leagueable.game, @pick.draft.league.leagueable, @pick.draft.league, @pick.draft)
   end
 
+  def pick_x
+    # TODO: why are picks being assigned player_id: 0 ?
+    picks = Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id)
+    pick = picks.first
+
+    if pick.update(player_id: pick_params[:player_id])
+      protocol = Rails.env.production? ? "https" : "http"
+
+      if Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id).length > 0
+        completed = false
+      else
+        completed = true
+      end
+
+      @response = {
+        team_id: pick.team_id,
+        user_name: pick.user.name,
+        player_id: pick.player_id,
+        player_name: pick.player.name,
+        completed: completed
+      }
+    else
+
+    end
+  end
+
+  def remove_player
+    if @pick.user == current_user || current_user == @pick.draft.league.admin
+      player = @pick.player
+      star = Star.find_by(draft_id: @draft.id, team_id: current_user.team(@league).id, player_id: player.id)
+      if star
+        player_star = {
+          star_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/stars/#{star.id}",
+          id: star.id,
+          name: star.player.name,
+          player_id: star.player.id,
+          elo: star.player.elo,
+          power_ranking: star.player.power_ranking,
+          pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{star.player.id}"
+        }
+      else
+        player_star = nil
+      end
+      player_info = {
+        star_link: game_competition_league_draft_stars_path(
+                   @draft.league.leagueable.game,
+                   @draft.league.leagueable,
+                   @draft.league,
+                   @draft,
+                   player_id: player.id,
+                   protocol: "https"
+                 ),
+        player_id: player.id,
+        elo: player.elo,
+        power_ranking: player.power_ranking,
+        name: player.name,
+        pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}")
+      }
+      if @pick.update(pick_params)
+        @response = {
+          team_id: @pick.team_id,
+          user_name: @pick.user.name,
+          pick_id: @pick.id,
+          removed_player: player_info,
+          removed_player_star: player_star,
+          completed: false
+        }
+      end
+    end
+  end
+
   private
 
   def pick_params
-    params.permit(:player_id)
+    params.permit(:player_id, :my_picks)
   end
 
 end

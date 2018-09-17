@@ -21,3 +21,9 @@
 //= require_tree ./channels
 //= require moment
 //= require bootstrap-sortable
+
+window.setTimeout(function() {
+  $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+    $(this).remove();
+  });
+}, 4000);

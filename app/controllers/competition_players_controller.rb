@@ -9,7 +9,7 @@ class CompetitionPlayersController < ApplicationController
 
 
   def index
-    @players = CompetitionPlayer.where(competition_id: params[:competition_id])
+    @players = CompetitionPlayer.where(competition_id: @competition.id)
   end
 
   def new

@@ -1,0 +1,154 @@
+<div id="draft-progress-container">
+  <div class="page-title">
+    <p class="page-instructions intro">
+      Welcome to your draft for
+    </p>
+    <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
+    <p class="page-instructions">
+      You'll find the pick order, all available Pros, and your team's lineup below.
+    </p>
+  </div>
+  <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time && @draft.active) %>
+  <div id="picks" class="row">
+    <div class="current-pick-container col-sm-2">
+      <div class="current-pick-info">
+        <p>
+          Current Pick
+        </p>
+        <p id="current-pick">
+          <%= @current_pick&.user&.name %>
+        </p>
+        <p id="until-next-pick">
+          Picks Until You: <%= @picks_until_your_pick %>
+        </p>
+      </div>
+    </div>
+    <div class="pick-order-container col-sm-10">
+      <div class="pick-order">
+        <% @draft.picks.sort_by{ |pick| pick.number }.each_with_index do |pick, index| %>
+        <% if pick.player_id.nil? %>
+        <% if pick == @current_pick %>
+        <div class="pick current-pick" id="pick-<%= pick.number %>">
+          <div class="pick-number <%= pick.number %>">
+            <span class="pick-number-label">
+              PICK
+            </span>
+            <span>
+              <%= pick.number %>
+            </span>
+          </div>
+          <div class="pick-info">
+            <p>
+              <%= pick.user.name %>
+            </p>
+          </div>
+        </div>
+        <% else %>
+        <div class="pick" id="pick-<%= pick.number %>">
+          <div class="pick-number <%= pick.number %>">
+            <span class="pick-number-label">
+              PICK
+            </span>
+            <span>
+              <%= pick.number %>
+            </span>
+          </div>
+          <div class="pick-info">
+            <p>
+              <%= pick.user.name %>
+            </p>
+          </div>
+        </div>
+        <% end %>
+        <% else %>
+        <div class="pick picked" id="pick-<%= pick.number %>">
+          <div class="pick-number">
+            <span class="pick-number-label">
+              PICK
+            </span>
+            <span>
+              <%= pick.number %>
+            </span>
+          </div>
+          <div class="pick-info">
+            <p>
+              <%= pick.user.name %>
+            </p>
+            <p>
+              <%= pick.player.name %>
+            </p>
+          </div>
+        </div>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<% if !@draft.start_time  %>
+  <div id="draft-details-container" class="row">
+    <div class="col-md-8 offset-md-2">
+      <% if (current_user == @league.admin || current_user.admin) %>
+        <p>
+          Please select a start time for your draft.
+        </p>
+
+        <%= form_for [@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft] do |f| %>
+          <div class="form-group required">
+            <%= f.label :start_time, "Start Time", class: "control-label" %>
+            <%= f.datetime_field :start_time,  min: Date.today, required: true, class: "form-control" %>
+          </div>
+          <%= f.submit "Set Start Time", class: "btn btn-primary" %>
+        <% end %>
+      <% else %>
+        This draft doesn't have a start time yet.
+      <% end %>
+
+    </div>
+  </div>
+<% elsif @draft.completed %>
+  <p>
+    Your draft has finished.
+  </p>
+  <p>
+    <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)), class: "btn btn-primary" %>
+  </p>
+<% elsif @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
+<div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick.number %>" data-current-pick-id="<%= @current_pick.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>">
+  <%= javascript_pack_tag "draft_viewer" %>
+  <div id="draft-concluded">
+    The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.
+  </div>
+</div>
+<script>
+
+  $(document).ready(function() {
+    // update position of pick order banner
+    <% if @current_pick.number == 1 %>
+    $pick = $('#pick-' + <%= @current_pick.number %>);
+    <% else %>
+    $pick = $('#pick-' + (<%= @current_pick.number %> - 1));
+    <% end %>
+    $pickLeft = $pick.position().left
+    $('.pick-order-container').scrollLeft($('.pick-order-container').scrollLeft() + $pickLeft)
+
+    // create an audio element for notification sound
+    // var audioElement = document.createElement('audio');
+    // audioElement.setAttribute('src', 'https://notificationsounds.com/soundfiles/52720e003547c70561bf5e03b95aa99f/file-sounds-739-short-notice.mp3');
+    // $('body').append(audioElement)
+
+  });
+</script>
+<% else %>
+  <div id="draft-details-container" class="row">
+    <div class="col-md-8 offset-md-2">
+      <p>
+        Start Time: <%= @draft.start_time.localtime.strftime("%A %B %e, %Y at %l:%M %p") %>
+      </p>
+      <p>
+        Your draft hasn't started yet.
+      </p>
+    </div>
+  </div>
+<% end %>

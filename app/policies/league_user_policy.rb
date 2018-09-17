@@ -5,7 +5,11 @@ class LeagueUserPolicy <  ApplicationPolicy
   end
 
   def create?
-    index?
+    if record.league.public
+      true
+    else
+      index?
+    end
   end
 
   def destroy?

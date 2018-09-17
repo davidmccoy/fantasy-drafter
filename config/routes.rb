@@ -18,16 +18,17 @@ Rails.application.routes.draw do
   resources :players, only: [:new, :import]
   post 'players/import', to: 'players#import'
   resource :faq
+  resource :contact_us, controller: 'contact_us'
 
   resources :games, param: :slug, only: [:index, :new] do
-    resources :competitions, param: :slug do
+    resources :competitions, param: :slug, only: [:index, :show] do
       match 'results/import', to: 'results#import', via: [:post]
       match 'results/team_import', to: 'results#team_import', via: [:post]
       resources :results do
       end
-      match 'players/import', to: 'competition_players#import', via: [:post]
-      resources :competition_players, path: 'players'
+      resources :competition_players, path: 'players', only: [:index, :show]
       resources :leagues do
+        match 'join', to: 'leagues#join', via: [:get]
         resources :league_users do
           match 'confirm', to: 'league_users#confirm', via: [:get]
           match 'resend_invite', to: 'league_users#resend_invite', via: [:get]
@@ -35,6 +36,9 @@ Rails.application.routes.draw do
         resources :teams
         resources :drafts do
           post 'start', to: 'drafts#start'
+          post 'submit', to: 'drafts#submit'
+          put 'picks/pick_x', to: 'picks#pick_x'
+          put 'picks/remove_player', to: 'picks#remove_player'
           resources :picks
           resources :stars
         end
@@ -49,5 +53,18 @@ Rails.application.routes.draw do
       resources :stars, only: [:index]
     end
     resource :subscriber, only: [:create]
+  end
+
+  # Admin #
+  #########
+  namespace :admin do
+    root to: 'dashboard#dashboard'
+    resources :leagues
+    resources :competitions, param: :slug do
+      match 'players/import', to: 'competition_players#import', via: [:post]
+      resources :competition_players, path: 'players'
+    end
+    get 'players/stats', to: 'players#stats'
+    post 'players/add_stats', to: 'players#add_stats'
   end
 end

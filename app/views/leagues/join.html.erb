@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div id="league-info">
+      <span>
+        Join League For
+      </span>
+      <h1><%= @league.leagueable.name %></h1>
+      <p>
+        <em>Public league</em>
+      </p>
+      <p>
+        <strong>Entry:</strong> Free
+      </p>
+      <p>
+        <strong>Draft Type:</strong> <%= @league.draft_type.humanize.titleize %> (?)
+      </p>
+      <p>
+        <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
+      </p>
+      <p>
+        <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+      </p>
+
+      <%= form_for [@competition.game, @competition, @league, @league_user] do |f| %>
+        <div class="form-group">
+          <%= label_tag 'team[name]', "Team Name", class: "control-label" %>
+          <%= text_field_tag 'team[name]', nil, required: true, class: "form-control" %>
+        </div>
+        <div class="actions">
+          <%= f.submit "Join", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

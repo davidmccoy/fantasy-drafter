@@ -63,7 +63,7 @@ class ApplicationPolicy
   end
 
   def user_not_authorized
-    flash[:alert] = "You are not authorized to access that page. Please sign in."
+    flash[:alert] = "You'll have to sign in before you can do that!"
     redirect_to(new_user_session_path)
   end
 end

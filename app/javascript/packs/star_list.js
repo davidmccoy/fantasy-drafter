@@ -35,7 +35,13 @@ class StarList extends React.Component {
   }
 
   displayPickLink() {
-    return this.props.myPicks.some(item => this.props.currentPick === item)
+    if (this.props.draftType === 'snake') {
+      return this.props.myPicks.some(item => this.props.currentPick === item)
+    } else if (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) {
+      return false
+    } else {
+      return true
+    }
   }
 
   render() {
@@ -63,6 +69,30 @@ class StarList extends React.Component {
                   )
                 },
                 {
+                  Header: "xRank",
+                  accessor: "power_ranking",
+                  maxWidth: 50,
+                  sortable: false,
+                  sortMethod: (a, b) => {
+                    if(a === null){
+                      return 1;
+                    }
+                    else if(b === null){
+                      return -1;
+                    }
+                    else if(a === b){
+                      return 0;
+                    }
+                    return a > b ? 1 : -1;
+                  }
+                },
+                {
+                  Header: "ELO",
+                  accessor: "elo",
+                  sortable: false,
+                  maxWidth: 55
+                },
+                {
                   Header: "Name",
                   accessor: "name",
                   sortable: false
@@ -87,12 +117,13 @@ class StarList extends React.Component {
               ]
             }
           ]}
-          // defaultSorted={[
-          //   {
-          //     id: "name",
-          //     desc: false
-          //   }
-          // ]}
+          defaultSorted={[
+            {
+              id: "power_ranking",
+              desc: false,
+              nulls: 'last'
+            }
+          ]}
           data={this.props.data}
           loading={this.props.loading}
           showPagination={false}

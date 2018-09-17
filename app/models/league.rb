@@ -8,6 +8,8 @@ class League < ApplicationRecord
   has_many :teams, through: :league_users
   has_many :invites
 
+  enum draft_type: { snake: 0, pick_x: 1, pick_em: 2 }
+
   accepts_nested_attributes_for :draft, allow_destroy: false
 
   def standings

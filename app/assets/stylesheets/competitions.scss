@@ -1,0 +1,33 @@
+.competition-header-image {
+  margin: 1rem 0;
+  width: 100%;
+  height: 400px;
+  background-position: center top;
+  background-size: cover;
+  &.hero-image {
+    margin: -1rem -1rem 1rem -1rem;
+    padding: 1rem;
+    width: auto;
+    &.inline-hero-image {
+      margin-top: 1rem;
+    }
+  }
+  .container {
+    height: 100%;
+    text-align: center;
+    color: white;
+    .row {
+      height: 100%;
+      align-items: center;
+      font-size: 3rem;
+    }
+  }
+}
+
+.competition-info {
+  margin: 1rem 0;
+  text-align: center;
+  .row {
+    align-items: center;
+  }
+}
