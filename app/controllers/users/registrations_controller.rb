@@ -13,7 +13,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
 
         if @user.save
-          Gibbon::Request.lists("4f6afd7475").members.create(body: { email_address: subscriber_params[:email] }) if Rails.env.production?
+          begin
+            Gibbon::Request.lists('4f6afd7475').members.create(body: { email_address: subscriber_params[:email], status: 'subscribed' }) if Rails.env.production?
+          rescue => e
+            puts 'failed to subscribe to mailchimp'
+          end
           if params[:league_id] && params[:invite_id]
             league = League.find(params[:league_id])
             league_user = league.league_users.create(user_id: @user.id, confirmed: true)
