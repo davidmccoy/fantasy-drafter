@@ -11,7 +11,7 @@ class StarsController < ApplicationController
       draft_id: @draft.id,
       team_id: current_user.team(@league).id
       )).first_or_create
-
+      
     respond_to do |format|
       format.json { render @star, status: :ok}
     end
