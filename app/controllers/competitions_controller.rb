@@ -2,7 +2,7 @@ class CompetitionsController < ApplicationController
 
   before_action :set_game
   before_action :set_competition, except: [:index]
-  before_action :authorize_competition
+  before_action :authorize_competition, except: [:index]
 
   def index
     @competitions = Competition.all

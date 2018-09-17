@@ -58,10 +58,13 @@ class DraftInfo extends React.Component {
           <h4>How It Works</h4>
           <h5>Drafting</h5>
           <p>
-            During the draft, the players that are still available to draft are in listed in the "Available Players" table. Currently, these are restricted to players that are (or have been) on a Pro Tour team in the Pro Tour Team Series.
+            During the draft, the players that are still available to draft are in listed in the "Available Players" table.
           </p>
           <p>
-            The "Points" column represents the average number of Match Points a player has earned per Pro Tour since the Team Series started. The "PT" column lists the number of Pro Tours each player has attended since the start of the Team Series.
+            The "xRank" column is the player's rank in the latest Fantasy Pro Tour Power Rankings. These rankings are determined by using a combination of ELO rating (explained below), Top 25 ranking, as well as a player's success in the formats played at this event.
+          </p>
+          <p>
+            The "ELO" column lists the player's ELO rating, which is a scoring system where every player starts with a rating of 1500. After each match, the winning player takes points from the losing player. The amount of points at stake is determined by the difference in the players' ratings.
           </p>
           <p>
             You can sort each column by clicking on it. You can also add secondary sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
@@ -71,7 +74,7 @@ class DraftInfo extends React.Component {
           </p>
           <h5>Scoring</h5>
           <p>
-            Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 8. The team with the most points wins the league.
+            Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 4. The team with the most points wins the league.
           </p>
         </div>
       </div>

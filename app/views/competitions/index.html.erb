@@ -57,7 +57,7 @@
             <th>
 
             </th>
-            <% if current_user.admin %>
+            <% if current_user&.admin %>
               <th>
 
               </th>
@@ -76,7 +76,7 @@
               <td>
                 <%= link_to "Results", game_competition_results_path(competition.game, competition), class: "btn btn-primary" %>
               </td>
-              <% if current_user.admin %>
+              <% if current_user&.admin %>
                 <td>
                   <%= link_to "View", game_competition_path(@game, competition), class: "btn btn-secondary" %>
                 </td>

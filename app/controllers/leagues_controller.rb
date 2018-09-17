@@ -3,7 +3,7 @@ class LeaguesController < ApplicationController
   before_action :set_game
   before_action :set_competition
   before_action :set_league, except: [:index, :new, :create]
-  before_action :authorize_league
+  before_action :authorize_league, except: [:index]
 
   def index
   end

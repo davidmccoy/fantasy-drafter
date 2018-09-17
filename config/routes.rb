@@ -63,5 +63,7 @@ Rails.application.routes.draw do
       match 'players/import', to: 'competition_players#import', via: [:post]
       resources :competition_players, path: 'players'
     end
+    get 'players/stats', to: 'players#stats'
+    post 'players/add_stats', to: 'players#add_stats'
   end
 end

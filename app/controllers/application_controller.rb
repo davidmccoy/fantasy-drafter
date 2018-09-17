@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path) and return
     else
-      flash[:alert] = "You are not authorized to perform this action. Please sign in."
+      flash[:alert] = "You'll have to sign in before you can do that!"
       redirect_to new_user_session_path(url: request.path) and return
     end
   end
