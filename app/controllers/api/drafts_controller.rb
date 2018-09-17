@@ -29,7 +29,7 @@ class Api::DraftsController < ApplicationController
 
   def all_teams
     current_team = @draft.league.teams.find_by_id(current_user.team(@draft.league))
-    current_team_players = current_team.players.map { |player| {name: player.name, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
+    current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
     Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
       current_team_players << { name: nil, delete_link: nil }
     end

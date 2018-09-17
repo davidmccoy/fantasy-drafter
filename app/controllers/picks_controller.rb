@@ -107,6 +107,8 @@ class PicksController < ApplicationController
           id: star.id,
           name: star.player.name,
           player_id: star.player.id,
+          elo: star.player.elo,
+          power_ranking: star.player.power_ranking,
           pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{star.player.id}"
         }
       else

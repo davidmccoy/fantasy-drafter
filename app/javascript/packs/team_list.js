@@ -63,6 +63,30 @@ class TeamList extends React.Component {
                         }
                       },
                       {
+                        Header: "xRank",
+                        accessor: "power_ranking",
+                        maxWidth: 50,
+                        sortable: false,
+                        sortMethod: (a, b) => {
+                          if(a === null){
+                            return 1;
+                          }
+                          else if(b === null){
+                            return -1;
+                          }
+                          else if(a === b){
+                            return 0;
+                          }
+                          return a > b ? 1 : -1;
+                        }
+                      },
+                      {
+                        Header: "ELO",
+                        accessor: "elo",
+                        sortable: false,
+                        maxWidth: 55
+                      },
+                      {
                         Header: "Name",
                         accessor: "name",
                         sortable: false
@@ -86,12 +110,13 @@ class TeamList extends React.Component {
                     ]
                   }
                 ]}
-                // defaultSorted={[
-                //   {
-                //     id: "name",
-                //     desc: false
-                //   }
-                // ]}
+                defaultSorted={[
+                  {
+                    id: "power_ranking",
+                    desc: false,
+                    nulls: 'last'
+                  }
+                ]}
                 data={this.props.team.players}
                 loading={this.props.loading}
                 showPagination={false}
