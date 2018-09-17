@@ -6,16 +6,6 @@
   margin: 0;
   width: 100%;
   z-index: 1;
-  &.home {
-    background: none !important;
-    position: absolute;
-
-    .navbar-nav {
-      .nav-link {
-      color: white;
-      }
-    }
-  }
   .navbar-collapse {
     padding-right: 1rem;
   }
@@ -55,6 +45,27 @@
       padding-left: 0;
       .logo {
         width: 195px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar {
+    font-size: 1em;
+    background: $purple;
+    border-radius: 0px;
+    border: none;
+    margin: 0;
+    width: 100%;
+    z-index: 1;
+    &.home {
+      background: none !important;
+      position: absolute;
+      .navbar-nav {
+        .nav-link {
+        color: white;
+        }
       }
     }
   }
