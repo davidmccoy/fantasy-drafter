@@ -64,7 +64,7 @@ class DraftsController < ApplicationController
 
   def submit
     team = current_user.team(@league)
-    if team.update(submitted: true)
+    if team.update(submitted: true, submitted_at: Time.now)
       flash[:notice] = "You've submitted your team!"
       redirect_to game_competition_league_path(@game, @competition, @league) and return
     else
