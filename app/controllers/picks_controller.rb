@@ -122,8 +122,8 @@ class PicksController < ApplicationController
                    protocol: "https"
                  ),
         player_id: player.id,
-        points_per_result: player.points_per_result,
-        results: player.results.count,
+        elo: player.elo,
+        power_ranking: player.power_ranking,
         name: player.name,
         pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}")
       }
