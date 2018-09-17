@@ -5,19 +5,6 @@ import PropTypes from 'prop-types';
 class SubmitMessage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit() {
-    console.log(this.props.draftSubmitLink);
-    $.ajax({
-      url: this.props.draftSubmitLink,
-      method: 'POST',
-      dataType: 'json',
-      success: function(data){
-      }.bind(this)
-    });
   }
 
   render() {
