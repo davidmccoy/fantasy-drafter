@@ -47,10 +47,12 @@ Rails.application.routes.draw do
   end
 
   namespace :api, defaults: { format: :json } do
-    resources :drafts do
-      get 'available_players', to: 'drafts#available_players'
-      get 'all_teams', to: 'drafts#all_teams'
-      resources :stars, only: [:index]
+    authenticated :user do
+      resources :drafts do
+        get 'available_players', to: 'drafts#available_players'
+        get 'all_teams', to: 'drafts#all_teams'
+        resources :stars, only: [:index]
+      end
     end
     resource :subscriber, only: [:create]
   end
