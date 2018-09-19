@@ -2,7 +2,12 @@
   <div class="col-md-8 offset-md-2">
     <%= link_to "< Back To Your League", game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) %>
 
-    <%= render "leagues/info" %>
+    <% case @league.draft_type %>
+    <% when 'snake' %>
+      <%= render 'leagues/snake_info' %>
+    <% when 'pick_x' %>
+      <%= render 'leagues/pick_x_info' %>
+    <% end %>
 
     <h3>Registered Users</h3>
     <table class="table table-bordered table-hover">

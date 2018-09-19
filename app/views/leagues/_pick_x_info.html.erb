@@ -1,14 +1,16 @@
 <div id="league-info">
   <h1><%= @league.leagueable.name %></h1>
   <p>
-    <% if current_user.leagues.include? @league %>
-      <% if current_user.team(@league).submitted %>
-        <%= link_to 'View Team', game_competition_league_team_path(@game, @competition, @league, current_user.team(@league)), class: 'btn btn-dark' %>
+    <% if current_page?(game_competition_league_path(@game, @competition, @league)) %>
+      <% if current_user.leagues.include? @league %>
+        <% if current_user.team(@league).submitted %>
+          <%= link_to 'View Team', game_competition_league_team_path(@game, @competition, @league, current_user.team(@league)), class: 'btn btn-dark' %>
+        <% else %>
+          <%= link_to 'Draft Now', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-success' %>
+        <% end %>
       <% else %>
-        <%= link_to 'Draft Now', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-success' %>
+        <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' if @league.leagueable.date > Time.now%>
       <% end %>
-    <% else %>
-      <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' if @league.leagueable.date > Time.now%>
     <% end %>
   </p>
   <% if @league.public %>
