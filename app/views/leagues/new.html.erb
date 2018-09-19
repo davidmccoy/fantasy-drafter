@@ -15,11 +15,11 @@
 
       <div class="form-group required">
         <%= f.label :draft_type, "Draft Type", class: "control-label" %>
-        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"], ["Pick 'Em", "pick_em"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+        <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :num_draft_rounds, "Number of Rounds", class: "control-label" %>
+        <%= f.label :num_draft_rounds, "Number of Rounds/Players per Team", class: "control-label" %>
         <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
       </div>
 

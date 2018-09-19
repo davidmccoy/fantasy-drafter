@@ -13,7 +13,7 @@ class DraftPolicy <  ApplicationPolicy
   end
 
   def submit?
-    if record.league.public
+    if record.league.draft_type == 'pick_x'
       true
     else
       index?

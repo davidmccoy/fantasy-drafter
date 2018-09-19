@@ -23,6 +23,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
             league_user = league.league_users.create(user_id: @user.id, confirmed: true)
             league_user.create_team(name: "#{@user.name}'s Team")
 
+            if league.draft_type == 'pick_x'
+              team = league_user.team
+              league.num_draft_rounds.times {
+                Pick.create(
+                  draft_id: league.draft.id,
+                  team_id: team.id
+                )
+              }
+            end
+
             invite = Invite.find(params[:invite_id])
             invite.update(accepted: true, token: nil)
 

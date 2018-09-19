@@ -62,6 +62,15 @@ class LeagueUsersController < ApplicationController
   # TODO notification email for accpted invite
   def update
     if @league_user.update(confirmed: true)
+      if @league.draft_type == 'pick_x'
+        team = @league_user.team
+        @league.num_draft_rounds.times {
+          Pick.create(
+            draft_id: @league.draft.id,
+            team_id: team.id
+          )
+        }
+      end
       if @league_user.user == current_user
         flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"
         LeagueMailer.invite_accepted(@league, @league_user.user).deliver_later

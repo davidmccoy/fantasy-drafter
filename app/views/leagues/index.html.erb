@@ -19,10 +19,13 @@
               Name
             </th>
             <th>
+              Acessibility
+            </th>
+            <th>
               Date
             </th>
             <th>
-              Type
+              Draft Type
             </th>
             <th>
               Entries
@@ -37,6 +40,9 @@
             <tr>
               <td>
                 <%= league.name %>
+              </td>
+              <td>
+                Public
               </td>
               <td>
                 <%= league.leagueable.date.localtime.strftime('%m/%d/%Y') %>
@@ -58,6 +64,63 @@
     </div>
     <div class="create-a-league">
       <h3> Create Your Own League!</h3>
+      <table class="table table-outer-border">
+        <thead>
+          <tr>
+            <th>
+              Event
+            </th>
+            <th>
+              Acessibility
+            </th>
+            <th>
+              Draft Type
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              2018 World Championship
+            </td>
+            <td>
+              Private
+            </td>
+            <td>
+              Pick X
+            </td>
+            <td>
+              09/21/2018
+            </td>
+            <td>
+              <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              2018 World Championship
+            </td>
+            <td>
+              Private
+            </td>
+            <td>
+              Snake
+            </td>
+            <td>
+              09/21/2018
+            </td>
+            <td>
+              <em>Coming Soon!</em>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <p>
         There are tons of ways to play Fantasy Pro Tour! Soon, you'll be able to choose a draft type and create your own league.
       </p>

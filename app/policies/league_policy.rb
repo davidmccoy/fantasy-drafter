@@ -4,11 +4,11 @@ class LeaguePolicy <  ApplicationPolicy
   end
 
   def new?
-    admin?
+    true
   end
 
   def create?
-    admin?
+    true
   end
 
   def show?
