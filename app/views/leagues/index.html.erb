@@ -11,7 +11,7 @@
   <div class="col-md-8 offset-md-2">
     <div class="featured-leagues">
       <h3>Featured Public Leagues</h3>
-      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Date.today - 7.days, true).length > 0 %>
+      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Time.now, true).length > 0 %>
       <table class="table table-outer-border">
         <thead>
           <tr>
