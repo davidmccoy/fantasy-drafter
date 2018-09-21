@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1><%= @competition.name %></h1>
+    <%= form_for @competition, url: admin_competition_path(@competition) do |f| %>
+      <div class="form-group required">
+        <%= f.label :name, "Score as of Round", class: "control-label" %>
+        <%= f.text_field :name, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :date, "Score as of Round", class: "control-label" %>
+        <%= f.datetime_field :date, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :location, "Score as of Round", class: "control-label" %>
+        <%= f.text_field :location, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :score_as_of_round, "Score as of Round", class: "control-label" %>
+        <%= f.number_field :score_as_of_round, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
