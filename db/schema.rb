@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180917173352) do
+ActiveRecord::Schema.define(version: 20180926033433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20180917173352) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "score_as_of_round", default: 0
+    t.integer "season_id"
     t.index ["slug"], name: "index_competitions_on_slug", unique: true
   end
 
@@ -114,6 +115,10 @@ ActiveRecord::Schema.define(version: 20180917173352) do
   create_table "seasons", id: :serial, force: :cascade do |t|
     t.integer "game_id"
     t.string "name"
+    t.string "slug"
+    t.date "start_date"
+    t.date "end_date"
+    t.index ["slug"], name: "index_seasons_on_slug", unique: true
   end
 
   create_table "stars", force: :cascade do |t|

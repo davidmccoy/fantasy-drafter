@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Date.today - 7.days, true).each do |league| %>
+          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Time.now, true).each do |league| %>
             <tr>
               <td>
                 <%= league.name %>

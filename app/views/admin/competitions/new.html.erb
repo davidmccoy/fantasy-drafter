@@ -8,6 +8,10 @@
         <%= select_tag "competition[game_id]", options_from_collection_for_select(Game.all.reverse, 'id', 'name'), include_blank: "Select Game", required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
+        <%= f.label :game_id, "Game",  class: "control-label" %>
+        <%= select_tag "competition[season_id]", options_from_collection_for_select(Season.all.reverse, 'id', 'name'), include_blank: "Select Season", required: false, class: "form-control" %>
+      </div>
+      <div class="form-group required">
         <%= f.label :name, class: "control-label" %>
         <%= f.text_field :name, required: true, class: "form-control" %>
       </div>

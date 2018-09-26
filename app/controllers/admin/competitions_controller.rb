@@ -37,6 +37,6 @@ class Admin::CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:game_id, :name, :slug, :date, :location, :score_as_of_round)
+    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :date, :location, :score_as_of_round)
   end
 end
