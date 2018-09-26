@@ -4,8 +4,8 @@
       <h2>Featured <%= @game.name %> Events</h2>
     </div>
     <div>
-      <% if @competitions.where("date >= ?", Time.now).length > 0 %>
-        <% @competitions.where("date >= ?", Time.now).each do |competition| %>
+      <% if @competitions.where("date >= ? AND date <= ?", Time.now, Time.now + 2.weeks).length > 0 %>
+        <% @competitions.where("date >= ? AND date <= ?", Time.now, Time.now + 2.weeks).each do |competition| %>
             <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
               <div class="container">
                 <div class="row">
