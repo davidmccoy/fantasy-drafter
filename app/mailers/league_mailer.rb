@@ -36,7 +36,7 @@ class LeagueMailer < ApplicationMailer
         season_slug: @league.leagueable.slug,
         id: @league.id
       )
-    elsif if leagueable_class == Competition
+    elsif leagueable_class == Competition
       @url = Rails.application.routes.url_helpers.game_competition_league_url(
         game_slug: @league.leagueable.game.slug,
         competition_slug: @league.leagueable.slug,
