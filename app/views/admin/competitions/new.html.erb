@@ -24,6 +24,10 @@
         <%= f.datetime_field :start_date, required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
+        <%= f.label :end_date, class: "control-label" %>
+        <%= f.date_field :end_date, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
         <%= f.label :location, class: "control-label" %>
         <%= f.text_field :location, required: true, class: "form-control" %>
       </div>
