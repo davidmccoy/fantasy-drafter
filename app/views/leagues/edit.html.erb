@@ -18,7 +18,7 @@
         <% end %>
       </div>
       <p>
-        <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+        <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
       </p>
       <div class="actions">
         <%= f.submit "Update", class: "btn btn-primary" %>

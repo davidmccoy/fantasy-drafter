@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= link_to "< Back To Your League", game_season_league_path(@league.leagueable.game, @league.leagueable, @league) %>
+
+    <% case @league.draft_type %>
+    <% when 'snake' %>
+      <%= render 'seasons/leagues/snake_info' %>
+    <% when 'pick_x' %>
+      <%= render 'seasons/leagues/pick_x_info' %>
+    <% end %>
+
+    <h3>Registered Users</h3>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <% if current_user == @league.admin || current_user.admin %>
+            <th>
+              Remove
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @league.league_users.each do |league_user| %>
+        <tr>
+          <td>
+            <% if league_user.user == current_user %>
+              <%= league_user.user.name %> (You)
+            <% elsif league_user.user == @league.admin %>
+              <p>
+                <%= league_user.user.name %> (Admin)
+              </p>
+            <% else %>
+              <% if league_user.confirmed %>
+                <%= link_to league_user.user.name, game_season_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team) %>
+              <% else %>
+                <span class="unconfirmed">
+                  <%= league_user.user.name %> <%= link_to "(Resend Invite)", game_season_league_league_user_resend_invite_path(@league.leagueable.game, @league.leagueable, @league, league_user) %>
+                </span>
+              <% end %>
+            <% end %>
+          </td>
+          <% if current_user == @league.admin || current_user.admin %>
+            <td>
+              <%= link_to "Remove", game_season_league_league_user_path(@league.leagueable.game,@league.leagueable, @league, league_user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <h3>Add User By Email</h3>
+
+    <%= form_tag game_season_league_league_users_path(@league.leagueable.game, @league.leagueable, @league) do %>
+
+      <div class="form-group required">
+        <%= label_tag :email, nil, class: "control-label" %>
+        <%= email_field_tag :email, nil, required: true, class: "form-control" %>
+      </div>
+
+      <%= submit_tag "Add User", class: "btn btn-primary" %>
+
+    <% end %>
+  </div>
+</div>

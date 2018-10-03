@@ -19,5 +19,18 @@ class Team < ApplicationRecord
     points
   end
 
+  def season_points
+    points = 0
+
+    self.players.each do |player|
+      result = player.season_results(self.league.leagueable)
+      if result
+        points = points + result.points
+      end
+    end
+
+    points
+  end
+
 
 end

@@ -7,11 +7,19 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-8 offset-md-2">
-    <div class="featured-leagues">
-      <h3>Featured Public Leagues</h3>
-      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Time.now, true).length > 0 %>
+<div id="league" class="row">
+  <div class="col-md-8 offset-md-2 with-fixed-bottom-bar">
+    <div class="content">
+      <p>
+        There are tons of ways to play <strong>Fantasy Pro Tour</strong>! Create your own league and invite your friends, or join a public league!
+      </p>
+    </div>
+    <div class="featured-leagues content">
+      <h2>Featured Public Leagues</h2>
+      <p>
+        Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @competition.name %> below.
+      </p>
+      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).length > 0 %>
       <table class="table table-outer-border">
         <thead>
           <tr>
@@ -22,7 +30,7 @@
               Acessibility
             </th>
             <th>
-              Date
+              Start Date
             </th>
             <th>
               Draft Type
@@ -36,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.date > ? AND leagues.public = ?', Time.now, true).each do |league| %>
+          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).each do |league| %>
             <tr>
               <td>
                 <%= league.name %>
@@ -45,7 +53,7 @@
                 Public
               </td>
               <td>
-                <%= league.leagueable.date.localtime.strftime('%m/%d/%Y') %>
+                <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
               </td>
               <td>
                 <%= league.draft_type.humanize.titleize %>
@@ -62,10 +70,10 @@
       </table>
       <% end %>
     </div>
-    <div class="create-a-league">
-      <h3> Create Your Own League!</h3>
+    <div class="create-a-league content">
+      <h2> Create Your Own League!</h2>
       <p>
-        There are tons of ways to play Fantasy Pro Tour!
+        You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
       </p>
       <table class="table table-outer-border">
         <thead>
@@ -74,13 +82,16 @@
               Event
             </th>
             <th>
+              Length
+            </th>
+            <th>
               Acessibility
             </th>
             <th>
               Draft Type
             </th>
             <th>
-              Date
+              Start Date
             </th>
             <th>
 
@@ -90,7 +101,10 @@
         <tbody>
           <tr>
             <td>
-              2018 World Championship
+              <%= @competition.season.name %>
+            </td>
+            <td>
+              Full Season
             </td>
             <td>
               Private
@@ -99,15 +113,18 @@
               Pick X
             </td>
             <td>
-              09/21/2018
+              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
             </td>
             <td>
-              <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+              <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
             </td>
           </tr>
           <tr>
             <td>
-              2018 World Championship
+              <%= @competition.season.name %>
+            </td>
+            <td>
+              Full Season
             </td>
             <td>
               Private
@@ -116,7 +133,47 @@
               Snake
             </td>
             <td>
-              09/21/2018
+              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+            </td>
+            <td>
+              <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= @competition.name %>
+            </td>
+            <td>
+              Single Event
+            </td>
+            <td>
+              Private
+            </td>
+            <td>
+              Pick X
+            </td>
+            <td>
+              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+            </td>
+            <td>
+              <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= @competition.name %>
+            </td>
+            <td>
+              Single Event
+            </td>
+            <td>
+              Private
+            </td>
+            <td>
+              Snake
+            </td>
+            <td>
+              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
             </td>
             <td>
               <em>Coming Soon!</em>
@@ -137,7 +194,31 @@
       </p>
     </div>
   </div>
+  <div id="submit-message" class="submit-message submit-message-absolute alert-ready-to-submit alert-fixed">
+    <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-success' %>
+    <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
+  </div>
 </div>
 <script>
   $('.table').stacktable();
+  $(window).ready(function(event) {
+    var submitMessage = $('.alert-ready-to-submit');
+    if (submitMessage !== undefined) {
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - $('footer').outerHeight()) {
+        $(submitMessage).removeClass('alert-fixed');
+      } else {
+        $(submitMessage).addClass('alert-fixed');
+      }
+    }
+  })
+  $(window).scroll(function(event) {
+    var submitMessage = $('.alert-ready-to-submit');
+    if (submitMessage !== undefined) {
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - $('footer').outerHeight()) {
+        $(submitMessage).removeClass('alert-fixed');
+      } else {
+        $(submitMessage).addClass('alert-fixed');
+      }
+    }
+  })
 </script>

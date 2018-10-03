@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2><%= @season.name %></h2>
+    <p>
+      A season-long league lasts for the entirety of a Pro Tour cycle (about three months). Players can earn points for their team at individual Grand Prix and Pro Tours.
+    </p>
+    <p>
+      <strong>Start Date:</strong> <%= @season.start_date %>
+    </p>
+    <p>
+      <strong>End Date:</strong> <%= @season.end_date %>
+    </p>
+    <p>
+      <strong>Competitions in This Season:</strong> <%= @season.competitions.count %> <button id="show-competitions" class="btn btn-secondary btn-small btn-more-info">Show</button>
+      <table id="competitions-table" class="table table-outer-border" style="display:none;">
+        <tbody>
+          <% @season.competitions.order(start_date: :asc).each do |competition| %>
+            <tr>
+              <td>
+                <%= competition.name %>
+              </td>
+              <td>
+                <%= competition.start_date.localtime.strftime("%m/%d/%Y") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </p>
+
+    <%= form_for [@season.game, @season, @league] do |f| %>
+
+      <div class="form-group required">
+        <%= f.label :draft_type, "Draft Type", class: "control-label" %>
+        <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
+          ?
+        </button>
+        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+      </div>
+
+      <%= render 'leagues/draft_types_modal' %>
+
+      <div class="form-group required">
+        <%= f.label :num_draft_rounds, "Number of Rounds/Players per Team", class: "control-label" %>
+        <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Create League", class: "btn btn-primary" %>
+      </div>
+
+
+    <% end %>
+  </div>
+</div>
+<script>
+  $('#show-competitions').click(function() {
+    $('#competitions-table').toggle();
+  })
+</script>

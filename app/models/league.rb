@@ -26,4 +26,8 @@ class League < ApplicationRecord
     self.league_users.where(confirmed: false).count > 0
   end
 
+  def user_confirmed? user
+    LeagueUser.find_by(user_id: user, league_id: self).confirmed
+  end
+
 end

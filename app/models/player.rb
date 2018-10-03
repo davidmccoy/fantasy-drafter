@@ -9,6 +9,11 @@ class Player < ApplicationRecord
     self.results.find_by(competition_id: competition.id)
   end
 
+  def season_results season
+    competitions = Competition.where(season_id: season).pluck(:id)
+    self.results.find_by(competition_id: competitions)
+  end
+
   def points_per_result
     points = 0
     num_results = self.results.count

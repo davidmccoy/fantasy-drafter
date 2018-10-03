@@ -9,7 +9,7 @@
           <%= link_to 'Draft Now', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-success' %>
         <% end %>
       <% else %>
-        <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' if @league.leagueable.date > Time.now%>
+        <%= link_to 'Join Now!', game_competition_league_join_path(@game, @competition, @league), class: 'btn btn-primary' if @league.leagueable.start_date > Time.now%>
       <% end %>
     <% end %>
   </p>
@@ -32,6 +32,6 @@
     <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
   </p>
   <p>
-    <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+    <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
   </p>
 </div>

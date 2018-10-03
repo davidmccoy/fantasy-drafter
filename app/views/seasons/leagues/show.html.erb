@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div id="league">
+      <% case @league.draft_type %>
+      <% when 'snake' %>
+        <%= render 'snake_info' %>
+        <%= render 'snake' %>
+      <% when 'pick_x' %>
+        <%= render 'pick_x_info' %>
+        <%= render 'pick_x' %>
+      <% end %>
+    </div>
+  </div>
+</div>

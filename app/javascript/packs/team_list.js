@@ -32,12 +32,70 @@ class TeamList extends React.Component {
     if (this.props.draftType === 'snake') {
       return (
         <div>
-          { this.props.team !== undefined  &&
-            <div>
+          { this.props.team !== undefined &&
+            <div id="react-stared-player-table">
               <h4>{this.props.team.name}</h4>
-              <ul>
-                {players}
-              </ul>
+              <p>Draft {this.props.myPicks !== undefined ? this.props.myPicks.length : 6} players your roster then submit your team below.</p>
+              <ReactTable
+                columns={[
+                  {
+                    columns: [
+                      {
+                        Header: "Pick",
+                        accessor: "pick_number",
+                        maxWidth: 50,
+                        filterable: false,
+                        Cell: (row) => {
+                          return <div>#{row.value}</div>;
+                        }
+                      },
+                      {
+                        Header: "Points",
+                        accessor: "points",
+                        maxWidth: 50,
+                        sortable: false,
+                        sortMethod: (a, b) => {
+                          if(a === null){
+                            return 1;
+                          }
+                          else if(b === null){
+                            return -1;
+                          }
+                          else if(a === b){
+                            return 0;
+                          }
+                          return a > b ? 1 : -1;
+                        }
+                      },
+                      {
+                        Header: "ELO",
+                        accessor: "elo",
+                        sortable: false,
+                        maxWidth: 55
+                      },
+                      {
+                        Header: "Name",
+                        accessor: "name",
+                        sortable: false
+                      }
+                    ]
+                  }
+                ]}
+                defaultSorted={[
+                  {
+                    id: "pick_number",
+                    desc: false,
+                    nulls: 'last'
+                  }
+                ]}
+                data={this.props.team.players}
+                loading={this.props.loading}
+                showPagination={false}
+                defaultPageSize={this.props.myPicks !== undefined ? (this.props.myPicks.length > 0 ? this.props.myPicks.length : 1) : 6}
+                showPageSizeOptions={false}
+                key={this.props.team.players.length}
+                className="-striped -highlight"
+              />
             </div>
           }
         </div>
@@ -63,8 +121,8 @@ class TeamList extends React.Component {
                         }
                       },
                       {
-                        Header: "xRank",
-                        accessor: "power_ranking",
+                        Header: "Points",
+                        accessor: "points",
                         maxWidth: 50,
                         sortable: false,
                         sortMethod: (a, b) => {

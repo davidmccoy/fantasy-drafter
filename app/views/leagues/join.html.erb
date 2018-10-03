@@ -18,7 +18,7 @@
         <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
       </p>
       <p>
-        <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+        <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
       </p>
 
       <%= form_for [@competition.game, @competition, @league, @league_user] do |f| %>

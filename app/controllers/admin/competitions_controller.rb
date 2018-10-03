@@ -1,6 +1,10 @@
 class Admin::CompetitionsController < ApplicationController
   before_action :authenticate_admin
 
+  def index
+    @competitions = Competition.all.order(date: :desc)
+  end
+
   def new
     @competition = Competition.new
   end
@@ -37,6 +41,6 @@ class Admin::CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :date, :location, :score_as_of_round)
+    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :date, :end_date, :location, :score_as_of_round)
   end
 end

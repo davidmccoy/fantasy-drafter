@@ -2,21 +2,26 @@
   <div class="col-md-8 offset-md-2">
     <h2><%= @competition.name %></h2>
     <p>
-      Game: <%= @competition.game.name %>
+      A single-event league is an easy way to play <strong>Fantasy Pro Tour</strong>. Looking for something a little more involved? Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, @competition.season) %>!
     </p>
     <p>
-      Date: <%= @competition.date.localtime.strftime("%m/%d/%Y") %>
+      <strong>Date:</strong> <%= @competition.start_date.localtime.strftime("%m/%d/%Y") %>
     </p>
     <p>
-      Location: <%= @competition.location %>
+      <strong>Location:</strong> <%= @competition.location %>
     </p>
 
     <%= form_for [@competition.game, @competition, @league] do |f| %>
 
       <div class="form-group required">
         <%= f.label :draft_type, "Draft Type", class: "control-label" %>
+        <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
+          ?
+        </button>
         <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
       </div>
+
+      <%= render 'leagues/draft_types_modal' %>
 
       <div class="form-group required">
         <%= f.label :num_draft_rounds, "Number of Rounds/Players per Team", class: "control-label" %>
