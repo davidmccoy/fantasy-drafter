@@ -35,6 +35,16 @@ html {
       padding: 0;
       width: 100%;
       position: relative;
+      a {
+        color: $primary;
+        font-weight: bolder;
+        text-decoration: underline;
+        &.btn {
+          color: $white;
+          font-weight: normal;
+          text-decoration: none;
+        }
+      }
       .container-fluid {
         margin: 1rem 0;
       }
