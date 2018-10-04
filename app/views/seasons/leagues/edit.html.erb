@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1><%= @league.leagueable.name %></h1>
+    <%= form_for [@game, @season, @league] do |f| %>
+      <p>
+        <strong>Commissioner:</strong> <%= @league.admin.name %>
+      </p>
+      <div class="form-group required">
+        <%= f.label :num_draft_rounds, "Number of Rounds", class: "control-label" %>
+        <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.fields_for :draft do |ff| %>
+          <div>
+            <%= ff.label :start_time, "Start Time", class: "control-label" %>
+            <%= ff.datetime_field :start_time, required: false, class: "form-control" %>
+          </div>
+        <% end %>
+      </div>
+      <p>
+        <strong>Event Start:</strong> <%= @league.leagueable.start_date %>
+      </p>
+      <div class="actions">
+        <%= f.submit "Update", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

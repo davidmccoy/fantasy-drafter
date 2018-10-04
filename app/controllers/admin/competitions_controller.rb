@@ -1,13 +1,17 @@
 class Admin::CompetitionsController < ApplicationController
   before_action :authenticate_admin
 
+  def index
+    @competitions = Competition.all.order(start_date: :desc)
+  end
+
   def new
     @competition = Competition.new
   end
 
   def create
     @competition = Competition.new(competition_params.merge(
-                                    date: competition_params[:date].to_time.utc
+                                    start_date: competition_params[:start_date].to_time.utc
                                    ))
     if @competition.save
       flash[:notice] = "Successfully created competition."
@@ -37,6 +41,6 @@ class Admin::CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:game_id, :name, :slug, :date, :location, :score_as_of_round)
+    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :start_date, :end_date, :location, :score_as_of_round)
   end
 end

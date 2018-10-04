@@ -25,6 +25,9 @@
     <% end %>
   </p>
   <p>
-    <strong>Event Start:</strong> <%= @league.leagueable.date.localtime.strftime("%m/%d/%Y") %>
+    <strong>League Start:</strong> <%= @league.leagueable.start_date %>
+  </p>
+  <p>
+    <strong>League End:</strong> <%= @league.leagueable.end_date %>
   </p>
 </div>

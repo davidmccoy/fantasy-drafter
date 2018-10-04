@@ -103,8 +103,8 @@ class AvailablePlayersTable extends React.Component {
                   )
                 },
                 {
-                  Header: "xRank",
-                  accessor: "power_ranking",
+                  Header: "Points",
+                  accessor: "points",
                   maxWidth: 50,
                   filterable: false,
                   Cell: row => (
@@ -146,8 +146,8 @@ class AvailablePlayersTable extends React.Component {
           ]}
           defaultSorted={[
             {
-              id: "power_ranking",
-              desc: false
+              id: "points",
+              desc: true
             }
           ]}
           data={data}

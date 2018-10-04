@@ -3,20 +3,32 @@
     <h1><%= @competition.name %></h1>
     <%= form_for @competition, url: admin_competition_path(@competition) do |f| %>
       <div class="form-group required">
-        <%= f.label :name, "Score as of Round", class: "control-label" %>
-        <%= f.text_field :name, min: 1, max: 12, required: true, class: "form-control" %>
+        <%= f.label :season_id, "Season",  class: "control-label" %>
+        <%= select_tag "competition[season_id]", options_from_collection_for_select(Season.all.reverse, 'id', 'name', @competition.season_id), include_blank: "Select Season", required: false, class: "form-control" %>
       </div>
       <div class="form-group required">
-        <%= f.label :date, "Score as of Round", class: "control-label" %>
-        <%= f.datetime_field :date, min: 1, max: 12, required: true, class: "form-control" %>
+        <%= f.label :name, "Name", class: "control-label" %>
+        <%= f.text_field :name, required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
-        <%= f.label :location, "Score as of Round", class: "control-label" %>
-        <%= f.text_field :location, min: 1, max: 12, required: true, class: "form-control" %>
+        <%= f.label :start_date, "Start Date", class: "control-label" %>
+        <%= f.datetime_field :start_date, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :end_date, "End Date", class: "control-label" %>
+        <%= f.date_field :end_date, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :location, "Location", class: "control-label" %>
+        <%= f.text_field :location, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :slug, "Slug", class: "control-label" %>
+        <%= f.text_field :slug, required: true, class: "form-control" %>
       </div>
       <div class="form-group required">
         <%= f.label :score_as_of_round, "Score as of Round", class: "control-label" %>
-        <%= f.number_field :score_as_of_round, min: 1, max: 12, required: true, class: "form-control" %>
+        <%= f.number_field :score_as_of_round, min: 0, max: 16, required: true, class: "form-control" %>
       </div>
       <div class="actions">
         <%= f.submit "Update", class: "btn btn-primary" %>

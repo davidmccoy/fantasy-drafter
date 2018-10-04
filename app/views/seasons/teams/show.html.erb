@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= link_to "< Back To Your League", game_season_league_path(@team.league.leagueable.game, @team.league.leagueable, @team.league) %>
+
+    <h1>
+      <%= @team.name %>
+      <% if current_user == @team.user || current_user == @team.league.admin || current_user.admin %>
+        <%= link_to "(Edit)", edit_game_season_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
+      <% end %>
+    </h1>
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>
+            Points
+          </th>
+          <th>
+            Player
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @team.players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
+        <tr id="<%= player.name %>">
+          <td>
+            <%= player.season_results(@team.league.leagueable)&.points ? player.season_results(@team.league.leagueable)&.points : "N/A" %>
+          </td>
+          <td>
+            <%= player.name %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

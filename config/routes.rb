@@ -21,6 +21,24 @@ Rails.application.routes.draw do
   resource :contact_us, controller: 'contact_us'
 
   resources :games, param: :slug, only: [:index, :new] do
+    resources :seasons, param: :slug do
+      resources :leagues, controller: 'seasons/leagues' do
+        match 'join', to: 'seasons/leagues#join', via: [:get]
+        resources :league_users, controller: 'seasons/league_users' do
+          match 'confirm', to: 'seasons/league_users#confirm', via: [:get]
+          match 'resend_invite', to: 'seasons/league_users#resend_invite', via: [:get]
+        end
+        resources :teams, controller: 'seasons/teams'
+        resources :drafts, controller: 'seasons/drafts' do
+          post 'start', to: 'seasons/drafts#start'
+          post 'submit', to: 'seasons/drafts#submit'
+          put 'picks/pick_x', to: 'seasons/picks#pick_x'
+          put 'picks/remove_player', to: 'seasons/picks#remove_player'
+          resources :picks, controller: 'seasons/picks'
+          resources :stars, controller: 'seasons/stars'
+        end
+      end
+    end
     resources :competitions, param: :slug, only: [:index, :show] do
       match 'results/import', to: 'results#import', via: [:post]
       match 'results/team_import', to: 'results#team_import', via: [:post]
@@ -66,6 +84,7 @@ Rails.application.routes.draw do
       match 'players/import', to: 'competition_players#import', via: [:post]
       resources :competition_players, path: 'players'
     end
+    resources :seasons
     get 'players/stats', to: 'players#stats'
     post 'players/add_stats', to: 'players#add_stats'
   end

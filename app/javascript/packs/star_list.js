@@ -69,8 +69,8 @@ class StarList extends React.Component {
                   )
                 },
                 {
-                  Header: "xRank",
-                  accessor: "power_ranking",
+                  Header: "Points",
+                  accessor: "points",
                   maxWidth: 50,
                   sortable: false,
                   sortMethod: (a, b) => {

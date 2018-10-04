@@ -88,6 +88,10 @@ class ApplicationController < ActionController::Base
     authorize @player
   end
 
+  def set_season
+    @season = Season.find_by(slug: params[:season_slug]) || Season.find_by(slug: params[:slug])
+  end
+
   def set_competition
     @competition = Competition.find_by(slug: params[:competition_slug]) || Competition.find_by(slug: params[:slug])
   end

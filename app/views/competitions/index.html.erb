@@ -4,8 +4,8 @@
       <h2>Featured <%= @game.name %> Events</h2>
     </div>
     <div>
-      <% if @competitions.where("date >= ?", Time.now).length > 0 %>
-        <% @competitions.where("date >= ?", Time.now).each do |competition| %>
+      <% if @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).length > 0 %>
+        <% @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).each do |competition| %>
             <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
               <div class="container">
                 <div class="row">
@@ -19,7 +19,7 @@
               <div class="row">
                 <div class="col-md">
                   <p>
-                    Date: <%= competition.date.localtime.strftime("%m/%d/%Y") %>
+                    Date: <%= competition.start_date.localtime.strftime("%m/%d/%Y") %>
                   </p>
                 </div>
                 <div class="col-md">
@@ -65,13 +65,13 @@
           </tr>
         </thead>
         <tbody>
-          <% @competitions.order(date: :desc).each do |competition| %>
+          <% @competitions.where("start_date <= ?", Time.now).order(start_date: :desc).each do |competition| %>
             <tr>
               <td>
                 <%= competition.name %>
               </td>
               <td>
-                <%= competition.date.localtime.strftime("%m/%d/%Y") %>
+                <%= competition.start_date.localtime.strftime("%m/%d/%Y") %>
               </td>
               <td>
                 <%= link_to "Results", game_competition_results_path(competition.game, competition), class: "btn btn-primary" %>

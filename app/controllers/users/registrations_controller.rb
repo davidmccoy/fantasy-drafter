@@ -36,7 +36,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
             invite = Invite.find(params[:invite_id])
             invite.update(accepted: true, token: nil)
 
-            redirect_to game_competition_league_path(league.leagueable.game, league.leagueable, league) and return
+            if league.leagueable.type == Season
+              redirect_to game_season_league_path(league.leagueable.game, league.leagueable, league) and return
+            elsif league.leagueable.type == Competition
+              redirect_to game_competition_league_path(league.leagueable.game, league.leagueable, league) and return
+            end
           else
             respond_with resource, location: after_sign_up_path_for(resource) and return
           end

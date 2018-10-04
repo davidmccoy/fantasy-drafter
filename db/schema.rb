@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180917173352) do
+ActiveRecord::Schema.define(version: 20181003230000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,12 +24,14 @@ ActiveRecord::Schema.define(version: 20180917173352) do
   create_table "competitions", id: :serial, force: :cascade do |t|
     t.integer "game_id"
     t.string "name"
-    t.datetime "date"
+    t.datetime "start_date"
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "score_as_of_round", default: 0
+    t.integer "season_id"
+    t.date "end_date"
     t.index ["slug"], name: "index_competitions_on_slug", unique: true
   end
 
@@ -90,6 +92,13 @@ ActiveRecord::Schema.define(version: 20180917173352) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "player_records", force: :cascade do |t|
+    t.integer "player_id"
+    t.string "competition_name"
+    t.string "competition_record"
+    t.string "competition_format"
+  end
+
   create_table "players", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "team"
@@ -98,6 +107,11 @@ ActiveRecord::Schema.define(version: 20180917173352) do
     t.integer "elo"
     t.integer "top_25_ranking"
     t.integer "power_ranking"
+    t.integer "points"
+    t.datetime "stats_updated_at"
+    t.string "gp_record"
+    t.string "pt_record"
+    t.string "stats_url"
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
@@ -114,6 +128,10 @@ ActiveRecord::Schema.define(version: 20180917173352) do
   create_table "seasons", id: :serial, force: :cascade do |t|
     t.integer "game_id"
     t.string "name"
+    t.string "slug"
+    t.date "start_date"
+    t.date "end_date"
+    t.index ["slug"], name: "index_seasons_on_slug", unique: true
   end
 
   create_table "stars", force: :cascade do |t|

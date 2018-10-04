@@ -29,10 +29,25 @@ class Api::DraftsController < ApplicationController
 
   def all_teams
     current_team = @draft.league.teams.find_by_id(current_user.team(@draft.league))
-    current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
-    Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
-      current_team_players << { name: nil, delete_link: nil }
+
+    if @draft.league.draft_type == 'snake'
+      current_team_players =
+      current_team.picks.order(:number).map { |pick|
+        {
+          pick_number: pick.number,
+          name: pick.player&.name,
+          elo: pick.player&.elo,
+          points: pick.player&.points
+        }
+      }
+    elsif @draft.league.draft_type == 'pick_x'
+      current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
+
+      Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
+        current_team_players << { name: nil, delete_link: nil }
+      end
     end
+
 
     @my_team = {
       user_id: current_user.id,

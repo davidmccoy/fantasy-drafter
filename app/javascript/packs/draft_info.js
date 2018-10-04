@@ -61,7 +61,7 @@ class DraftInfo extends React.Component {
             During the draft, the players that are still available to draft are in listed in the "Available Players" table.
           </p>
           <p>
-            The "xRank" column is the player's rank in the latest Fantasy Pro Tour Power Rankings. These rankings are determined by using a combination of ELO rating (explained below), Top 25 ranking, as well as a player's success in the formats played at this event.
+            The "Points" column is the player's total Pro Points earned during the past four Cycles (usually the last 10-12 months.)
           </p>
           <p>
             The "ELO" column lists the player's ELO rating, which is a scoring system where every player starts with a rating of 1500. After each match, the winning player takes points from the losing player. The amount of points at stake is determined by the difference in the players' ratings.

@@ -74,6 +74,7 @@ class PicksController < ApplicationController
   def pick_x
     # TODO: why are picks being assigned player_id: 0 ?
     picks = Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id)
+    return if player_already_chosen? params, current_user, @league
     pick = picks.first
 
     if pick.update(player_id: pick_params[:player_id])
@@ -146,6 +147,10 @@ class PicksController < ApplicationController
 
   def pick_params
     params.permit(:player_id, :my_picks)
+  end
+
+  def player_already_chosen? params, current_user, league
+    Pick.where(id: pick_params[:my_picks].split(','), player_id: params[:player_id], team_id: current_user.team(league).id).length > 0
   end
 
 end
