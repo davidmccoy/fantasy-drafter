@@ -1,9 +1,41 @@
 <div class="row">
   <div class="col-md-8 offset-md-2">
     <div>
-      <h2>Featured <%= @game.name %> Events</h2>
+      <h1>Featured <%= @game.name %> Events</h1>
     </div>
     <div>
+      <h3>Seasons</h3>
+      <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
+        <div class="container">
+          <div class="row">
+            <div class="col-md">
+              <%= Season.first.name %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="competition-info">
+        <div class="row">
+          <div class="col-md">
+            <p>
+              <strong>Start Date:</strong> <%= Season.first.start_date %>
+            </p>
+          </div>
+          <div class="col-md">
+            <p>
+              <strong>Events:</strong> <%= Season.first.competitions.count %>
+            </p>
+          </div>
+          <div class="col-md">
+            <p>
+              <%= link_to "View Leagues", game_season_leagues_path(Season.first.game, Season.first), class: "btn btn-primary" %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>Single Events</h3>
       <% if @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).length > 0 %>
         <% @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).each do |competition| %>
             <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
@@ -19,12 +51,12 @@
               <div class="row">
                 <div class="col-md">
                   <p>
-                    Date: <%= competition.start_date.localtime.strftime("%m/%d/%Y") %>
+                    <strong>Date:</strong> <%= competition.start_date.localtime.strftime("%m/%d/%Y") %>
                   </p>
                 </div>
                 <div class="col-md">
                   <p>
-                    Location: <%= competition.location %>
+                    <strong>Location:</strong> <%= competition.location %>
                   </p>
                 </div>
                 <div class="col-md">
