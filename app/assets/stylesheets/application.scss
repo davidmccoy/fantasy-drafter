@@ -43,6 +43,9 @@ html {
           color: $white;
           font-weight: normal;
           text-decoration: none;
+          &-light {
+            color: $black;
+          }
         }
       }
       .container-fluid {
