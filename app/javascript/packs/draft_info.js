@@ -75,7 +75,7 @@ class DraftInfo extends React.Component {
             </p>
             <h5>Scoring</h5>
             <p>
-              Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 4. The team with the most points wins the league.
+              Once you've drafted your team, your players and decks will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. The team with the most points wins the league.
             </p>
           </div>
         </div>
