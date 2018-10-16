@@ -4,6 +4,8 @@ class LeagueUser < ApplicationRecord
   belongs_to :user
   has_one :team, dependent: :destroy
 
+  validates_uniqueness_of :user_id, scope: :league_id
+
   # To allow users to delete their account while we maintain their stats
   def user
     user = User.find_by_id(self.user_id)

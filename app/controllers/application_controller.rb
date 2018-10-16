@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
 
-  helper_method :authenticate_admin
+  helper_method :authenticate_admin, :markdown
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -169,4 +169,17 @@ class ApplicationController < ActionController::Base
   end
 
   # TODO authorize_star
+
+  def markdown text
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+                                       no_intra_emphasis: true,
+                                       fenced_code_blocks: true,
+                                       disable_indented_code_blocks: true,
+                                       autolink: true,
+                                       tables: true,
+                                       underline: true,
+                                       highlight: true
+                                      )
+    return markdown.render(text).html_safe
+  end
 end

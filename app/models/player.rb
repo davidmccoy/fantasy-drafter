@@ -7,6 +7,8 @@ class Player < ApplicationRecord
   has_many :results
   has_many :player_records
 
+  enum player_type: { player: 0, card: 1, deck: 2 }
+
   def result competition
     self.results.find_by(competition_id: competition.id)
   end

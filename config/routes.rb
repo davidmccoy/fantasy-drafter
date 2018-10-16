@@ -56,6 +56,7 @@ Rails.application.routes.draw do
           post 'start', to: 'drafts#start'
           post 'submit', to: 'drafts#submit'
           put 'picks/pick_x', to: 'picks#pick_x'
+          put 'picks/special', to: 'picks#special'
           put 'picks/remove_player', to: 'picks#remove_player'
           resources :picks
           resources :stars
@@ -71,8 +72,10 @@ Rails.application.routes.draw do
         get 'all_teams', to: 'drafts#all_teams'
         resources :stars, only: [:index]
       end
+      resources :players, only: [:show]
     end
     resource :subscriber, only: [:create]
+
   end
 
   # Admin #
@@ -84,6 +87,7 @@ Rails.application.routes.draw do
       match 'players/import', to: 'competition_players#import', via: [:post]
       resources :competition_players, path: 'players'
     end
+    resources :players
     resources :seasons
     get 'players/stats', to: 'players#stats'
     post 'players/add_stats', to: 'players#add_stats'

@@ -307,3 +307,37 @@ html {
     background-color: $success;
   }
 }
+
+// Modals =======================================================================
+
+.fade.modal-backdrop.in {
+  opacity: 0.5;
+}
+
+.fade.in.modal {
+  opacity: 1;
+  .modal-header {
+    .close {
+      position: absolute;
+      right: 1rem;
+    }
+  }
+}
+
+.fade.modal {
+  .modal-header {
+    .close {
+      position: absolute;
+      right: 1rem;
+    }
+  }
+}
+
+.modal-lg.modal-dialog {
+  height: 0px;
+}
+
+.modal.fade .modal-dialog.modal-dialog-centered {
+  transform: none;
+  -webkit-transform: none;
+}

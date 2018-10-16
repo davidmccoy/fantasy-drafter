@@ -99,6 +99,7 @@
           </tr>
         </thead>
         <tbody>
+          <% if @competition.season %>
           <tr>
             <td>
               <%= @competition.season.name %>
@@ -139,6 +140,7 @@
               <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
             </td>
           </tr>
+          <% end %>
           <tr>
             <td>
               <%= @competition.name %>

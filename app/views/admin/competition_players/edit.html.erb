@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Edit <%= @competition_player.player.name %></h2>
+    <%= form_for @competition_player.player, url: admin_competition_competition_player_path(@competition, @competition_player) do |f| %>
+      <div class="form-group required">
+        <%= f.label :name, class: "control-label" %>
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :bio, class: "control-label" %>
+        <%= f.text_area :bio, required: false, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :player_type, class: "control-label" %>
+        <%= select_tag "player[player_type]", options_for_select([["Player", "player"], ["Card", "card"], ["Deck", "deck"]], @competition_player.player.player_type), include_blank: "Player Type", class: "form-control" %>
+      </div>
+      <%= f.submit "Update Player", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

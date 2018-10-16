@@ -403,3 +403,14 @@
 	cursor: col-resize;
 	user-select: none;
 }
+
+// custom styles
+// =====================
+
+.rt-td {
+	span {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

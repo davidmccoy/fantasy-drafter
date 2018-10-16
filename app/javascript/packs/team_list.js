@@ -5,12 +5,19 @@ import PropTypes from 'prop-types';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
+import PlayerDetailModal from './player_detail_modal';
+
 import minus from '../../assets/images/minus-circle.svg';
 
 class TeamList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      player: {}
+    }
     this.onRemovePlayer = this.onRemovePlayer.bind(this);
+    this.changeModalPlayer = this.changeModalPlayer.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   onRemovePlayer(e, url) {
@@ -18,6 +25,24 @@ class TeamList extends React.Component {
     this.props.handleRemovePlayer(url, 'PUT');
   }
 
+  changeModalPlayer(e, playerId) {
+    $.ajax({
+      url: `/api/players/${playerId}`,
+      dataType: 'json',
+      success: function(data){
+        this.setState({
+          player: data.player,
+          showModal: true
+        })
+      }.bind(this)
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      showModal: false
+    })
+  }
 
   render() {
     let players = null;
@@ -76,7 +101,12 @@ class TeamList extends React.Component {
                       {
                         Header: "Name",
                         accessor: "name",
-                        sortable: false
+                        sortable: false,
+                        Cell: row => (
+                          <span
+                            onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                          >{row.value}</span>
+                        )
                       }
                     ]
                   }
@@ -98,6 +128,137 @@ class TeamList extends React.Component {
               />
             </div>
           }
+          <PlayerDetailModal
+            player={this.state.player}
+            show={this.state.showModal}
+            onHide={this.hideModal}
+          />
+        </div>
+      );
+    } else if (this.props.draftType === 'special') {
+      return (
+        <div>
+          { this.props.team !== undefined &&
+            <div id="react-my-team-table">
+              <h4>{this.props.team.name}</h4>
+              <p>Draft 4 players (each player can be drafted one per format) and two Battle Decks your roster then submit your team below.</p>
+              <h5>Players</h5>
+              <ReactTable
+                columns={[
+                  {
+                    columns: [
+                      {
+                        Header: "Type",
+                        accessor: "player_type",
+                        sortable: false,
+                        maxWidth: 55
+                      },
+                      {
+                        Header: "Name",
+                        accessor: "name",
+                        sortable: false,
+                        Cell: row => (
+                          <span
+                            onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                          >{row.value}</span>
+                        )
+                      },
+                      {
+                        Header: "",
+                        accessor: "delete_link",
+                        maxWidth: 54,
+                        sortable: false,
+                        Cell: row => (
+                          <button
+                            // href={row.value}
+                            className="btn btn-sm remove-player-link"
+                            // data-remote="true"
+                            rel="nofollow"
+                            onClick={(e) => {this.onRemovePlayer(e, row.value)}}
+                            style={{display: row.value === undefined || row.value === null ? "none" : null}}
+                          ><img src={minus} className="minus-image" /></button>
+                        )
+                      }
+                    ]
+                  }
+                ]}
+                defaultSorted={[
+                  {
+                    id: "pick_number",
+                    desc: false,
+                    nulls: 'last'
+                  }
+                ]}
+                data={this.props.team.players.filter(e => e.player_type === "Player")}
+                loading={this.props.loading}
+                showPagination={false}
+                defaultPageSize={4}
+                showPageSizeOptions={false}
+                key="players"
+                className="-striped -highlight"
+              />
+              <h5>Battle Decks</h5>
+              <ReactTable
+                columns={[
+                  {
+                    columns: [
+                      {
+                        Header: "Type",
+                        accessor: "player_type",
+                        sortable: false,
+                        maxWidth: 55
+                      },
+                      {
+                        Header: "Name",
+                        accessor: "name",
+                        sortable: false,
+                        Cell: row => (
+                          <span
+                            onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                          >{row.value}</span>
+                        )
+                      },
+                      {
+                        Header: "",
+                        accessor: "delete_link",
+                        maxWidth: 54,
+                        sortable: false,
+                        Cell: row => (
+                          <button
+                            // href={row.value}
+                            className="btn btn-sm remove-player-link"
+                            // data-remote="true"
+                            rel="nofollow"
+                            onClick={(e) => {this.onRemovePlayer(e, row.value)}}
+                            style={{display: row.value === undefined || row.value === null ? "none" : null}}
+                          ><img src={minus} className="minus-image" /></button>
+                        )
+                      }
+                    ]
+                  }
+                ]}
+                defaultSorted={[
+                  {
+                    id: "pick_number",
+                    desc: false,
+                    nulls: 'last'
+                  }
+                ]}
+                data={this.props.team.players.filter(e => e.player_type === "Deck")}
+                loading={this.props.loading}
+                showPagination={false}
+                defaultPageSize={2}
+                showPageSizeOptions={false}
+                key="decks"
+                className="-striped -highlight"
+              />
+            </div>
+          }
+          <PlayerDetailModal
+            player={this.state.player}
+            show={this.state.showModal}
+            onHide={this.hideModal}
+          />
         </div>
       );
     } else {
@@ -147,7 +308,12 @@ class TeamList extends React.Component {
                       {
                         Header: "Name",
                         accessor: "name",
-                        sortable: false
+                        sortable: false,
+                        Cell: row => (
+                          <span
+                            onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                          >{row.value}</span>
+                        )
                       },
                       {
                         Header: "",
@@ -185,6 +351,11 @@ class TeamList extends React.Component {
               />
             </div>
           }
+          <PlayerDetailModal
+            player={this.state.player}
+            show={this.state.showModal}
+            onHide={this.hideModal}
+          />
         </div>
       )
     }

@@ -8,6 +8,7 @@ json.players @available_players do |player|
                 protocol: "https"
               )
   json.player_id player.id
+  json.player_type player.player_type.capitalize
   json.points player.points
   json.elo player.elo
   json.power_ranking player.power_ranking

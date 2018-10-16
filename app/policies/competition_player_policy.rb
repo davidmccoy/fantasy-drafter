@@ -8,6 +8,14 @@ class CompetitionPlayerPolicy <  ApplicationPolicy
     admin?
   end
 
+  def edit?
+    admin?
+  end
+
+  def update?
+    admin?
+  end
+
   def import?
     admin?
   end
