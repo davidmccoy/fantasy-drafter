@@ -65,6 +65,7 @@ class LeagueUsersController < ApplicationController
     end
 
   rescue StandardError, ActiveRecord::Invalid => e
+    p e
     case e.record.class.name
     when 'LeagueUser'
       if e.record.errors.messages.include? :user_id
@@ -73,9 +74,9 @@ class LeagueUsersController < ApplicationController
         flash[:alert] = 'Something went wrong. Maybe you\'re already in this league?'
       end
     when 'Team'
-      flash[:alert] = team.errors.messages[:name].first
+      flash[:alert] = team.errors.messages
     else
-      flash[:alert] = team.errors.messages[:name].first
+      flash[:alert] = team.errors.messages
     end
     redirect_to game_competition_league_join_path(@league.leagueable.game,@league.leagueable, @league) and return
   end
