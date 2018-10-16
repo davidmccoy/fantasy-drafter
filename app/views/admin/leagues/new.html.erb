@@ -20,7 +20,7 @@
 
       <div class="form-group required">
         <%= f.label :draft_type, "Draft Type", class: "control-label" %>
-        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"], ["Pick 'Em", "pick_em"]]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"], ["Pick 'Em", "pick_em"], ["Special", "special"]]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
       </div>
 
       <div class="form-group required">
