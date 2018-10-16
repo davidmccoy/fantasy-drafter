@@ -12,22 +12,30 @@ class LeagueUsersController < ApplicationController
   end
 
   def create
+    league_user = nil
+    team = nil
     if request.referrer.include? "join"
-      league_user = LeagueUser.new(
-                      league_id: @league.id,
-                      user_id: current_user.id,
-                      confirmed: true
-                    )
-      if league_user.save
-        # create team
-        team = league_user.create_team(team_params)
-        # create picks
-        @league.num_draft_rounds.times {
-          Pick.create(
-            draft_id: @league.draft.id,
-            team_id: team.id
+      LeagueUser.transaction do
+        Team.transaction do
+          # create league user
+          league_user = LeagueUser.create!(
+            league_id: @league.id,
+            user_id: current_user.id,
+            confirmed: true
           )
-        }
+          # create team
+          team = league_user.create_team(team_params)
+          team.save!
+          # create picks
+          @league.num_draft_rounds.times {
+            Pick.create(
+              draft_id: @league.draft.id,
+              team_id: team.id
+            )
+          }
+        end
+      end
+      if league_user
         flash[:notice] = "Successfully joined this league."
         redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league) and return
       else
@@ -56,7 +64,21 @@ class LeagueUsersController < ApplicationController
       redirect_to game_competition_league_league_users_path(@league.leagueable.game,@league.leagueable, @league) and return
     end
 
-
+  rescue StandardError, ActiveRecord::Invalid => e
+    p e
+    case e.record.class.name
+    when 'LeagueUser'
+      if e.record.errors.messages.include? :user_id
+        flash[:alert] = 'You are already in this league.'
+      else
+        flash[:alert] = 'Something went wrong. Maybe you\'re already in this league?'
+      end
+    when 'Team'
+      flash[:alert] = team.errors.messages
+    else
+      flash[:alert] = team.errors.messages
+    end
+    redirect_to game_competition_league_join_path(@league.leagueable.game,@league.leagueable, @league) and return
   end
 
   # TODO notification email for accpted invite
@@ -134,7 +156,7 @@ class LeagueUsersController < ApplicationController
   private
 
   def team_params
-    params.require(:team).permit(:name)
+    params.require(:team).permit(:name, :supporting)
   end
 
 end

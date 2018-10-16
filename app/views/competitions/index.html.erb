@@ -37,7 +37,7 @@
     <div>
       <h3>Single Events</h3>
       <% if @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).length > 0 %>
-        <% @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).each do |competition| %>
+        <% @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).order(:start_date).each do |competition| %>
             <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
               <div class="container">
                 <div class="row">

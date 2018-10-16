@@ -109,7 +109,12 @@ class DraftViewer extends React.Component {
   }
 
   pickPlayer(url) {
-    let pickUrl = this.props.draftType === 'snake' ? url.replace('pick-number', this.state.currentPickId) : url.replace('pick-number', 'pick_x') + '&my_picks=' + this.props.myPicks.toString();
+    let pickUrl = this.props.draftType === 'snake' ?
+      url.replace('pick-number', this.state.currentPickId) :
+      (this.props.draftType === 'pick_x' ?
+        url.replace('pick-number', 'pick_x') + '&my_picks=' + this.props.myPicks.toString() :
+        url.replace('pick-number', 'special') + '&my_picks=' + this.props.myPicks.toString()
+      );
 
     $.ajax({
       url: pickUrl,
@@ -180,7 +185,9 @@ class DraftViewer extends React.Component {
     return (
       <div id="something" className="row">
         <div id="players" className="col-md-6">
-          <DraftInstructions />
+          <DraftInstructions
+            draftType={this.props.draftType}
+          />
           <AvailablePlayersTable
             data={this.state.data}
             loading={this.state.loading}

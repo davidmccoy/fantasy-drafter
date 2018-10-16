@@ -73,6 +73,9 @@ gem 'raygun4ruby'
 # scraping
 gem 'nokogiri'
 
+# markdown rendering
+gem 'redcarpet'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry'

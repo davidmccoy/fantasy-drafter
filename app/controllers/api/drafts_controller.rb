@@ -35,13 +35,21 @@ class Api::DraftsController < ApplicationController
       current_team.picks.order(:number).map { |pick|
         {
           pick_number: pick.number,
+          player_id: pick.player&.id,
+          player_type: pick.player&.player_type&.capitalize,
           name: pick.player&.name,
           elo: pick.player&.elo,
           points: pick.player&.points
         }
       }
     elsif @draft.league.draft_type == 'pick_x'
-      current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
+      current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, player_id: player.id, player_type: player&.player_type&.capitalize, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
+
+      Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
+        current_team_players << { name: nil, delete_link: nil }
+      end
+    elsif @draft.league.draft_type == 'special'
+      current_team_players = current_team.players.order(:power_ranking).map { |player| {name: player.name, player_id: player.id, player_type: player&.player_type&.capitalize, elo: player.elo, power_ranking: player.power_ranking, delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(player_id: player.id, team_id: current_team.id).id}&player_id=nil" } }
 
       Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
         current_team_players << { name: nil, delete_link: nil }

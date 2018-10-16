@@ -12,6 +12,20 @@ class Admin::CompetitionPlayersController < ApplicationController
   def new
   end
 
+  def edit
+  end
+
+  def update
+    @player = @competition_player.player
+
+    if @player.update(player_params)
+      flash[:notice] = "Successfully updated player."
+    else
+      flash[:alert] = "Failed to update player."
+    end
+
+    redirect_to admin_competition_competition_players_path(@competition)
+  end
 
   def import
     file = CSV.read(params[:file].path)
@@ -48,4 +62,9 @@ class Admin::CompetitionPlayersController < ApplicationController
     redirect_to admin_competition_competition_players_path(@competition)
   end
 
+  private
+
+  def player_params
+    params.require(:player).permit(:name, :bio, :player_type)
+  end
 end

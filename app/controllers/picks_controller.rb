@@ -5,7 +5,7 @@ class PicksController < ApplicationController
   before_action :set_league
   before_action :set_draft
   before_action :set_pick
-  before_action :authorize_pick, except: [:pick_x]
+  before_action :authorize_pick, except: [:pick_x, :special]
 
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
@@ -98,6 +98,33 @@ class PicksController < ApplicationController
     end
   end
 
+  def special
+    # TODO: why are picks being assigned player_id: 0 ?
+    picks = Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id)
+    return if player_already_chosen? params, current_user, @league
+    pick = picks.first
+
+    if pick.update(player_id: pick_params[:player_id])
+      protocol = Rails.env.production? ? "https" : "http"
+
+      if Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id).length > 0
+        completed = false
+      else
+        completed = true
+      end
+
+      @response = {
+        team_id: pick.team_id,
+        user_name: pick.user.name,
+        player_id: pick.player_id,
+        player_name: pick.player.name,
+        completed: completed
+      }
+    else
+
+    end
+  end
+
   def remove_player
     if @pick.user == current_user || current_user == @pick.draft.league.admin
       player = @pick.player
@@ -108,6 +135,7 @@ class PicksController < ApplicationController
           id: star.id,
           name: star.player.name,
           player_id: star.player.id,
+          player_type: star.player.player_type.capitalize,
           elo: star.player.elo,
           power_ranking: star.player.power_ranking,
           pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{star.player.id}"
@@ -125,6 +153,7 @@ class PicksController < ApplicationController
                    protocol: "https"
                  ),
         player_id: player.id,
+        player_type: player.player_type.capitalize,
         elo: player.elo,
         power_ranking: player.power_ranking,
         name: player.name,

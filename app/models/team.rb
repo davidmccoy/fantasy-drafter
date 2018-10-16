@@ -6,6 +6,8 @@ class Team < ApplicationRecord
   has_many :picks
   has_many :players, through: :picks
 
+  validate :unique_team_names
+
   def points
     points = 0
 
@@ -30,6 +32,21 @@ class Team < ApplicationRecord
     end
 
     points
+  end
+
+  private
+
+  def unique_team_names
+    team_with_matching_name =
+      league.teams.where(
+        'lower(name) = ?',
+        name.downcase
+      )
+
+    errors.add(
+      :name,
+      "A team with the name \"#{name}\" already exists."
+    ) unless team_with_matching_name.empty? || team_with_matching_name.include?(self)
   end
 
 

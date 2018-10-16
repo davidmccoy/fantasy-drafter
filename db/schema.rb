@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181003230000) do
+ActiveRecord::Schema.define(version: 20181016195034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 20181003230000) do
     t.string "gp_record"
     t.string "pt_record"
     t.string "stats_url"
+    t.text "bio"
+    t.integer "player_type", default: 0
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
@@ -148,6 +150,7 @@ ActiveRecord::Schema.define(version: 20181003230000) do
     t.integer "points"
     t.boolean "submitted", default: false
     t.datetime "submitted_at"
+    t.string "supporting"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

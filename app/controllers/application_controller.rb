@@ -7,15 +7,21 @@ class ApplicationController < ActionController::Base
 
   before_action -> { flash.now[:alert] = flash[:alert].html_safe if flash[:html_safe] && flash[:alert] }
 
+  before_action :capture_referral
+
   around_action :with_timezone
 
   after_action :store_location
 
-  helper_method :authenticate_admin
+  helper_method :authenticate_admin, :markdown
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
+
+  def capture_referral
+    session[:referral_code] = params[:referral_code] if params[:referral_code]
+  end
 
   # use Pundit to redirect after failed auth
   def user_not_authorized
@@ -169,4 +175,17 @@ class ApplicationController < ActionController::Base
   end
 
   # TODO authorize_star
+
+  def markdown text
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
+                                       no_intra_emphasis: true,
+                                       fenced_code_blocks: true,
+                                       disable_indented_code_blocks: true,
+                                       autolink: true,
+                                       tables: true,
+                                       underline: true,
+                                       highlight: true
+                                      )
+    return markdown.render(text).html_safe
+  end
 end

@@ -7,8 +7,11 @@ class DraftsController < ApplicationController
   before_action :authorize_draft
 
   def show
+    # redirect if not logged in
     redirect_to new_user_session_path and return unless current_user
+    # redirect if team has already been submitted
     redirect_to game_competition_league_path(@game, @competition, @league) and return if current_user.team(@league).submitted
+    # if the user can still draft
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
@@ -26,6 +29,12 @@ class DraftsController < ApplicationController
 
       @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
     elsif @draft.league.draft_type == 'pick_x'
+      @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
+
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
+
+      @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(player_id: nil).order("number ASC")
+    elsif @draft.league.draft_type == 'special'
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:player_id) )
 
       @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
