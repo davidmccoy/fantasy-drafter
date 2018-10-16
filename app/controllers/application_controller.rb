@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action -> { flash.now[:alert] = flash[:alert].html_safe if flash[:html_safe] && flash[:alert] }
 
+  before_action :capture_referral
+
   around_action :with_timezone
 
   after_action :store_location
@@ -16,6 +18,10 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
+
+  def capture_referral
+    session[:referral_code] = params[:referral_code] if params[:referral_code]
+  end
 
   # use Pundit to redirect after failed auth
   def user_not_authorized

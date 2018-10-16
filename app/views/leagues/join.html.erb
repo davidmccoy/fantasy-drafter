@@ -33,6 +33,38 @@
           <%= label_tag 'team[name]', "Team Name", class: "control-label" %>
           <%= text_field_tag 'team[name]', nil, required: true, class: "form-control" %>
         </div>
+        <% if @league.draft_type == 'special' %>
+          <div class="form-group">
+            <%= label_tag 'team[supporting]', "Support a Player", class: "control-label" %>
+            <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#support-a-player-modal">
+              ?
+            </button>
+            <%= select_tag "team[supporting]", options_for_select([["Kenji Egashira", "kenji_egashira"], ["Josh Lee Kwai", "josh_lee_kwai"], ["Josh Lee Kwai", "josh_lee_kwai"], ["The Professor", "the_professor"], ["Michelle Rapp", "michelle_rapp"], ["Ashlen Rose", "ashlen_rose"], ["Gerry Thompson", "gerry_thompson"], ["James Turner", "james_turner"], ], session[:referral_code]), required: false, include_blank: "Select Player to Support", class: "form-control" %>
+          </div>
+          <div id="support-a-player-modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Support a Player</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    The Chalice is a charity tournament organized by Card Kingdom to raise money for Big Brothers, Big Sisters of Puget Sound. <a href="https://thechalice.causevox.com/" target="_blank">Each of the players in the Chalice is competing to raise money for the event.</a>
+                  </p>
+                  <p>
+                    Hipsters of the Coast and Fantasy Pro Tour will donate $1 to the player you choose to support when you register a team in the Chalice fantasy league.
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
         <div class="actions">
           <%= f.submit "Join", class: "btn btn-primary" %>
         </div>
