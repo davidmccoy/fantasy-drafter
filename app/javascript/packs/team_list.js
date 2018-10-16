@@ -141,7 +141,7 @@ class TeamList extends React.Component {
           { this.props.team !== undefined &&
             <div id="react-my-team-table">
               <h4>{this.props.team.name}</h4>
-              <p>Draft 4 players (each player can be drafted one per format) and two Battle Decks your roster then submit your team below.</p>
+              <p>Draft 4 players (each player can be drafted once per format) and two Battle Decks your roster then submit your team below.</p>
               <h5>Players</h5>
               <ReactTable
                 columns={[
