@@ -325,6 +325,19 @@ html {
 }
 
 .fade.modal {
+  a {
+    color: $primary;
+    font-weight: bolder;
+    text-decoration: underline;
+    &.btn {
+      color: $white;
+      font-weight: normal;
+      text-decoration: none;
+      &-light {
+        color: $black;
+      }
+    }
+  }
   .modal-header {
     .close {
       position: absolute;
