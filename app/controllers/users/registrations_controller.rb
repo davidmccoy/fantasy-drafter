@@ -14,7 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         if @user.save
           begin
-            Gibbon::Request.lists('4f6afd7475').members.create(body: { email_address: resource_params[:email] status: 'subscribed' }) if Rails.env.production?
+            Gibbon::Request.lists('4f6afd7475').members.create(body: { email_address: resource_params[:email], status: 'subscribed' }) if Rails.env.production?
           rescue => e
             puts 'failed to subscribe to mailchimp'
           end
