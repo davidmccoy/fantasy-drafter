@@ -56,7 +56,7 @@
                 <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
               </td>
               <td>
-                <%= league.draft_type.humanize.titleize %>
+                <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
               </td>
               <td>
                 <%= league.league_users.count %>
