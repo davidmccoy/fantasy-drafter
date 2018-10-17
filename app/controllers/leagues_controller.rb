@@ -27,7 +27,9 @@ class LeaguesController < ApplicationController
         )
       }
     end
-    AdminMailer.new_league(league).deliver_later
+    User.where(admin: true).each do |user|
+      AdminMailer.new_league(league, user.email).deliver_later
+    end 
     redirect_to game_competition_league_path(@competition.game, @competition, league)
   end
 
