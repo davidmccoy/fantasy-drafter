@@ -34,7 +34,7 @@
   <p>
     <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
   </p>
-  <% if @league.draft_type == 'special' && !@league.leagueable&.about&.blank? %>
+  <% if @league.draft_type == 'special' && !@league.leagueable.about.blank? %>
     <p>
       <strong>About This Event:</strong>
     </p>
