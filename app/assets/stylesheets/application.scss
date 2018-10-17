@@ -47,6 +47,10 @@ html {
             color: $black;
           }
         }
+        &.homepage-event-link {
+          color: $white;
+          font-weight: lighter;
+        }
       }
       .container-fluid {
         margin: 1rem 0;
