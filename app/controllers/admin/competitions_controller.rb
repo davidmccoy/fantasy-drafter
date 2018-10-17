@@ -31,7 +31,7 @@ class Admin::CompetitionsController < ApplicationController
     @competition = Competition.find_by(slug: params[:slug])
     if @competition.update(competition_params)
       flash[:notice] = "Successfully updated #{@competition.name}."
-      redirect_to admin_root_path(@competition) and return
+      redirect_to admin_root_path and return
     else
       flash[:alert] = "Failed to update #{@competition.name}."
       redirect_to admin_edit_competition_path(@competition) and return
@@ -41,6 +41,6 @@ class Admin::CompetitionsController < ApplicationController
   private
 
   def competition_params
-    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :start_date, :end_date, :location, :score_as_of_round)
+    params.require(:competition).permit(:game_id, :season_id, :name, :slug, :start_date, :end_date, :location, :score_as_of_round, :about)
   end
 end

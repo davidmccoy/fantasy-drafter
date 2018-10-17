@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181016195034) do
+ActiveRecord::Schema.define(version: 20181017001116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20181016195034) do
     t.integer "score_as_of_round", default: 0
     t.integer "season_id"
     t.date "end_date"
+    t.text "about"
     t.index ["slug"], name: "index_competitions_on_slug", unique: true
   end
 
