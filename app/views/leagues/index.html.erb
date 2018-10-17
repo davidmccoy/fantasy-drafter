@@ -10,9 +10,13 @@
 <div id="league" class="row">
   <div class="col-md-8 offset-md-2 with-fixed-bottom-bar">
     <div class="content">
+      <% if @competition.about.blank? %>
       <p>
         There are tons of ways to play <strong>Fantasy Pro Tour</strong>! Create your own league and invite your friends, or join a public league!
       </p>
+      <% else %>
+      <%= markdown(@competition.about) %> 
+      <% end %>
     </div>
     <div class="featured-leagues content">
       <h2>Featured Public Leagues</h2>
