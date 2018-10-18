@@ -58,7 +58,11 @@
               <%= league_user.team.name %>
             </td>
             <td>
-              <%= league_user.team.supporting&.humanize&.titleize %>
+              <% if league_user.team.supporting.blank? %>
+               Card Kingdom
+              <% else %>
+                <%= league_user.team.supporting&.humanize&.titleize %>
+              <% end %>
             </td>
           </tr>
         <% end %>
