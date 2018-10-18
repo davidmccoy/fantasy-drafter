@@ -8,6 +8,16 @@
         <%= f.text_field :name, required: true, class: "form-control" %>
       </div>
 
+      <% if @team.league.draft_type == 'special' %>
+        <div class="form-group">
+          <%= label_tag 'team[supporting]', "Support a Player", class: "control-label" %> (Optional)
+          <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#support-a-player-modal">
+            ?
+          </button>
+          <%= select_tag "team[supporting]", options_for_select([["Kenji Egashira", "kenji_egashira"], ["Josh Lee Kwai", "josh_lee_kwai"], ["The Professor", "the_professor"], ["Michelle Rapp", "michelle_rapp"], ["Ashlen Rose", "ashlen_rose"], ["Gerry Thompson", "gerry_thompson"], ["James Turner", "james_turner"], ["Chris VanMeter", "chris_vanmeter"]], @team.supporting), required: false, include_blank: "Select Player to Support", class: "form-control" %>
+        </div>
+      <% end %>
+
       <div class="actions">
         <%= f.submit "Update Team", class: "btn btn-primary" %>
       </div>

@@ -8,6 +8,17 @@
         <%= link_to "(Edit)", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
       <% end %>
     </h1>
+    <% if @team.league.draft_type == 'special' %>
+      <% if @team.supporting.blank? %>
+        <p>
+          Supporting: No one. Edit your team to support a player and we'll donate $1 to their charity campaign!
+        </p>
+      <% else %>
+        <p>
+          Suppporting: <%= @team.supporting&.humanize&.titleize %>
+        </p>
+      <% end %>
+    <% end %>
     <p>
       <em>(Through Round <%= @team.league.leagueable.score_as_of_round %>)</em>
     </p>
