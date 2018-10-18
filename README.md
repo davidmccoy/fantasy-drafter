@@ -27,3 +27,7 @@ To install:
 * Start the server: `rails s`
 
 This should leave you with a new tournament with 8 users and ready to set up a new draft.
+
+To sync the production database to staging:
+
+`heroku pg:copy fantasy-drafter::DATABASE_URL DATABASE_URL -a fantasy-drafter-staging`
