@@ -134,6 +134,11 @@ class ApplicationController < ActionController::Base
     authorize @league
   end
 
+  def show_public_leagues
+    @league ||= League.new
+    authorize @league unless @league.public
+  end
+
   def set_league_user
     @league_user = LeagueUser.find_by_id(params[:league_user_id]) || LeagueUser.find_by_id(params[:id])
   end
