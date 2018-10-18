@@ -46,6 +46,9 @@
           <th>
             Name
           </th>
+          <th>
+            Supporting
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -53,6 +56,13 @@
           <tr>
             <td>
               <%= league_user.team.name %>
+            </td>
+            <td>
+              <% if league_user.team.supporting.blank? %>
+               Card Kingdom
+              <% else %>
+                <%= league_user.team.supporting&.humanize&.titleize %>
+              <% end %>
             </td>
           </tr>
         <% end %>

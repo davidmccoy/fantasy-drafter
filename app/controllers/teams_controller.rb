@@ -15,17 +15,18 @@ class TeamsController < ApplicationController
   def update
     if @team.update(team_params)
       flash[:notice] = "Successfully updated team."
+      redirect_to game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) and return
     else
-      flash[:alert] = "Couldn't update team."
+      flash[:alert] = @team.errors.messages
+      redirect_to edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) and return
     end
 
-    redirect_to game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team)
   end
 
   private
 
   def team_params
-    params.require(:team).permit(:name)
+    params.require(:team).permit(:name, :supporting)
   end
 
 end
