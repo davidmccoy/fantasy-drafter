@@ -2,7 +2,7 @@
   <h1><%= @league.leagueable.name %></h1>
   <p>
     <% if current_page?(game_competition_league_path(@game, @competition, @league)) %>
-      <% if current_user.leagues.include? @league %>
+      <% if current_user && current_user.leagues.include?(@league) %>
         <% if current_user.team(@league).submitted %>
           <%= link_to 'View Team', game_competition_league_team_path(@game, @competition, @league, current_user.team(@league)), class: 'btn btn-dark' %>
         <% else %>

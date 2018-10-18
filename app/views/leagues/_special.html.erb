@@ -93,7 +93,7 @@
       <% @league.league_users.each do |league_user| %>
         <tr>
           <td>
-            <% if current_user && league_user.user == current_user %>
+            <% if current_user && (league_user.user == current_user) %>
               <% if league_user.confirmed %>
                 <%= link_to league_user.user.name, game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team) %> (You)
               <% else %>
@@ -118,7 +118,7 @@
             <% end %>
           </td>
           <td>
-            <% if current_user && current_user&.team(@league)&.submitted %>
+            <% if current_user&.team(@league)&.submitted %>
               <%= link_to league_user.user&.team(@league).name , game_competition_league_team_path(@league.leagueable.game, @league.leagueable, @league, league_user.team) %>
             <% else %>
               <%= league_user.user&.team(@league).name %>

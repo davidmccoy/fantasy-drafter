@@ -3,7 +3,8 @@ class LeaguesController < ApplicationController
   before_action :set_game
   before_action :set_competition
   before_action :set_league, except: [:index, :new, :create]
-  before_action :authorize_league, except: [:index]
+  before_action :authorize_league, except: [:index, :show]
+  before_action :show_public_leagues, only: [:show]
 
   def index
   end
@@ -29,7 +30,7 @@ class LeaguesController < ApplicationController
     end
     User.where(admin: true).each do |user|
       AdminMailer.new_league(league, user.email).deliver_later
-    end 
+    end
     redirect_to game_competition_league_path(@competition.game, @competition, league)
   end
 
@@ -55,6 +56,7 @@ class LeaguesController < ApplicationController
   end
 
   def join
+    redirect_to game_competition_league_path(@game, @competition, @league) if current_user.leagues.include? @league
     @league_user = LeagueUser.new
   end
 
