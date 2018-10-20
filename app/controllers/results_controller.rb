@@ -43,9 +43,11 @@ class ResultsController < ApplicationController
         subbed_name = name.gsub!(/\([^()]*\)/,"").strip.split(',')
       elsif name.include? "["
         subbed_name = name.gsub!(/\[[^()]*\]/,"").strip.split(',')
+      else
+        full_name = name
       end
 
-      full_name = subbed_name[1].strip + " " + subbed_name[0].strip
+      full_name = subbed_name[1].strip + " " + subbed_name[0].strip if subbed_name
       player = Player.unaccent(full_name)
       if player
         result = Result.where(game_id: @game.id, competition_id: @competition.id, player_id: player.id).first_or_create
