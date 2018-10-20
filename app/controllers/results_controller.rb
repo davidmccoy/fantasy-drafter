@@ -35,6 +35,7 @@ class ResultsController < ApplicationController
       place = row[0].to_i
       name = row[1]
       subbed_name = nil
+      full_name = nil
       points = row[2].to_i
 
       if name.include?("(") && name.include?("[")
@@ -43,11 +44,13 @@ class ResultsController < ApplicationController
         subbed_name = name.gsub!(/\([^()]*\)/,"").strip.split(',')
       elsif name.include? "["
         subbed_name = name.gsub!(/\[[^()]*\]/,"").strip.split(',')
+      end
+
+      if subbed_name
+        full_name = subbed_name[1].strip + " " + subbed_name[0].strip
       else
         full_name = name
       end
-
-      full_name = subbed_name[1].strip + " " + subbed_name[0].strip if subbed_name
       player = Player.unaccent(full_name)
       if player
         result = Result.where(game_id: @game.id, competition_id: @competition.id, player_id: player.id).first_or_create
