@@ -200,7 +200,7 @@
           You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
         </p>
       </div>
-    <% elsif Time.now > @competition.end_date %>
+    <% elsif @competition.end_date ?  (Time.now > @competition.end_date) : (Time.now - 4.days > @competition.start_date)  %>
       <h2> This competition has ended!</h2>
       <p>
         But there are <%= link_to 'plenty of other leagues you can join!', game_competitions_path(@game) %>
