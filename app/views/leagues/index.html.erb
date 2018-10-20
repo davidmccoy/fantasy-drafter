@@ -15,195 +15,209 @@
         There are tons of ways to play <strong>Fantasy Pro Tour</strong>! Create your own league and invite your friends, or join a public league!
       </p>
       <% else %>
-      <%= markdown(@competition.about) %> 
+      <%= markdown(@competition.about) %>
       <% end %>
     </div>
-    <div class="featured-leagues content">
-      <h2>Featured Public Leagues</h2>
-      <p>
-        Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @competition.name %> below.
-      </p>
-      <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).length > 0 %>
-      <table class="table table-outer-border">
-        <thead>
-          <tr>
-            <th>
-              Name
-            </th>
-            <th>
-              Acessibility
-            </th>
-            <th>
-              Start Date
-            </th>
-            <th>
-              Draft Type
-            </th>
-            <th>
-              Entries
-            </th>
-            <th>
+    <% if Time.now < @competition.start_date %>
+      <div class="featured-leagues content">
+        <h2>Featured Public Leagues</h2>
+        <p>
+          Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @competition.name %> below.
+        </p>
+        <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).length > 0 %>
+        <table class="table table-outer-border">
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Acessibility
+              </th>
+              <th>
+                Start Date
+              </th>
+              <th>
+                Draft Type
+              </th>
+              <th>
+                Entries
+              </th>
+              <th>
 
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).each do |league| %>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).each do |league| %>
+              <tr>
+                <td>
+                  <%= league.name %>
+                </td>
+                <td>
+                  Public
+                </td>
+                <td>
+                  <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
+                </td>
+                <td>
+                  <%= league.league_users.count %>
+                </td>
+                <td>
+                  <%= link_to 'Play Now', game_competition_league_path(league.leagueable.game, league.leagueable, league), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+      </div>
+      <div class="create-a-league content">
+        <h2> Create Your Own League!</h2>
+        <p>
+          You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
+        </p>
+        <table class="table table-outer-border">
+          <thead>
+            <tr>
+              <th>
+                Event
+              </th>
+              <th>
+                Length
+              </th>
+              <th>
+                Acessibility
+              </th>
+              <th>
+                Draft Type
+              </th>
+              <th>
+                Start Date
+              </th>
+              <th>
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @competition.season %>
             <tr>
               <td>
-                <%= league.name %>
+                <%= @competition.season.name %>
               </td>
               <td>
-                Public
+                Full Season
               </td>
               <td>
-                <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
+                Private
               </td>
               <td>
-                <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
+                Pick X
               </td>
               <td>
-                <%= league.league_users.count %>
+                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
               </td>
               <td>
-                <%= link_to 'Play Now', game_competition_league_path(league.leagueable.game, league.leagueable, league), class: 'btn btn-sm btn-primary' %>
+                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
               </td>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <% end %>
-    </div>
-    <div class="create-a-league content">
-      <h2> Create Your Own League!</h2>
+            <tr>
+              <td>
+                <%= @competition.season.name %>
+              </td>
+              <td>
+                Full Season
+              </td>
+              <td>
+                Private
+              </td>
+              <td>
+                Snake
+              </td>
+              <td>
+                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+              </td>
+              <td>
+                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+              </td>
+            </tr>
+            <% end %>
+            <tr>
+              <td>
+                <%= @competition.name %>
+              </td>
+              <td>
+                Single Event
+              </td>
+              <td>
+                Private
+              </td>
+              <td>
+                Pick X
+              </td>
+              <td>
+                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+              </td>
+              <td>
+                <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= @competition.name %>
+              </td>
+              <td>
+                Single Event
+              </td>
+              <td>
+                Private
+              </td>
+              <td>
+                Snake
+              </td>
+              <td>
+                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+              </td>
+              <td>
+                <em>Coming Soon!</em>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Pick X Players</h5>
+        <p>
+          You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
+        </p>
+        <h5>Snake Draft</h5>
+        <p>
+          <em>Coming Soon!</em>
+        </p>
+        <p>
+          You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
+        </p>
+      </div>
+    <% elsif Time.now > @competition.end_date %>
+      <h2> This competition has ended!</h2>
       <p>
-        You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
+        But there are <%= link_to 'plent of other leagues you can join!', game_competitions_path(@game) %>
       </p>
-      <table class="table table-outer-border">
-        <thead>
-          <tr>
-            <th>
-              Event
-            </th>
-            <th>
-              Length
-            </th>
-            <th>
-              Acessibility
-            </th>
-            <th>
-              Draft Type
-            </th>
-            <th>
-              Start Date
-            </th>
-            <th>
-
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @competition.season %>
-          <tr>
-            <td>
-              <%= @competition.season.name %>
-            </td>
-            <td>
-              Full Season
-            </td>
-            <td>
-              Private
-            </td>
-            <td>
-              Pick X
-            </td>
-            <td>
-              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-            </td>
-            <td>
-              <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= @competition.season.name %>
-            </td>
-            <td>
-              Full Season
-            </td>
-            <td>
-              Private
-            </td>
-            <td>
-              Snake
-            </td>
-            <td>
-              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-            </td>
-            <td>
-              <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
-            </td>
-          </tr>
-          <% end %>
-          <tr>
-            <td>
-              <%= @competition.name %>
-            </td>
-            <td>
-              Single Event
-            </td>
-            <td>
-              Private
-            </td>
-            <td>
-              Pick X
-            </td>
-            <td>
-              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-            </td>
-            <td>
-              <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= @competition.name %>
-            </td>
-            <td>
-              Single Event
-            </td>
-            <td>
-              Private
-            </td>
-            <td>
-              Snake
-            </td>
-            <td>
-              <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-            </td>
-            <td>
-              <em>Coming Soon!</em>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h5>Pick X Players</h5>
+    <% else %>
+      <h2> This competition has already started!</h2>
       <p>
-        You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
+        But there are <%= link_to 'plent of other leagues you can join!', game_competitions_path(@game) %>
       </p>
-      <h5>Snake Draft</h5>
-      <p>
-        <em>Coming Soon!</em>
-      </p>
-      <p>
-        You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
-      </p>
-    </div>
+    <% end %>
   </div>
-  <div id="submit-message" class="submit-message submit-message-absolute alert-ready-to-submit alert-fixed">
-    <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-success' %>
-    <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
-  </div>
+  <% if Time.now < @competition.start_date %>
+    <div id="submit-message" class="submit-message submit-message-absolute alert-ready-to-submit alert-fixed">
+      <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-success' %>
+      <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
+    </div>
+  <% end %>
 </div>
 <script>
   $('.table').stacktable();
