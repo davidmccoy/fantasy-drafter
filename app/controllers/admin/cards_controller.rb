@@ -25,7 +25,7 @@ class Admin::CardsController < ApplicationController
         p url
         response = HTTParty.get(url)
         if response.code == 200
-          if response['card_faces']
+          if response['layout'] == 'transform'
             image = response['card_faces'].first['image_uris']['normal']
           else 
             image = response['image_uris']['normal']
@@ -53,6 +53,7 @@ class Admin::CardsController < ApplicationController
           p response.code
           errors << card_name
         end 
+        sleep(1.0/4.0)
       end
     end
     puts errors
