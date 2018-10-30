@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181029034141) do
+ActiveRecord::Schema.define(version: 20181030174550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,16 +113,18 @@ ActiveRecord::Schema.define(version: 20181029034141) do
     t.boolean "public", default: false
     t.integer "draft_type"
     t.string "name"
+    t.integer "pick_type", default: 0
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 
   create_table "picks", id: :serial, force: :cascade do |t|
     t.integer "draft_id"
     t.integer "team_id"
-    t.integer "player_id"
+    t.integer "pickable_id"
     t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "pickable_type", default: "Player"
   end
 
   create_table "player_records", force: :cascade do |t|
@@ -150,14 +152,15 @@ ActiveRecord::Schema.define(version: 20181029034141) do
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
-    t.integer "player_id"
+    t.integer "resultable_id"
     t.integer "competition_id"
     t.integer "game_id"
     t.integer "points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "place"
-    t.index ["player_id"], name: "index_results_on_player_id"
+    t.string "resultable_type", default: "Player"
+    t.index ["resultable_id"], name: "index_results_on_resultable_id"
   end
 
   create_table "seasons", id: :serial, force: :cascade do |t|
@@ -173,7 +176,8 @@ ActiveRecord::Schema.define(version: 20181029034141) do
   create_table "stars", force: :cascade do |t|
     t.integer "draft_id"
     t.integer "team_id"
-    t.integer "player_id"
+    t.integer "starrable_id"
+    t.string "starrable_type", default: "Player"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|

@@ -29,7 +29,7 @@ class StarsController < ApplicationController
   private
 
   def star_params
-    params.permit(:player_id)
+    params.permit(:starrable_type, :starrable_id)
   end
 
 end

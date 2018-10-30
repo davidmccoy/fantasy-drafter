@@ -23,6 +23,6 @@ class Admin::LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:leagueable_id, :leagueable_type, :draft_type, :public, :num_draft_rounds, :name)
+    params.require(:league).permit(:leagueable_id, :leagueable_type, :draft_type, :public, :num_draft_rounds, :name, :pick_type)
   end
 end

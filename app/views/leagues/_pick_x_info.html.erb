@@ -26,6 +26,9 @@
     <strong>Draft Type:</strong> <%= @league.draft_type  == 'special' ? "Pick X" : @league.draft_type.humanize.titleize %>
   </p>
   <p>
+    <strong>Pick Type:</strong> <%= @league.pick_type&.titleize %>
+  </p>
+  <p>
     <strong>Entry:</strong> Free
   </p>
   <p>

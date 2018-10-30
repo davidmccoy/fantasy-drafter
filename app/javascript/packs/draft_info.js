@@ -84,57 +84,111 @@ class DraftInfo extends React.Component {
         </div>
       );
     } else {
-      return (
-        <div>
+      if (this.props.pickType === 'player') {
+        return (
           <div>
-            <h4>
-              Draft Info
-            </h4>
-            { this.props.draftType === 'snake' &&
-            <p>
-              <strong>Draft Rounds:</strong> {this.state.rounds}
-            </p>
-          }
-          { this.props.draftType !== 'snake' &&
-          <p>
-            <strong>Players Per Team:</strong> {this.state.rounds}
-          </p>
-        }
-        <p>
-          <strong>Competition:</strong> {this.state.competition_name}
-        </p>
-        <p>
-          <strong>Competition Date:</strong> {this.state.competition_date}
-        </p>
-      </div>
-      <div>
-        <h4>How It Works</h4>
-        <h5>Drafting</h5>
-        <p>
-          During the draft, the players that are still available to draft are in listed in the "Available Players" table.
-        </p>
-        <p>
-          The "Points" column is the player's total Pro Points earned during the past four Cycles (usually the last 10-12 months.)
-        </p>
-        <p>
-          The "ELO" column lists the player's ELO rating, which is a scoring system where every player starts with a rating of 1500. After each match, the winning player takes points from the losing player. The amount of points at stake is determined by the difference in the players' ratings.
-        </p>
-        <p>
-          You can sort each column by clicking on it. You can also add secondary sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
-        </p>
-        <p>
-          Click on a player's name to view more information about them.
-        </p>
-        <p>
-          Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite players to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a player and add them to your team.
-        </p>
-        <h5>Scoring</h5>
-        <p>
-          Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 4. The team with the most points wins the league.
-        </p>
-      </div>
-    </div>
-  );
+            <div>
+              <h4>
+                Draft Info
+              </h4>
+              { this.props.draftType === 'snake' &&
+              <p>
+                <strong>Draft Rounds:</strong> {this.state.rounds}
+              </p>
+              }
+              { this.props.draftType !== 'snake' &&
+              <p>
+                <strong>Players Per Team:</strong> {this.state.rounds}
+              </p>
+              }
+              <p>
+                <strong>Competition:</strong> {this.state.competition_name}
+              </p>
+              <p>
+                <strong>Competition Date:</strong> {this.state.competition_date}
+              </p>
+            </div>
+            <div>
+              <h4>How It Works</h4>
+              <h5>Drafting</h5>
+              <p>
+                During the draft, the players that are still available to draft are in listed in the "Available Players" table.
+              </p>
+              <p>
+                The "Points" column is the player's total Pro Points earned during the past four Cycles (usually the last 10-12 months.)
+              </p>
+              <p>
+                The "ELO" column lists the player's ELO rating, which is a scoring system where every player starts with a rating of 1500. After each match, the winning player takes points from the losing player. The amount of points at stake is determined by the difference in the players' ratings.
+              </p>
+              <p>
+                You can sort each column by clicking on it. You can also add secondary sorting by choosing the main column you'd like sort by, then holding the SHIFT key and selecting the column you'd like to use as a secondary sort.
+              </p>
+              <p>
+                Click on a player's name to view more information about them.
+              </p>
+              <p>
+                Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite players to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a player and add them to your team.
+              </p>
+              <h5>Scoring</h5>
+              <p>
+                Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 4. The team with the most points wins the league.
+              </p>
+            </div>
+          </div>
+        );
+      } else if (this.props.pickType === 'card') {
+        return (
+          <div>
+            <div>
+              <h4>
+                Draft Info
+              </h4>
+              { this.props.draftType === 'snake' &&
+              <p>
+                <strong>Draft Rounds:</strong> {this.state.rounds}
+              </p>
+              }
+              { this.props.draftType !== 'snake' &&
+              <p>
+                <strong>Cards Team:</strong> {this.state.rounds}
+              </p>
+              }
+              <p>
+                <strong>Competition:</strong> {this.state.competition_name}
+              </p>
+              <p>
+                <strong>Competition Date:</strong> {this.state.competition_date}
+              </p>
+            </div>
+            <div>
+              <h4>How It Works</h4>
+              <h5>Drafting</h5>
+              <p>
+                During the draft, the cards that are still available to draft are in listed in the "Available Cards" table.
+              </p>
+              <p>
+                The "xRank" column is a card's <strong>Fantasy Pro Tour</strong> power ranking, with 1 being the highest ranked card for the competition.
+              </p>
+              <p>
+                The "% Decks" column is the percentage of decks a card has appeared in (in this competition's) format within the last two months. 
+              </p>
+              <p>
+                The "Copies" column is the average number of copies of a card were included in the decks that make up the % Decks stat.
+              </p>
+              <p>
+                Click on a card's name to view more information about it.
+              </p>
+              <p>
+                Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite cards to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a card and add it to your team.
+              </p>
+              <h5>Scoring</h5>
+              <p>
+                Once you've drafted your team, your cards will earn 1 point for every copy in the Top 8. The team with the most points wins the league.
+              </p>
+            </div>
+          </div>
+        );
+      }
     }
   }
 }

@@ -17,6 +17,9 @@
     <strong>Rounds:</strong> <%= @league.num_draft_rounds %>
   </p>
   <p>
+    <strong>Pick Type:</strong> <%= @league.pick_type&.titleize %>
+  </p>
+  <p>
     <strong>Draft Start:</strong>
     <% if @league.draft.start_time %>
       <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>

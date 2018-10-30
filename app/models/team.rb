@@ -4,7 +4,8 @@ class Team < ApplicationRecord
   has_one :user, through: :league_user
   has_one :league, through: :league_user
   has_many :picks
-  has_many :players, through: :picks
+  has_many :players, through: :picks, source: :pickable, source_type: 'Player'
+  has_many :cards, through: :picks, source: :pickable, source_type: 'Card'
 
   validate :unique_team_names
 

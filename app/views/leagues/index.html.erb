@@ -105,7 +105,7 @@
           </thead>
           <tbody>
             <% if @competition.season %>
-            <tr>
+            <!-- <tr>
               <td>
                 <%= @competition.season.name %>
               </td>
@@ -144,7 +144,7 @@
               <td>
                 <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
               </td>
-            </tr>
+            </tr> -->
             <% end %>
             <tr>
               <td>
@@ -183,7 +183,7 @@
                 <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
               </td>
               <td>
-                <em>Coming Soon!</em>
+                <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
               </td>
             </tr>
           </tbody>
@@ -193,9 +193,6 @@
           You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
         </p>
         <h5>Snake Draft</h5>
-        <p>
-          <em>Coming Soon!</em>
-        </p>
         <p>
           You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
         </p>

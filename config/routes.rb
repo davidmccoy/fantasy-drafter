@@ -73,6 +73,7 @@ Rails.application.routes.draw do
         resources :stars, only: [:index]
       end
       resources :players, only: [:show]
+      resources :cards, only: [:show]
     end
     resource :subscriber, only: [:create]
 

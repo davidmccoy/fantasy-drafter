@@ -19,7 +19,8 @@ class Draft < ApplicationRecord
         pick_order.each do |user|
           self.picks.create(
             team_id: user.team(self.league).id,
-            number: pick_number
+            number: pick_number,
+            pickable_type: league.pick_type&.classify
           )
           pick_number += 1
         end
@@ -27,7 +28,8 @@ class Draft < ApplicationRecord
         pick_order.reverse.each do |user|
           self.picks.create(
             team_id: user.team(self.league).id,
-            number: pick_number
+            number: pick_number,
+            pickable_type: league.pick_type&.classify
           )
           pick_number += 1
         end

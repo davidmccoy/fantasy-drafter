@@ -187,6 +187,7 @@ class DraftViewer extends React.Component {
         <div id="players" className="col-md-6">
           <DraftInstructions
             draftType={this.props.draftType}
+            pickType={this.props.pickType}
           />
           <AvailablePlayersTable
             data={this.state.data}
@@ -198,6 +199,7 @@ class DraftViewer extends React.Component {
             myStars={this.state.myStars}
             myTeam={this.state.myTeam}
             draftType={this.props.draftType}
+            pickType={this.props.pickType}
           />
         </div>
         <div id="left-tabbed-panel" className="col-md-6">
@@ -212,6 +214,7 @@ class DraftViewer extends React.Component {
             handleRemovePlayer={this.removePlayer}
             draftId={this.props.draftId}
             draftType={this.props.draftType}
+            pickType={this.props.pickType}
           />
         </div>
         { this.props.draftType !== 'snake' &&
@@ -220,6 +223,7 @@ class DraftViewer extends React.Component {
               myTeam={this.state.myTeam}
               myPicks={this.props.myPicks}
               draftSubmitLink={this.props.draftSubmitLink}
+              pickType={this.props.pickType}
             />
           </div>
         }
@@ -236,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentPickId = node.getAttribute('data-current-pick-id');
   const myPicks = JSON.parse(node.getAttribute('data-your-picks'));
   const draftType = node.getAttribute('data-draft-type');
+  const pickType = node.getAttribute('data-pick-type');
   const draftSubmitLink = node.getAttribute('data-submit-link');
   const container = document.createElement('div');
   container.id = 'draft-details-container';
@@ -248,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPickId={currentPickId}
       myPicks={myPicks}
       draftType={draftType}
+      pickType={pickType}
       draftSubmitLink={draftSubmitLink}
     />,
     document.getElementById('draft-details-container').appendChild(container),

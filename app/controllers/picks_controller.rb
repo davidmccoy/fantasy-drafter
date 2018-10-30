@@ -9,8 +9,8 @@ class PicksController < ApplicationController
 
   def update
     if @pick.user == current_user || current_user == @pick.draft.league.admin
-      return false if params[:player_id] == 0 || params[:player_id] == "undefined"
-      return false if @pick.player_id
+      return false if params[:pickable_id] == 0 || params[:pickable_id] == "undefined"
+      return false if @pick.pickable_id
       if @pick.update(pick_params)
         # Set the response protocol
         protocol = Rails.env.production? ? "https" : "http"
@@ -47,8 +47,8 @@ class PicksController < ApplicationController
           ActionCable.server.broadcast "draft_#{@pick.draft.id}",
             team_id: @pick.team_id,
             user_name: @pick.user.name,
-            player_id: @pick.player_id,
-            player_name: @pick.player.name,
+            player_id: @pick.pickable_id,
+            player_name: @pick.pickable.name,
             number: @pick.number,
             next_pick_user_name: next_pick.user.name,
             next_pick_team_id: next_pick.team_id,
@@ -72,15 +72,15 @@ class PicksController < ApplicationController
   end
 
   def pick_x
-    # TODO: why are picks being assigned player_id: 0 ?
-    picks = Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id)
+    # TODO: why are picks being assigned pickable_id: 0 ?
+    picks = Pick.where(id: pick_params[:my_picks].split(','), pickable_id: [nil, 0], team_id: current_user.team(@league).id)
     return if player_already_chosen? params, current_user, @league
     pick = picks.first
 
-    if pick.update(player_id: pick_params[:player_id])
+    if pick.update(pickable_id: pick_params[:pickable_id])
       protocol = Rails.env.production? ? "https" : "http"
 
-      if Pick.where(id: pick_params[:my_picks].split(','), player_id: [nil, 0], team_id: current_user.team(@league).id).length > 0
+      if Pick.where(id: pick_params[:my_picks].split(','), pickable_id: [nil, 0], team_id: current_user.team(@league).id).length > 0
         completed = false
       else
         completed = true
@@ -89,8 +89,8 @@ class PicksController < ApplicationController
       @response = {
         team_id: pick.team_id,
         user_name: pick.user.name,
-        player_id: pick.player_id,
-        player_name: pick.player.name,
+        player_id: pick.pickable_id,
+        player_name: pick.pickable&.name,
         completed: completed
       }
     else
@@ -127,19 +127,33 @@ class PicksController < ApplicationController
 
   def remove_player
     if @pick.user == current_user || current_user == @pick.draft.league.admin
-      player = @pick.player
-      star = Star.find_by(draft_id: @draft.id, team_id: current_user.team(@league).id, player_id: player.id)
+      pickable = @pick.pickable
+      star = Star.find_by(draft_id: @draft.id, team_id: current_user.team(@league).id, starrable: pickable.id)
       if star
-        player_star = {
-          star_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/stars/#{star.id}",
-          id: star.id,
-          name: star.player.name,
-          player_id: star.player.id,
-          player_type: star.player.player_type.capitalize,
-          elo: star.player.elo,
-          power_ranking: star.player.power_ranking,
-          pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{star.player.id}"
-        }
+        if @draft.league.pick_type == 'player'
+          player_star = {
+            star_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/stars/#{star.id}",
+            id: star.id,
+            name: star.starrable.name,
+            player_id: star.starrable.id,
+            player_type: star.starrable_type,
+            elo: star.starrable.elo,
+            power_ranking: star.starrable.power_ranking,
+            pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{star.starrable.id}"
+          }
+        elsif @draft.league.pick_type == 'card'
+          player_star = {
+            star_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/stars/#{star.id}",
+            id: star.id,
+            name: star.starrable.name,
+            player_id: star.starrable.id,
+            player_type: star.starrable_type,
+            xrank: star.starrable.xrank(@draft.league.leagueable), 
+            percent_of_decks: star.starrable.percent_of_decks(@draft.league.leagueable), 
+            number_of_copies: star.starrable.number_of_copies(@draft.league.leagueable),
+            pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{star.starrable.id}"
+          }
+        end
       else
         player_star = nil
       end
@@ -149,15 +163,18 @@ class PicksController < ApplicationController
                    @draft.league.leagueable,
                    @draft.league,
                    @draft,
-                   player_id: player.id,
+                   starrable_type: pickable.class.name,
+                   starrable_id: pickable.id,
                    protocol: "https"
                  ),
-        player_id: player.id,
-        player_type: player.player_type.capitalize,
-        elo: player.elo,
-        power_ranking: player.power_ranking,
-        name: player.name,
-        pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?player_id=#{player.id}")
+        player_id: pickable.id,
+        player_type: pickable.class.name,
+        elo: pickable.class.name == 'Player' ? pickable.elo : nil,
+        xrank: pickable.class.name == 'Player' ? pickable.power_ranking : pickable.xrank(@draft.league.leagueable), 
+        percent_of_decks: pickable.class.name == 'Card' ? pickable.percent_of_decks(@draft.league.leagueable) : nil, 
+        number_of_copies: pickable.class.name == 'Card' ? pickable.number_of_copies(@draft.league.leagueable) : nil,
+        name: pickable.name,
+        pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{pickable.id}")
       }
       if @pick.update(pick_params)
         @response = {
@@ -175,11 +192,11 @@ class PicksController < ApplicationController
   private
 
   def pick_params
-    params.permit(:player_id, :my_picks)
+    params.permit(:pickable_id, :my_picks)
   end
 
   def player_already_chosen? params, current_user, league
-    Pick.where(id: pick_params[:my_picks].split(','), player_id: params[:player_id], team_id: current_user.team(league).id).length > 0
+    Pick.where(id: pick_params[:my_picks].split(','), pickable_id: params[:pickable_id], team_id: current_user.team(league).id).length > 0
   end
 
 end

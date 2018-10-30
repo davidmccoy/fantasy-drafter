@@ -54,16 +54,17 @@ class DraftInstructions extends React.Component {
           </div>
         );
     } else {
-      return (
-        <div>
-          <div className="available-players-title">
-            <h4>
-              Available Players
-            </h4>
-            <button
-              onClick={this.toggleInstructions}
-              className="btn btn-sm btn-primary"
-              >
+      if (this.props.pickType === 'player') { 
+        return (
+          <div>
+            <div className="available-players-title">
+              <h4>
+                Available Players
+              </h4>
+              <button
+                onClick={this.toggleInstructions}
+                className="btn btn-sm btn-primary"
+                >
                 ?
               </button>
             </div>
@@ -92,6 +93,46 @@ class DraftInstructions extends React.Component {
             </div>
           </div>
         );
+      } else if (this.props.pickType === 'card') {
+        return (
+          <div>
+            <div className="available-players-title">
+              <h4>
+                Available Cards
+              </h4>
+              <button
+                onClick={this.toggleInstructions}
+                className="btn btn-sm btn-primary"
+                >
+                ?
+              </button>
+            </div>
+            <div className="available-players-instructions">
+              <p>
+                Below are the cards that are still available to draft.
+              </p>
+              <p>
+                The "xRank" column is a card's <strong>Fantasy Pro Tour</strong> power ranking, with 1 being the highest ranked card for the competition.
+              </p>
+              <p>
+                The "% Decks" column is the percentage of decks a card has appeared in (in this competition's) format within the last two months. 
+              </p>
+              <p>
+                The "Copies" column is the average number of copies of a card were included in the decks that make up the % Decks stat.
+              </p>
+              <p>
+                Click on a card's name to view more information about it.
+              </p>
+              <p>
+                Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite cards to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a card and add it to your team.
+              </p>
+              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-dark">
+                Hide
+              </p>
+            </div>
+          </div>
+        );
+      }
     }
   }
 }

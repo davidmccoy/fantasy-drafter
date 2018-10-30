@@ -5,7 +5,7 @@
     </p>
     <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
     <p class="page-instructions">
-      You'll find the pick order, all available Pros, and your team's lineup below.
+      You'll find the pick order, all available <%= @draft.league.pick_type %>s, and your team's lineup below.
     </p>
   </div>
   <% if @draft.active || (@draft.start_time && Time.now > @draft.start_time && @draft.active) %>
@@ -26,7 +26,7 @@
     <div class="pick-order-container col-sm-10">
       <div class="pick-order">
         <% @draft.picks.sort_by{ |pick| pick.number }.each_with_index do |pick, index| %>
-        <% if pick.player_id.nil? %>
+        <% if pick.pickable_id.nil? %>
         <% if pick == @current_pick %>
         <div class="pick current-pick" id="pick-<%= pick.number %>">
           <div class="pick-number <%= pick.number %>">
@@ -75,7 +75,7 @@
               <%= pick.user.name %>
             </p>
             <p>
-              <%= pick.player.name %>
+              <%= pick.pickable.name %>
             </p>
           </div>
         </div>
@@ -115,7 +115,8 @@
     <%= link_to "View your team", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)), class: "btn btn-primary" %>
   </p>
 <% elsif @draft.active || (@draft.start_time && Time.now > @draft.start_time) %>
-<div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick.number %>" data-current-pick-id="<%= @current_pick.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>">
+<div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick.number %>" data-current-pick-id="<%= @current_pick.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>" data-pick-type="<%= @draft.league.pick_type %>">
+
   <%= javascript_pack_tag "draft_viewer" %>
   <div id="draft-concluded">
     The draft is over! View your team <%= link_to "here", game_competition_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.

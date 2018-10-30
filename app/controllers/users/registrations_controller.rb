@@ -30,7 +30,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
               league.num_draft_rounds.times {
                 Pick.create(
                   draft_id: league.draft.id,
-                  team_id: team.id
+                  team_id: team.id,
+                  pickable_type: league.pick_type.classify
                 )
               }
             end
@@ -38,9 +39,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
             invite = Invite.find(params[:invite_id])
             invite.update(accepted: true, token: nil)
 
-            if league.leagueable.type == Season
+            if league.leagueable.class.name == 'Season'
               redirect_to game_season_league_path(league.leagueable.game, league.leagueable, league) and return
-            elsif league.leagueable.type == Competition
+            elsif league.leagueable.class.name == 'Competition'
               redirect_to game_competition_league_path(league.leagueable.game, league.leagueable, league) and return
             end
           else
