@@ -30,10 +30,10 @@ class Admin::CardsController < ApplicationController
           else 
             image = response['image_uris']['normal']
           end 
-          Card.create(
+          card = Card.where(name: card_name).first_or_create
+          card.update(
             scryfall_id: response['id'],
             oracle_id: response['oracle_id'],
-            name: card_name,
             image_uri: image,
             mana_cost: response['mana_cost'],
             cmc: response['cmc'],
