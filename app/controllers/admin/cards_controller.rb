@@ -17,7 +17,7 @@ class Admin::CardsController < ApplicationController
       else
         p "finding #{card_name}"
         if card_name.include? ','
-          url_safe_card_name = card_name.gsub!(/\,/,"").downcase.split(' ').join('+')
+          url_safe_card_name = card_name.gsub(/\,/,"").downcase.split(' ').join('+')
         else
           url_safe_card_name = card_name.downcase.split(' ').join('+')
         end
