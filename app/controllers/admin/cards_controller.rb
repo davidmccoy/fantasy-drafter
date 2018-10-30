@@ -12,6 +12,7 @@ class Admin::CardsController < ApplicationController
       card_name = row[0]
       card = Card.find_by_name(card_name)
       if card
+        p 'found card'
         card
       else
         p "finding #{card_name}"
@@ -49,6 +50,7 @@ class Admin::CardsController < ApplicationController
             frame: response['frame']
           )
         else 
+          p response.code
           errors << card_name
         end 
       end
