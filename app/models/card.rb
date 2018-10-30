@@ -4,6 +4,8 @@ class Card < ApplicationRecord
   has_many :picks, as: :pickable
   has_many :results, as: :resultable
 
+  validates :name, uniqueness: { case_sensitive: false }
+
   def xrank competition
     card_competitions.find_by(competition_id: competition).xrank
   end 
