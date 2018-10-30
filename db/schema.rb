@@ -10,11 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181017005345) do
+ActiveRecord::Schema.define(version: 20181029034141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
+
+  create_table "card_competitions", force: :cascade do |t|
+    t.integer "card_id"
+    t.integer "competition_id"
+    t.integer "percent_of_decks"
+    t.float "number_of_copies"
+    t.integer "xrank"
+    t.index ["card_id"], name: "index_card_competitions_on_card_id"
+    t.index ["competition_id"], name: "index_card_competitions_on_competition_id"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.integer "scryfall_id"
+    t.integer "oracle_id"
+    t.string "name"
+    t.string "image_uri"
+    t.string "mana_cost"
+    t.string "cmc"
+    t.string "type_line"
+    t.string "oracle_text"
+    t.string "power"
+    t.string "toughness"
+    t.string "loyalty"
+    t.string "colors", default: [], array: true
+    t.jsonb "legalities", default: "{}", null: false
+    t.string "rarity"
+    t.string "flavor_text"
+    t.string "artist"
+    t.string "frame"
+    t.index ["colors"], name: "index_cards_on_colors", using: :gin
+    t.index ["legalities"], name: "index_cards_on_legalities", using: :gin
+  end
 
   create_table "competition_players", id: :serial, force: :cascade do |t|
     t.integer "competition_id"

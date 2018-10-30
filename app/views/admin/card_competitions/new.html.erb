@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Add Cards to <%= @competition.name %></h2>
+    <% if @competition.cards.length > 0 %>
+      <p>
+        This competition has already had cards added to it.
+      </p>
+    <% else %>
+      <%= form_tag admin_competition_card_competitions_import_path(@competition), multipart: true do %>
+        <div class="form-group required">
+          <%= label_tag :file, nil, class: "control-label" %>
+          <%= file_field_tag :file, required: true, class: "form-control" %>
+        </div>
+        <%= submit_tag "Add Cards", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

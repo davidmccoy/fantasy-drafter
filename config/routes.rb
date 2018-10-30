@@ -86,8 +86,12 @@ Rails.application.routes.draw do
     resources :competitions, param: :slug do
       match 'players/import', to: 'competition_players#import', via: [:post]
       resources :competition_players, path: 'players'
+      match 'card_competitions/import', to: 'card_competitions#import', via: [:post]
+      resources :card_competitions, path: 'cards'
     end
     resources :players
+    resources :cards
+    post 'cards/import', to: 'cards#import'
     resources :seasons
     get 'players/stats', to: 'players#stats'
     post 'players/add_stats', to: 'players#add_stats'

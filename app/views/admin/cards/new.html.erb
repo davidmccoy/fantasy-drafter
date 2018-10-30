@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h2>Add Cards</h2>
+    <%= form_tag admin_cards_import_path, multipart: true do %>
+      <div class="form-group required">
+        <%= label_tag :file, nil, class: "control-label" %>
+        <%= file_field_tag :file, required: true, class: "form-control" %>
+      </div>
+      <%= submit_tag "Add Cards", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
