@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <% if @cards.length > 0 %>
+      <% @cards.each do |card| %>
+        <p>
+          <%= card.card.name %> <%= link_to '(Edit)', edit_admin_competition_card_competition_path(@competition, card) %>
+        </p>
+      <% end %>
+    <% else %>
+      <% if current_user.admin %>
+        <p>
+          There are no cards in this competition. Add some <%= link_to "here", new_admin_competition_card_competition_path(@competition) %>.
+        </p>
+      <% else %>
+        <p>
+          There are no cards in this competition.
+        </p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
