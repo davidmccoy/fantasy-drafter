@@ -11,7 +11,7 @@ class SubmitMessage extends React.Component {
     return (
       <div>
         { (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.name !== null).length !== this.props.myPicks.length)) &&
-            <div>Add more players before you submit your team!<button className="btn btn-dark" disabled>SUBMIT</button></div>
+            <div>Add more {this.props.pickType}s before you submit your team!<button className="btn btn-dark" disabled>SUBMIT</button></div>
         }
         { (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) &&
             <div>

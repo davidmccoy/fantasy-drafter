@@ -39,6 +39,7 @@ class DraftViewerRightPanel extends React.Component {
               myPicks={this.props.myPicks}
               draftType={this.props.draftType}
               handleRemovePlayer={this.props.handleRemovePlayer}
+              pickType={this.props.pickType}
             />
             <StarList
               data={this.props.myStars}
@@ -48,6 +49,7 @@ class DraftViewerRightPanel extends React.Component {
               handlePick={this.props.handlePick}
               handleStar={this.props.handleStar}
               draftType={this.props.draftType}
+              pickType={this.props.pickType}
             />
           </div>
           { this.props.draftType === 'snake' &&
@@ -57,6 +59,7 @@ class DraftViewerRightPanel extends React.Component {
                 <TeamList
                   team={team}
                   key={team.name}
+                  pickType={this.props.pickType}
                 />
               )
             }
@@ -66,6 +69,7 @@ class DraftViewerRightPanel extends React.Component {
             <DraftInfo
               draftId={this.props.draftId}
               draftType={this.props.draftType}
+              pickType={this.props.pickType}
             />
           </div>
         </div>

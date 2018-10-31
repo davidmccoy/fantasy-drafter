@@ -65,8 +65,11 @@ class StarList extends React.Component {
   }
 
   changeModalPlayer(e, playerId) {
+    let modalUrl = this.props.pickType === 'player' ?
+     `/api/players/${playerId}` : `/api/cards/${playerId}`
+     
     $.ajax({
-      url: `/api/players/${playerId}`,
+      url: modalUrl,
       dataType: 'json',
       success: function(data){
         this.setState({
@@ -86,79 +89,159 @@ class StarList extends React.Component {
   render() {
     let columns = []
     if (this.props.draftType !== 'special') {
-      columns = [
-        {
-          columns: [
-            {
-              Header: "Star",
-              accessor: "star_link",
-              maxWidth: 54,
-              sortable: false,
-              Cell: row => (
-                <button
-                  // href={row.value}
-                  className="btn btn-sm star-link remove-star already-starred"
-                  // data-remote="true"
-                  rel="nofollow"
-                  onClick={(e) => {this.onStar(e, row.value)}}
-                  style={{display: row.value === undefined ? "none" : null}}
-                ><img src={star} className="star-image" /><img src={minus} className="minus-image" /></button>
-              )
-            },
-            {
-              Header: "Points",
-              accessor: "points",
-              maxWidth: 50,
-              sortable: false,
-              sortMethod: (a, b) => {
-                if(a === null){
-                  return 1;
+      if (this.props.pickType === 'player') {
+        columns = [
+          {
+            columns: [
+              {
+                Header: "Star",
+                accessor: "star_link",
+                maxWidth: 54,
+                sortable: false,
+                Cell: row => (
+                  <button
+                    // href={row.value}
+                    className="btn btn-sm star-link remove-star already-starred"
+                    // data-remote="true"
+                    rel="nofollow"
+                    onClick={(e) => {this.onStar(e, row.value)}}
+                    style={{display: row.value === undefined ? "none" : null}}
+                  ><img src={star} className="star-image" /><img src={minus} className="minus-image" /></button>
+                )
+              },
+              {
+                Header: "Points",
+                accessor: "points",
+                maxWidth: 50,
+                sortable: false,
+                sortMethod: (a, b) => {
+                  if(a === null){
+                    return 1;
+                  }
+                  else if(b === null){
+                    return -1;
+                  }
+                  else if(a === b){
+                    return 0;
+                  }
+                  return a > b ? 1 : -1;
                 }
-                else if(b === null){
-                  return -1;
-                }
-                else if(a === b){
-                  return 0;
-                }
-                return a > b ? 1 : -1;
+              },
+              {
+                Header: "ELO",
+                accessor: "elo",
+                sortable: false,
+                maxWidth: 55
+              },
+              {
+                Header: "Name",
+                accessor: "name",
+                sortable: false,
+                Cell: row => (
+                  <span
+                    onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                  >{row.value}</span>
+                )
+              },
+              {
+                Header: "Pick",
+                accessor: "pick_link",
+                maxWidth: 52,
+                sortable: false,
+                Cell: row => (
+                  <button
+                    // href={row.value}
+                    className="btn btn-sm btn-success pick-link"
+                    // data-remote="true"
+                    rel="nofollow"
+                    data-method="patch"
+                    onClick={(e) => {this.onPick(e, row.value)}}
+                    style={{display: this.displayPickLink() === false  ? "none" : null}}
+                  ><img src={plus} /></button>
+                )
               }
-            },
-            {
-              Header: "ELO",
-              accessor: "elo",
-              sortable: false,
-              maxWidth: 55
-            },
-            {
-              Header: "Name",
-              accessor: "name",
-              sortable: false,
-              Cell: row => (
-                <span
-                  onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
-                >{row.value}</span>
-              )
-            },
-            {
-              Header: "Pick",
-              accessor: "pick_link",
-              maxWidth: 52,
-              sortable: false,
-              Cell: row => (
-                <button
-                  // href={row.value}
-                  className="btn btn-sm btn-success pick-link"
-                  // data-remote="true"
-                  rel="nofollow"
-                  data-method="patch"
-                  onClick={(e) => {this.onPick(e, row.value)}}
-                  style={{display: this.displayPickLink() === false  ? "none" : null}}
-                ><img src={plus} /></button>
-              )
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      } else if (this.props.pickType === 'card') {
+        columns = [
+          {
+            columns: [
+              {
+                Header: "Star",
+                accessor: "star_link",
+                maxWidth: 54,
+                sortable: false,
+                Cell: row => (
+                  <button
+                    // href={row.value}
+                    className="btn btn-sm star-link remove-star already-starred"
+                    // data-remote="true"
+                    rel="nofollow"
+                    onClick={(e) => {this.onStar(e, row.value)}}
+                    style={{display: row.value === undefined ? "none" : null}}
+                  ><img src={star} className="star-image" /><img src={minus} className="minus-image" /></button>
+                )
+              },
+              {
+                Header: "xRank",
+                accessor: "xrank",
+                maxWidth: 50,
+                filterable: false,
+                Cell: row => (
+                  <div>
+                    {row.value}
+                  </div>
+                )
+              },
+              {
+                Header: "% Decks",
+                accessor: "percent_of_decks",
+                filterable: false,
+                maxWidth: 55,
+                Cell: row => (
+                  <div>
+                    {row.value}%
+                  </div>
+                )
+              },
+              {
+                Header: "Copies",
+                accessor: "number_of_copies",
+                filterable: false,
+                maxWidth: 55
+              },
+              {
+                Header: "Name",
+                accessor: "name",
+                sortable: false,
+                Cell: row => (
+                  <span
+                    onClick={(e) => {this.changeModalPlayer(e, row.original.player_id)}}
+                  >{row.value}</span>
+                )
+              },
+              {
+                Header: "Pick",
+                accessor: "pick_link",
+                maxWidth: 52,
+                sortable: false,
+                Cell: row => (
+                  <button
+                    // href={row.value}
+                    className="btn btn-sm btn-success pick-link"
+                    // data-remote="true"
+                    rel="nofollow"
+                    data-method="patch"
+                    onClick={(e) => {this.onPick(e, row.value)}}
+                    style={{display: this.displayPickLink() === false  ? "none" : null}}
+                  ><img src={plus} /></button>
+                )
+              }
+            ]
+          }
+        ]
+      }
     } else {
       columns = [
         {
@@ -218,12 +301,12 @@ class StarList extends React.Component {
     }
     return (
       <div id="react-stared-player-table">
-        <h4>Starred Players</h4>
+        <h4>Starred {this.props.pickType.substr(0,1).toUpperCase() + this.props.pickType.substr(1)}s</h4>
         <ReactTable
           columns={columns}
           defaultSorted={[
             {
-              id: "power_ranking",
+              id: "xrank",
               desc: false,
               nulls: 'last'
             }
@@ -240,6 +323,7 @@ class StarList extends React.Component {
           player={this.state.player}
           show={this.state.showModal}
           onHide={this.hideModal}
+          pickType={this.props.pickType}
         />
       </div>
     );

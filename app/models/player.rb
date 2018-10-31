@@ -1,10 +1,10 @@
 class Player < ApplicationRecord
   require 'open-uri'
 
-  has_many :picks
+  has_many :picks, as: :pickable
   has_many :competition_players
   has_many :competitions, through: :competition_players
-  has_many :results
+  has_many :results, as: :resultable
   has_many :player_records
 
   enum player_type: { player: 0, card: 1, deck: 2 }

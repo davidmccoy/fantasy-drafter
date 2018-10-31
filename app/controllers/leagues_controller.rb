@@ -13,6 +13,9 @@ class LeaguesController < ApplicationController
   end
 
   def new
+    @pick_options = []
+    @pick_options << ["Cards", "card"] unless @competition.cards.empty?
+    @pick_options << ["Players", "player"] unless @competition.players.empty?
   end
 
   def create
@@ -24,7 +27,8 @@ class LeaguesController < ApplicationController
       league.num_draft_rounds.times {
         Pick.create(
           draft_id: league.draft.id,
-          team_id: team.id
+          team_id: team.id,
+          pickable_type: league.pick_type&.classify
         )
       }
     end
@@ -63,7 +67,7 @@ class LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:num_draft_rounds, :draft_type, draft_attributes: [:id, :start_time])
+    params.require(:league).permit(:num_draft_rounds, :draft_type, :pick_type, draft_attributes: [:id, :start_time])
   end
 
 end

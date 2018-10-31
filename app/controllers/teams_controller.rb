@@ -7,6 +7,13 @@ class TeamsController < ApplicationController
   before_action :authorize_team
 
   def show
+    if @league.pick_type == 'player'
+      @players = @team.players 
+      @player_type = 'Player'
+    elsif @league.pick_type == 'card'
+      @players = @team.cards
+      @player_type = 'Card'
+    end 
   end
 
   def edit

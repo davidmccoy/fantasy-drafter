@@ -29,6 +29,11 @@
       </div>
 
       <div class="form-group required">
+        <%= f.label :public, "Pick Type", class: "control-label" %>
+        <%= select_tag "league[pick_type]", options_for_select(%w[player card]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
         <%= f.label :num_draft_rounds, "Number of Picks Per Player", class: "control-label" %>
         <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
       </div>

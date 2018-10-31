@@ -23,9 +23,16 @@ class PlayerDetailModal extends React.Component {
             <Modal.Title> {(this.props.player === undefined || this.props.player === null) ? "Your favorite player" : this.props.player.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ReactMarkdown
-              source={(this.props.player === undefined || this.props.player === null) ? "Loading player..." : (this.props.player.bio === null? "This player currently has not biographical information." : this.props.player.bio)}
-            />
+            { this.props.pickType === 'player' &&
+              <ReactMarkdown
+                source={(this.props.player === undefined || this.props.player === null) ? "Loading player..." : (this.props.player.bio === null? "This player currently has not biographical information." : this.props.player.bio)}
+              />
+            }
+            { this.props.pickType === 'card' &&
+              <div className="modal-card-image-container">
+                <img src={(this.props.player === undefined || this.props.player === null) ? "Loading..." : this.props.player.image_uri} className="modal-card-image"/>
+              </div>
+            }
           </Modal.Body>
           <Modal.Footer>
             <Button className="btn btn-dark" onClick={this.props.onHide}>Close</Button>

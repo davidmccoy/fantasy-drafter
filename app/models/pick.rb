@@ -2,7 +2,7 @@ class Pick < ApplicationRecord
 
   belongs_to :draft
   belongs_to :team
-  belongs_to :player, optional: true
+  belongs_to :pickable, polymorphic: true, optional: true
   has_one :user, through: :team
 
   # To allow users to delete their account while we maintain their stats

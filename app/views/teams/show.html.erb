@@ -30,12 +30,12 @@
             Points
           </th>
           <th>
-            Player
+            <%= @player_type %>
           </th>
         </tr>
       </thead>
       <tbody>
-        <% @team.players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
+        <% @players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
         <tr id="<%= player.name %>">
           <td>
             <%= player.result(@team.league.leagueable)&.points ? player.result(@team.league.leagueable)&.points : "N/A" %>

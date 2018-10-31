@@ -2,7 +2,10 @@
   <div class="col-md-8 offset-md-2">
     <h2><%= @competition.name %></h2>
     <p>
-      A single-event league is an easy way to play <strong>Fantasy Pro Tour</strong>. Looking for something a little more involved? Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, Season.where(game_id: 1).order(start_date: :desc).first) %>!
+      A single-event league is an easy way to play <strong>Fantasy Pro Tour</strong>. 
+    </p>
+    <p>
+      Looking for something a little more involved? You can also create season-long leagues before a Pro Tour Cycle begins! Unfortunately, seasonal leagues for the Guilds of Ravnica Cycle can no longer be formed. Your next opportunity will be the Ravnica Allegiance Cycle, which begins early next year. <!-- Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, Season.where(game_id: 1).order(start_date: :desc).first) %>! -->
     </p>
     <p>
       <strong>Date:</strong> <%= @competition.start_date.localtime.strftime("%m/%d/%Y") %>
@@ -18,10 +21,16 @@
         <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
           ?
         </button>
-        <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+        <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"],["Snake", "snake"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
       </div>
 
       <%= render 'leagues/draft_types_modal' %>
+
+      <div class="form-group required">
+        <%= f.label :public, "Pick Type", class: "control-label" %>
+        <p><em>Would you like to draft players or cards?</em></p>
+        <%= select_tag "league[pick_type]", options_for_select(@pick_options), include_blank: "Select Thing to Draft", required: true, class: "form-control" %>
+      </div>
 
       <div class="form-group required">
         <%= f.label :num_draft_rounds, "Number of Rounds/Players per Team", class: "control-label" %>
