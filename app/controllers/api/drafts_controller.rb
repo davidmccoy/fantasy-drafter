@@ -67,9 +67,9 @@ class Api::DraftsController < ApplicationController
           name: pick.pickable&.name,
           elo: pick.pickable_type == 'Player' ? pick.pickable&.elo : nil,
           points: pick.pickable_type == 'Player' ? pick.pickable&.points: nil ,
-          xrank: pick.pickable_type == 'Player' ? pick.pickable&.power_ranking : pick.pickable.xrank(pick.draft.league.leagueable),
-          percent_of_decks: pick.pickable_type == 'Card' ? pick.pickable.percent_of_decks(pick.draft.league.leagueable) : nil,
-          number_of_copies: pick.pickable_type == 'Card' ? pick.pickable.number_of_copies(pick.draft.league.leagueable) : nil
+          xrank: pick.pickable_type == 'Player' ? pick.pickable&.power_ranking : pick.pickable&.xrank(pick.draft.league.leagueable),
+          percent_of_decks: pick.pickable_type == 'Card' ? pick.pickable&.percent_of_decks(pick.draft.league.leagueable) : nil,
+          number_of_copies: pick.pickable_type == 'Card' ? pick.pickable&.number_of_copies(pick.draft.league.leagueable) : nil
         }
       }
     elsif @draft.league.draft_type == 'pick_x'
