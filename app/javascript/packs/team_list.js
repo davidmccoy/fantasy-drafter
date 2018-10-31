@@ -201,13 +201,13 @@ class TeamList extends React.Component {
                       ]
                     }
                   ]}
-                  defaultSorted={[
+                  {/*defaultSorted={[
                     {
                       id: "xrank",
                       desc: false,
                       nulls: 'last'
                     }
-                  ]}
+                  ]}*/}
                   data={this.props.team.players}
                   loading={this.props.loading}
                   showPagination={false}
