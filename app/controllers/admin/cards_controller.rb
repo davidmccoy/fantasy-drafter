@@ -16,44 +16,45 @@ class Admin::CardsController < ApplicationController
         card
       else
         p "finding #{card_name}"
-        if card_name.include? ','
-          url_safe_card_name = card_name.gsub(/\,/,"").downcase.split(' ').join('+')
-        else
-          url_safe_card_name = card_name.downcase.split(' ').join('+')
-        end
-        url = "https://api.scryfall.com/cards/named?exact=#{url_safe_card_name}"
-        p url
-        response = HTTParty.get(url)
-        if response.code == 200
-          if response['layout'] == 'transform'
-            image = response['card_faces'].first['image_uris']['normal']
-          else 
-            image = response['image_uris']['normal']
-          end 
-          card = Card.where(name: card_name).first_or_create
-          card.update(
-            scryfall_id: response['id'],
-            oracle_id: response['oracle_id'],
-            image_uri: image,
-            mana_cost: response['mana_cost'],
-            cmc: response['cmc'],
-            type_line: response['type_line'],
-            oracle_text: response['oracle_text'],
-            power: response['power'],
-            toughness: response['toughness'],
-            loyalty: response['loyalty'],
-            colors: response['colors'],
-            legalities: response['legalities'],
-            rarity: response['rarity'],
-            flavor_text: response['flavor_text'],
-            artist: response['artist'],
-            frame: response['frame']
-          )
-        else 
-          p response.code
-          errors << card_name
-        end 
-        sleep(1.0/4.0)
+        card = Card.where(name: card_name).first_or_create
+        # if card_name.include? ','
+        #   url_safe_card_name = card_name.gsub(/\,/,"").downcase.split(' ').join('+')
+        # else
+        #   url_safe_card_name = card_name.downcase.split(' ').join('+')
+        # end
+        # url = "https://api.scryfall.com/cards/named?exact=#{url_safe_card_name}"
+        # p url
+        # response = HTTParty.get(url)
+        # if response.code == 200
+        #   if response['layout'] == 'transform'
+        #     image = response['card_faces'].first['image_uris']['normal']
+        #   else 
+        #     image = response['image_uris']['normal']
+        #   end 
+        #   card = Card.where(name: card_name).first_or_create
+        #   card.update(
+        #     scryfall_id: response['id'],
+        #     oracle_id: response['oracle_id'],
+        #     image_uri: image,
+        #     mana_cost: response['mana_cost'],
+        #     cmc: response['cmc'],
+        #     type_line: response['type_line'],
+        #     oracle_text: response['oracle_text'],
+        #     power: response['power'],
+        #     toughness: response['toughness'],
+        #     loyalty: response['loyalty'],
+        #     colors: response['colors'],
+        #     legalities: response['legalities'],
+        #     rarity: response['rarity'],
+        #     flavor_text: response['flavor_text'],
+        #     artist: response['artist'],
+        #     frame: response['frame']
+        #   )
+        # else 
+        #   p response.code
+        #   errors << card_name
+        # end 
+        # sleep(1.0/4.0)
       end
     end
     puts errors
