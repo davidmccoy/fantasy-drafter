@@ -60,5 +60,6 @@ class Card < ApplicationRecord
         frame: response['frame']
       )
     end 
+    sleep(1.0/4.0)
   end 
 end
