@@ -13,6 +13,9 @@ class LeaguesController < ApplicationController
   end
 
   def new
+    @pick_options = []
+    @pick_options << ["Cards", "card"] unless @competition.cards.empty?
+    @pick_options << ["Players", "player"] unless @competition.players.empty?
   end
 
   def create
