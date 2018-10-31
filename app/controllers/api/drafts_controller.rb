@@ -63,7 +63,7 @@ class Api::DraftsController < ApplicationController
         {
           pick_number: pick.number,
           player_id: pick.pickable&.id,
-          player_type: pick.pickable&.player_type&.capitalize,
+          player_type: pick.pickable&.class.name,
           name: pick.pickable&.name,
           elo: pick.pickable_type == 'Player' ? pick.pickable&.elo : nil,
           points: pick.pickable_type == 'Player' ? pick.pickable&.points: nil ,
