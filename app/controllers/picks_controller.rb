@@ -170,6 +170,7 @@ class PicksController < ApplicationController
         player_id: pickable.id,
         player_type: pickable.class.name,
         elo: pickable.class.name == 'Player' ? pickable.elo : nil,
+        points: pickable.class.name == 'Player' ? pickable.points : nil,
         xrank: pickable.class.name == 'Player' ? pickable.power_ranking : pickable.xrank(@draft.league.leagueable), 
         percent_of_decks: pickable.class.name == 'Card' ? pickable.percent_of_decks(@draft.league.leagueable) : nil, 
         number_of_copies: pickable.class.name == 'Card' ? pickable.number_of_copies(@draft.league.leagueable) : nil,

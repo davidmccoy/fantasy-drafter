@@ -66,7 +66,7 @@ class Api::DraftsController < ApplicationController
           player_type: pick.pickable&.class&.name,
           name: pick.pickable&.name,
           elo: pick.pickable_type == 'Player' ? pick.pickable&.elo : nil,
-          points: pick.pickable_type == 'Player' ? pick.pickable&.points: nil ,
+          points: pick.pickable_type == 'Player' ? pick.pickable&.points: nil,
           xrank: pick.pickable_type == 'Player' ? pick.pickable&.power_ranking : pick.pickable&.xrank(pick.draft.league.leagueable),
           percent_of_decks: pick.pickable_type == 'Card' ? pick.pickable&.percent_of_decks(pick.draft.league.leagueable) : nil,
           number_of_copies: pick.pickable_type == 'Card' ? pick.pickable&.number_of_copies(pick.draft.league.leagueable) : nil
@@ -80,6 +80,7 @@ class Api::DraftsController < ApplicationController
             player_id: player.id, 
             player_type: 'Player', 
             elo: player.elo, 
+            points: player.points,
             power_ranking: player.power_ranking, 
             delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil" 
           } 
