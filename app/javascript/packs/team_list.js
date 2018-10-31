@@ -178,7 +178,7 @@ class TeamList extends React.Component {
                           maxWidth: 55,
                           Cell: row => (
                             <div>
-                              {row.value !== undefined || row.value !== null ? `${row.value}%` : null}
+                              {row.value !== undefined && row.value !== null ? `${row.value}%` : null}
                             </div>
                           )
                         },
