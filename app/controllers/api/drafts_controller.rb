@@ -81,7 +81,7 @@ class Api::DraftsController < ApplicationController
             player_type: 'Player', 
             elo: player.elo, 
             power_ranking: player.power_ranking, 
-            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&player_id=nil" 
+            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil" 
           } 
         }
       elsif @draft.league.pick_type == 'card'
