@@ -48,7 +48,7 @@ class ResultsController < ApplicationController
       full_name = subbed_name[1].strip + " " + subbed_name[0].strip
       player = Player.unaccent(full_name)
       if player
-        result = Result.where(game_id: @game.id, competition_id: @competition.id, player_id: player.id).first_or_create
+        result = Result.where(game_id: @game.id, competition_id: @competition.id, resultable_id: player.id, resultable_type: 'Player').first_or_create
         result.update(points: points, place: place)
       else
         puts "No record found for #{full_name}"
