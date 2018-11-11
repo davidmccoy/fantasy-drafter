@@ -19,6 +19,13 @@ class Team < ApplicationRecord
       end
     end
 
+    self.cards.each do |card|
+      result = card.result(self.league.leagueable)
+      if result
+        points = points + result.points
+      end
+    end
+
     points
   end
 
