@@ -14,6 +14,13 @@
         <%= label_tag :file, "File", class: "control-label" %>
         <%= file_field_tag :file, type: :file, accept: ".csv", required: true, class: "form-control" %>
       </div>
+      <div class="form-group required">
+        <%= label_tag :resultable_type, "Player or card results?", class: "control-label" %>
+        <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
+          ?
+        </button>
+        <%= select_tag :resultable_type, options_for_select([["Player", "Player"],["Card", "Card"]]), required: true, include_blank: "Players or cards?", class: "form-control" %>
+      </div>
 
       <%= submit_tag "Add Results", class: "btn btn-primary" %>
 
