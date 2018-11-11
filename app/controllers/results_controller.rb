@@ -31,31 +31,45 @@ class ResultsController < ApplicationController
 
     file = CSV.read(params[:file].path)
 
-    file.each do |row|
-      place = row[0].to_i
-      name = row[1]
-      subbed_name = nil
-      points = row[2].to_i
-    
-      if name.include?("(") && name.include?("[")
-        subbed_name = name.gsub!(/\([^()]*\)/,"").gsub!(/\[[^()]*\]/,"").strip.split(',')
-      elsif name.include? "("
-        subbed_name = name.gsub!(/\([^()]*\)/,"").strip.split(',')
-      elsif name.include? "["
-        subbed_name = name.gsub!(/\[[^()]*\]/,"").strip.split(',')
+    if params[:resultable_type] == 'Player'
+      file.each do |row|
+        place = row[0].to_i
+        name = row[1]
+        subbed_name = nil
+        points = row[2].to_i
+      
+        if name.include?("(") && name.include?("[")
+          subbed_name = name.gsub!(/\([^()]*\)/,"").gsub!(/\[[^()]*\]/,"").strip.split(',')
+        elsif name.include? "("
+          subbed_name = name.gsub!(/\([^()]*\)/,"").strip.split(',')
+        elsif name.include? "["
+          subbed_name = name.gsub!(/\[[^()]*\]/,"").strip.split(',')
+        end
+      
+        full_name = subbed_name[1].strip + " " + subbed_name[0].strip
+        player = Player.unaccent(full_name)
+        if player
+          result = Result.where(game_id: @game.id, competition_id: @competition.id, resultable_id: player.id, resultable_type: 'Player').first_or_create
+          result.update(points: points, place: place)
+        else
+          puts "No record found for #{full_name}"
+          failures << row
+        end
       end
-    
-      full_name = subbed_name[1].strip + " " + subbed_name[0].strip
-      player = Player.unaccent(full_name)
-      if player
-        result = Result.where(game_id: @game.id, competition_id: @competition.id, resultable_id: player.id, resultable_type: 'Player').first_or_create
-        result.update(points: points, place: place)
-      else
-        puts "No record found for #{full_name}"
-        failures << row
+    elsif params[:resultable_type] == 'Card'
+      file.each do |row|
+        copies = row[0].to_i
+        name = row[1]
+
+        card = Card.find_by_name(name)
+        if card
+          result = Result.where(game_id: @game.id, competition_id: @competition.id, resultable_id: card.id, resultable_type: 'Card').first_or_create
+          result.update(points: result.points.to_i + copies)
+        else
+          failures << row
+        end
       end
     end
-
     # file.each do |row|
     #   place = row[0].to_i
     #   name = row[1]
