@@ -20,7 +20,7 @@ class League < ApplicationRecord
       teams << team
     end
 
-    teams.sort_by { |team| team.points }.reverse
+    teams.sort_by { |team| [-team.points, team.submitted_at] }
   end
 
   def any_unconfirmed_users?
