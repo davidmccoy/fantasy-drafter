@@ -12,7 +12,7 @@
     <div class="content">
       <% if @competition.about.blank? %>
       <p>
-        There are tons of ways to play <strong>Fantasy Pro Tour</strong>! Create your own league and invite your friends, or join a public league!
+        There are tons of ways to play <strong>Thousand Leagues</strong>! Create your own league and invite your friends, or join a public league!
       </p>
       <% else %>
       <%= markdown(@competition.about) %>
@@ -22,7 +22,7 @@
       <div class="featured-leagues content">
         <h2>Featured Public Leagues</h2>
         <p>
-          Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @competition.name %> below.
+          Want to test your skill against other <strong>Thousand Leagues</strong> users? Join one of our public leagues for <%= @competition.name %> below.
         </p>
         <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).length > 0 %>
         <table class="table table-outer-border">
@@ -78,7 +78,7 @@
       <div class="create-a-league content">
         <h2> Create Your Own League!</h2>
         <p>
-          You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
+          You can create all kinds of private leagues with <strong>Thousand Leagues</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
         </p>
         <table class="table table-outer-border">
           <thead>

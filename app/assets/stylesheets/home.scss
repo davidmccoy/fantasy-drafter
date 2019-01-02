@@ -260,7 +260,7 @@
         .hero-text {
           font-size: 3em;
           .hero-intro {
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             line-height: 5rem;
           }
           .hero-cta {
@@ -276,6 +276,20 @@
     .section-container {
       &.second {
         margin-top: -4em;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  #home {
+    .hero-container {
+      .hero-text-container {
+        .hero-text {
+          .hero-intro {
+            font-size: 3.2rem;
+          }
+        }
       }
     }
   }

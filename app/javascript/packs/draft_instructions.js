@@ -54,7 +54,7 @@ class DraftInstructions extends React.Component {
           </div>
         );
     } else {
-      if (this.props.pickType === 'player') { 
+      if (this.props.pickType === 'player') {
         return (
           <div>
             <div className="available-players-title">
@@ -112,10 +112,10 @@ class DraftInstructions extends React.Component {
                 Below are the cards that are still available to draft.
               </p>
               <p>
-                The "xRank" column is a card's <strong>Fantasy Pro Tour</strong> power ranking, with 1 being the highest ranked card for the competition.
+                The "xRank" column is a card's <strong>Thousand Leagues</strong> power ranking, with 1 being the highest ranked card for the competition.
               </p>
               <p>
-                The "% Decks" column is the percentage of decks a card has appeared in (in this competition's) format within the last two months. 
+                The "% Decks" column is the percentage of decks a card has appeared in (in this competition's) format within the last two months.
               </p>
               <p>
                 The "Copies" column is the average number of copies of a card were included in the decks that make up the % Decks stat.

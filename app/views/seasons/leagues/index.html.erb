@@ -17,7 +17,7 @@
     <div class="featured-leagues content">
       <h2>Featured Public Leagues</h2>
       <p>
-        Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @season.name %> below.
+        Want to test your skill against other <strong>Thousand Leagues</strong> users? Join one of our public leagues for <%= @season.name %> below.
       </p>
       <% if League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ?', @season.id, Time.now, true).length > 0 %>
       <table class="table table-outer-border">
@@ -70,14 +70,14 @@
       </table>
       <% else %>
       <p>
-        Unfortunately, <strong>Fantasy Pro Tour</strong> doesn't support season-long public leagues, yet! Check back soon!
+        Unfortunately, <strong>Thousand Leagues</strong> doesn't support season-long public leagues, yet! Check back soon!
       </p>
       <% end %>
     </div>
     <div class="create-a-league content">
       <h2> Create Your Own League!</h2>
       <p>
-        You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
+        You can create all kinds of private leagues with <strong>Thousand Leagues</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
       </p>
       <table class="table table-outer-border">
         <thead>

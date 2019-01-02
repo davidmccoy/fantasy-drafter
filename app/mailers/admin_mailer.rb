@@ -4,7 +4,7 @@ class AdminMailer < ApplicationMailer
   def new_user user, email
     @user = user
 
-    mail(to: email, subject: "Fantasy Pro Tour: New User")
+    mail(to: email, subject: "Thousand Leagues: New User")
   end
 
   def new_league league, email
@@ -15,6 +15,6 @@ class AdminMailer < ApplicationMailer
         id: @league.id
       )
 
-    mail(to: email, subject: "Fantasy Pro Tour: New League!")
+    mail(to: email, subject: "Thousand Leagues: New League!")
   end
 end
