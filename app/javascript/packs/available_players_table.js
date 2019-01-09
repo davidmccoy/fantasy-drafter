@@ -323,7 +323,7 @@ class AvailablePlayersTable extends React.Component {
         }
       ]
     }
-    const defaultSort = this.props.draftType !== 'special' ? (this.props.pickType === 'player' ? [{id: "points", desc: true}] : [{id: "xrank", desc: false}] ) : [{id: "name", desc: false}];
+    const defaultSort = this.props.draftType !== 'special' ? (this.props.pickType === 'player' ? [{id: "elo", desc: true}] : [{id: "xrank", desc: false}] ) : [{id: "name", desc: false}];
     return (
       <div id="react-player-table">
         <div className="form-group">
@@ -339,7 +339,7 @@ class AvailablePlayersTable extends React.Component {
           defaultSorted={defaultSort}
           data={data}
           loading={this.props.loading}
-          defaultPageSize={15}
+          defaultPageSize={16}
           className="-striped -highlight"
         />
         <PlayerDetailModal
