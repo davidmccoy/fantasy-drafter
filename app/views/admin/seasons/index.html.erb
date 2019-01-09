@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div>
+      <h1>All Seasons</h1>
+      <p>
+        <%= link_to "Create Season", new_admin_season_path, class: 'btn btn-primary' %>
+      </p>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @seasons.each do |season| %>
+            <tr>
+              <td>
+                <%= season.name %>
+              </td>
+              <td>
+                <%= season.start_date.strftime("%m/%d/%Y") %>
+              </td>
+              <td>
+                <%= link_to "Edit", edit_admin_season_path(season), class: "btn btn-secondary" %>
+              </td>
+              <td>
+                <%= link_to "New League", new_admin_season_league_path(season), class: "btn btn-secondary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

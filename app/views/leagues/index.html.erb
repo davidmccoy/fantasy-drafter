@@ -105,46 +105,46 @@
           </thead>
           <tbody>
             <% if @competition.season %>
-            <!-- <tr>
-              <td>
-                <%= @competition.season.name %>
-              </td>
-              <td>
-                Full Season
-              </td>
-              <td>
-                Private
-              </td>
-              <td>
-                Pick X
-              </td>
-              <td>
-                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-              </td>
-              <td>
-                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <%= @competition.season.name %>
-              </td>
-              <td>
-                Full Season
-              </td>
-              <td>
-                Private
-              </td>
-              <td>
-                Snake
-              </td>
-              <td>
-                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-              </td>
-              <td>
-                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr> -->
+              <tr>
+                <td>
+                  <%= @competition.season.name %>
+                </td>
+                <td>
+                  Full Season
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Pick X
+                </td>
+                <td>
+                  <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= @competition.season.name %>
+                </td>
+                <td>
+                  Full Season
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Snake
+                </td>
+                <td>
+                  <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
             <% end %>
             <tr>
               <td>
@@ -188,13 +188,13 @@
             </tr>
           </tbody>
         </table>
-        <h5>Pick X Players</h5>
+        <h5>Pick X Players/Cards</h5>
         <p>
-          You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
+          You pick X number of players or cards for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player or card. There is no timed draft portion&mdash;pick your players on your own schedule!
         </p>
         <h5>Snake Draft</h5>
         <p>
-          You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
+          You set a time for your league to draft and each team takes turns picking players or cards for their team. Players or cards can only be on one team per league.
         </p>
       </div>
     <% elsif @competition.end_date ?  (Time.now > @competition.end_date) : (Time.now - 4.days > @competition.start_date)  %>

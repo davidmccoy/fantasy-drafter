@@ -93,7 +93,9 @@ Rails.application.routes.draw do
     resources :players
     resources :cards
     post 'cards/import', to: 'cards#import'
-    resources :seasons
+    resources :seasons do
+      resources :leagues
+    end
     get 'players/stats', to: 'players#stats'
     post 'players/add_stats', to: 'players#add_stats'
   end

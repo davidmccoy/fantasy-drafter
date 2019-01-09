@@ -10,7 +10,7 @@
 
       <div class="form-group required">
         <%= f.label :leagueable_id, "Competition", class: "control-label" %>
-        <%= select_tag "league[leagueable_id]", options_from_collection_for_select(Competition.all.reverse, 'id', 'name'), include_blank: "Select League Type", required: true, class: "form-control" %>
+        <%= select_tag "league[leagueable_id]", options_from_collection_for_select(@leagueables, 'id', 'name'), include_blank: "Select League Type", required: true, class: "form-control" %>
       </div>
 
       <div class="form-group required">

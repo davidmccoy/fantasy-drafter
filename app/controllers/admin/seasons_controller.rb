@@ -1,6 +1,10 @@
 class Admin::SeasonsController < ApplicationController
   before_action :authenticate_admin
 
+  def index
+    @seasons = Season.all
+  end
+
   def new
     @season = Season.new
   end

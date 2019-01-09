@@ -17,6 +17,12 @@
             <th>
 
             </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +36,12 @@
               </td>
               <td>
                 <%= link_to "Edit", edit_admin_competition_path(competition), class: "btn btn-secondary" %>
+              </td>
+              <td>
+                <%= link_to "Players", admin_competition_competition_players_path(competition), class: "btn btn-secondary" %>
+              </td>
+              <td>
+                <%= link_to "Cards", admin_competition_card_competitions_path(competition), class: "btn btn-secondary" %>
               </td>
             </tr>
           <% end %>

@@ -5,11 +5,11 @@
     </p>
     <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
     <p class="page-instructions">
-      You'll find the rules, all of the available Pros, and your team's lineup below.
+      You'll find the rules, all of the available <%= @draft.league.pick_type %>s, and your team's lineup below.
     </p>
   </div>
 </div>
-<div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick&.number %>" data-current-pick-id="<%= @current_pick&.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>" data-submit-link="<%= Rails.application.routes.url_helpers.game_season_league_draft_submit_url(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, protocol: Rails.env.production? ? 'https' : 'http')%>">
+<div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick&.number %>" data-current-pick-id="<%= @current_pick&.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>" data-pick-type="<%= @draft.league.pick_type %>" data-submit-link="<%= Rails.application.routes.url_helpers.game_season_league_draft_submit_url(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, protocol: Rails.env.production? ? 'https' : 'http')%>">
   <%= javascript_pack_tag "draft_viewer" %>
   <div id="draft-concluded">
     The draft is over! View your team <%= link_to "here", game_season_league_team_path(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, current_user.team(@draft.league)) %>.
