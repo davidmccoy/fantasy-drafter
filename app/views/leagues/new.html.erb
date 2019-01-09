@@ -5,7 +5,7 @@
       A single-event league is an easy way to play <strong>Thousand Leagues</strong>.
     </p>
     <p>
-      Looking for something a little more involved? You can also create season-long leagues before a Pro Tour Cycle begins! Unfortunately, seasonal leagues for the Guilds of Ravnica Cycle can no longer be formed. Your next opportunity will be the Ravnica Allegiance Cycle, which begins early next year. <!-- Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, Season.where(game_id: 1).order(start_date: :desc).first) %>! -->
+      Looking for something a little more involved? You can also create season-long leagues before <%= @competition.season.name %> begins! Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, Season.where(game_id: 1).order(start_date: :desc).first) %>!
     </p>
     <p>
       <strong>Date:</strong> <%= @competition.start_date.localtime.strftime("%m/%d/%Y") %>
