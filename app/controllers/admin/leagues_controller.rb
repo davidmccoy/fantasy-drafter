@@ -3,6 +3,12 @@ class Admin::LeaguesController < ApplicationController
 
   def new
     @league = League.new
+
+    if request.url.include? 'seasons'
+      @leagueables = Season.where('start_date > ?', Time.now).reverse
+    else
+      @leagueables = Competition.where('start_date > ?', Time.now).reverse
+    end
   end
 
   def create

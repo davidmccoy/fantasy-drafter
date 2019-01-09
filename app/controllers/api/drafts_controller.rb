@@ -3,7 +3,7 @@ class Api::DraftsController < ApplicationController
 
   def available_players
     if !@draft.completed
-      if @draft.league.pick_type == 'player' 
+      if @draft.league.pick_type == 'player'
         if @draft.league.draft_type == 'snake'
           @available_players = @draft.league.leagueable.players.where.not(
             id: @draft.picks.pluck(:pickable_id)
@@ -39,7 +39,7 @@ class Api::DraftsController < ApplicationController
           .where(pickable_type: 'Card', pickable_id: nil)
           .sort_by{ |pick| pick.number }.first
         end
-      end 
+      end
     else
       @available_players = nil
       @current_pick = nil
@@ -74,31 +74,31 @@ class Api::DraftsController < ApplicationController
       }
     elsif @draft.league.draft_type == 'pick_x'
       if @draft.league.pick_type == 'player'
-        current_team_players = current_team.players.order(:power_ranking).map { |player| 
+        current_team_players = current_team.players.order(:power_ranking).map { |player|
           {
-            name: player.name, 
-            player_id: player.id, 
-            player_type: 'Player', 
-            elo: player.elo, 
+            name: player.name,
+            player_id: player.id,
+            player_type: 'Player',
+            elo: player.elo,
             points: player.points,
-            power_ranking: player.power_ranking, 
-            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil" 
-          } 
+            power_ranking: player.power_ranking,
+            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil"
+          }
         }
       elsif @draft.league.pick_type == 'card'
         current_team_players = current_team.cards.sort { |a,b| a.xrank(@draft.league.leagueable) <=> b.xrank(@draft.league.leagueable) }
-          .map { |card| 
+          .map { |card|
           {
-            name: card.name, 
-            player_id: card.id, 
-            player_type: 'Card', 
-            xrank: card.xrank(@draft.league.leagueable), 
-            percent_of_decks: card.percent_of_decks(@draft.league.leagueable), 
+            name: card.name,
+            player_id: card.id,
+            player_type: 'Card',
+            xrank: card.xrank(@draft.league.leagueable),
+            percent_of_decks: card.percent_of_decks(@draft.league.leagueable),
             number_of_copies: card.number_of_copies(@draft.league.leagueable),
-            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Card', pickable_id: card.id, team_id: current_team.id).id}&pickable_id=nil" 
-          } 
+            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Card', pickable_id: card.id, team_id: current_team.id).id}&pickable_id=nil"
+          }
         }
-      end 
+      end
 
       Pick.where(team_id: current_team.id, pickable_id: [nil, 0]).count.times do
         current_team_players << { name: nil, delete_link: nil }

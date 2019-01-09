@@ -2,7 +2,7 @@
   <div class="col-md-8 offset-md-2">
     <div id="league-info">
       <p>
-        <%= link_to '< Back to League', game_competition_league_path(@game, @competition, @league) %>
+        <%= link_to '< Back to League', game_season_league_path(@game, @season, @league) %>
       </p>
       <span>
         Join League For
@@ -25,10 +25,10 @@
         <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
       </p>
       <p>
-        <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
+        <strong>Event Start:</strong> <%= @league.leagueable.start_date.strftime("%m/%d/%Y") %>
       </p>
 
-      <%= form_for [@competition.game, @competition, @league, @league_user] do |f| %>
+      <%= form_for [@season.game, @season, @league, @league_user] do |f| %>
         <div class="form-group">
           <%= label_tag 'team[name]', "Team Name", class: "control-label" %>
           <%= text_field_tag 'team[name]', nil, required: true, class: "form-control" %>

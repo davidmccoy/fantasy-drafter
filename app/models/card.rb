@@ -6,23 +6,35 @@ class Card < ApplicationRecord
 
   validates :name, uniqueness: { case_sensitive: false }
 
-  def xrank competition
-    card_competitions.find_by(competition_id: competition).xrank
-  end 
+  def xrank leagueable
+    if leagueable.class.to_s == "Season"
+      card_competitions.find_by(competition_id: leagueable.competitions.first).xrank
+    else
+      card_competitions.find_by(competition_id: leagueable).xrank
+    end
+  end
 
-  def percent_of_decks competition
-    card_competitions.find_by(competition_id: competition).percent_of_decks
-  end 
+  def percent_of_decks leagueable
+    if leagueable.class.to_s == "Season"
+      card_competitions.find_by(competition_id: leagueable.competitions.first).percent_of_decks
+    else
+      card_competitions.find_by(competition_id: competition).percent_of_decks
+    end
+  end
 
-  def number_of_copies competition
-    card_competitions.find_by(competition_id: competition).number_of_copies
-  end 
+  def number_of_copies leagueable
+    if leagueable.class.to_s == "Season"
+      card_competitions.find_by(competition_id: leagueable.competitions.first).number_of_copies
+    else
+      card_competitions.find_by(competition_id: competition).number_of_copies
+    end
+  end
 
   def result competition
     self.results.find_by(competition_id: competition.id)
   end
 
-  def get_scryfall_info 
+  def get_scryfall_info
     p "finding #{name}"
 
     if name.include? ','
@@ -38,9 +50,9 @@ class Card < ApplicationRecord
     if response.code == 200
       if response['layout'] == 'transform'
         image = response['card_faces'].first['image_uris']['normal']
-      else 
+      else
         image = response['image_uris']['normal']
-      end 
+      end
       self.update(
         scryfall_id: response['id'],
         oracle_id: response['oracle_id'],
@@ -59,7 +71,7 @@ class Card < ApplicationRecord
         artist: response['artist'],
         frame: response['frame']
       )
-    end 
+    end
     sleep(1.0/4.0)
-  end 
+  end
 end

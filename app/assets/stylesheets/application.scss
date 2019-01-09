@@ -89,6 +89,7 @@ html {
       .logo-container {
        text-align: center;
        padding-bottom: 1rem;
+       font-size: 2rem;
        .logo {
          width: 100%;
          height: auto;
@@ -159,6 +160,9 @@ table {
       padding-bottom: 416px;
       footer {
         min-height: 416px;
+        .logo-container {
+          font-size: 3rem;
+        }
         .logo-and-menu-container {
           ul {
             text-align: left;
@@ -188,6 +192,7 @@ table {
        .logo-container {
          text-align: right;
          padding-bottom: 0;
+         font-size: 2rem;
          .logo {
            width: 80%;
          }
@@ -212,6 +217,9 @@ table {
       padding-bottom: 302px;
       footer {
         min-height: 302px;
+        .logo-container {
+          font-size: 3rem;
+        }
       }
     }
   }

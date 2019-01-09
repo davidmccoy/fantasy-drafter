@@ -12,7 +12,7 @@
     <div class="content">
       <% if @competition.about.blank? %>
       <p>
-        There are tons of ways to play <strong>Fantasy Pro Tour</strong>! Create your own league and invite your friends, or join a public league!
+        There are tons of ways to play <strong>Thousand Leagues</strong>! Create your own league and invite your friends, or join a public league!
       </p>
       <% else %>
       <%= markdown(@competition.about) %>
@@ -22,7 +22,7 @@
       <div class="featured-leagues content">
         <h2>Featured Public Leagues</h2>
         <p>
-          Want to test your skill against other <strong>Fantasy Pro Tour</strong> users? Join one of our public leagues for <%= @competition.name %> below.
+          Want to test your skill against other <strong>Thousand Leagues</strong> users? Join one of our public leagues for <%= @competition.name %> below.
         </p>
         <% if League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id = ? AND competitions.start_date > ? AND leagues.public = ?', @competition.id, Time.now, true).length > 0 %>
         <table class="table table-outer-border">
@@ -78,7 +78,7 @@
       <div class="create-a-league content">
         <h2> Create Your Own League!</h2>
         <p>
-          You can create all kinds of private leagues with <strong>Fantasy Pro Tour</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
+          You can create all kinds of private leagues with <strong>Thousand Leagues</strong>. Create season-long or single-event league, and then choose between a Pick X or Snake draft format.
         </p>
         <table class="table table-outer-border">
           <thead>
@@ -105,46 +105,46 @@
           </thead>
           <tbody>
             <% if @competition.season %>
-            <!-- <tr>
-              <td>
-                <%= @competition.season.name %>
-              </td>
-              <td>
-                Full Season
-              </td>
-              <td>
-                Private
-              </td>
-              <td>
-                Pick X
-              </td>
-              <td>
-                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-              </td>
-              <td>
-                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <%= @competition.season.name %>
-              </td>
-              <td>
-                Full Season
-              </td>
-              <td>
-                Private
-              </td>
-              <td>
-                Snake
-              </td>
-              <td>
-                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
-              </td>
-              <td>
-                <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr> -->
+              <tr>
+                <td>
+                  <%= @competition.season.name %>
+                </td>
+                <td>
+                  Full Season
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Pick X
+                </td>
+                <td>
+                  <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= @competition.season.name %>
+                </td>
+                <td>
+                  Full Season
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Snake
+                </td>
+                <td>
+                  <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_season_league_path(@game, @competition.season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
             <% end %>
             <tr>
               <td>
@@ -188,13 +188,13 @@
             </tr>
           </tbody>
         </table>
-        <h5>Pick X Players</h5>
+        <h5>Pick X Players/Cards</h5>
         <p>
-          You pick X number of players for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player. There is no timed draft portion&mdash;pick your players on your own schedule!
+          You pick X number of players or cards for your team, independent of what players the other teams in your league select. This means that multiple teams in your league can have the same player or card. There is no timed draft portion&mdash;pick your players on your own schedule!
         </p>
         <h5>Snake Draft</h5>
         <p>
-          You set a time for your league to draft and each team takes turns picking players for their team. Players can only be on one team per league.
+          You set a time for your league to draft and each team takes turns picking players or cards for their team. Players or cards can only be on one team per league.
         </p>
       </div>
     <% elsif @competition.end_date ?  (Time.now > @competition.end_date) : (Time.now - 4.days > @competition.start_date)  %>

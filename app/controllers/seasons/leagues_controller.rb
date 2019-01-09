@@ -23,7 +23,8 @@ class Seasons::LeaguesController < ApplicationController
       league.num_draft_rounds.times {
         Pick.create(
           draft_id: league.draft.id,
-          team_id: team.id
+          team_id: team.id,
+          pickable_type: league.pick_type&.classify
         )
       }
     end
