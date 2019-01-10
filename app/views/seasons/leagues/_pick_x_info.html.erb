@@ -3,7 +3,7 @@
   <p>
     <% if current_page?(game_season_league_path(@game, @season, @league)) %>
       <% if current_user.leagues.include? @league %>
-        <% if current_user.team(@league).submitted %>
+        <% if current_user.team(@league)&.submitted %>
           <%= link_to 'View Team', game_season_league_team_path(@game, @season, @league, current_user.team(@league)), class: 'btn btn-dark' %>
         <% else %>
           <%= link_to 'Draft Now', game_season_league_draft_path(@game, @season, @league, @league.draft), class: 'btn btn-success' %>
