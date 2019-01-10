@@ -1,0 +1,16 @@
+<div id="draft-progress-container">
+  <div class="page-title">
+    <p class="page-instructions intro">
+      Welcome to your pick 'em for
+    </p>
+    <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
+    <p class="page-instructions">
+      You'll find the rules and all of the matches below.
+    </p>
+  </div>
+</div>
+<div>
+  <% @draft.league.leagueable.players.each do |player| %>
+    <%= player.name %>
+  <% end %>
+</div>
