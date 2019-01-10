@@ -18,7 +18,7 @@ class Card < ApplicationRecord
     if leagueable.class.to_s == "Season"
       card_competitions.find_by(competition_id: leagueable.competitions.first).percent_of_decks
     else
-      card_competitions.find_by(competition_id: competition).percent_of_decks
+      card_competitions.find_by(competition_id: leagueable).percent_of_decks
     end
   end
 
@@ -26,7 +26,7 @@ class Card < ApplicationRecord
     if leagueable.class.to_s == "Season"
       card_competitions.find_by(competition_id: leagueable.competitions.first).number_of_copies
     else
-      card_competitions.find_by(competition_id: competition).number_of_copies
+      card_competitions.find_by(competition_id: leagueable).number_of_copies
     end
   end
 
