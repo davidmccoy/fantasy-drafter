@@ -53,6 +53,15 @@ class DraftInstructions extends React.Component {
             </div>
           </div>
         );
+    } else if (this.props.draftType === 'pick_em') {
+      return (
+        <div>
+          <h3>Matches</h3>
+          <p>
+            Below are all of the matches in this competition. You must pick a winner for every match before submitting your team.
+          </p>
+        </div>
+      )
     } else {
       if (this.props.pickType === 'player') {
         return (

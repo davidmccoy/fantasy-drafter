@@ -27,13 +27,24 @@ class LeagueUsersController < ApplicationController
           team = league_user.create_team(team_params)
           team.save!
           # create picks
-          @league.num_draft_rounds.times {
-            Pick.create(
-              draft_id: @league.draft.id,
-              team_id: team.id,
-              pickable_type: @league.pick_type.classify
-            )
-          }
+          if @league.draft_type == 'pick_x'
+            @league.num_draft_rounds.times {
+              Pick.create(
+                draft_id: @league.draft.id,
+                team_id: team.id,
+                pickable_type: @league.pick_type.classify
+              )
+            }
+          elsif @league.draft_type == 'pick_em'
+            @league.leagueable.matches.each do |match|
+              Pick.create(
+                draft_id: @league.draft.id,
+                team_id: team.id,
+                pickable_type: 'Match',
+                pickable_id: match.id
+              )
+            end
+          end
         end
       end
       if league_user

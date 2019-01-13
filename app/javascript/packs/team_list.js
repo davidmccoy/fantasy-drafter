@@ -49,7 +49,7 @@ class TeamList extends React.Component {
 
   render() {
     let players = null;
-    if (this.props.team !== undefined) {
+    if (this.props.team !== undefined && this.props.team.players !== null) {
       players = this.props.team.players.map(function(player) {
         return <li key={player.name}>
           {player.name}
@@ -220,6 +220,11 @@ class TeamList extends React.Component {
           </div>
         );
       }
+    } else if (this.props.draftType === 'pick_em') {
+      return (
+        <div>
+        </div>
+      )
     } else if (this.props.draftType === 'special') {
       return (
         <div>

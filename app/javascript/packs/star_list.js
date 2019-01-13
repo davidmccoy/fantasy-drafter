@@ -67,7 +67,7 @@ class StarList extends React.Component {
   changeModalPlayer(e, playerId) {
     let modalUrl = this.props.pickType === 'player' ?
      `/api/players/${playerId}` : `/api/cards/${playerId}`
-     
+
     $.ajax({
       url: modalUrl,
       dataType: 'json',
@@ -88,7 +88,13 @@ class StarList extends React.Component {
 
   render() {
     let columns = []
-    if (this.props.draftType !== 'special') {
+    if (this.props.draftType == 'pick_em') {
+      return (
+        <div>
+
+        </div>
+      )
+    } else if (this.props.draftType !== 'special') {
       if (this.props.pickType === 'player') {
         columns = [
           {

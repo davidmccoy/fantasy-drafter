@@ -18,7 +18,7 @@ class DraftsController < ApplicationController
         @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.where(pickable_type: 'Player').pluck(:pickable_id))
       elsif @league.draft_type == 'card'
         @available_players = @draft.league.leagueable.cards.where.not(id: @draft.picks.where(pickable_type: 'Card').pluck(:pickable_id))
-      end 
+      end
 
       your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id, pickable_id: nil).order("number ASC").first
 
@@ -38,11 +38,13 @@ class DraftsController < ApplicationController
         @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.where(pickable_type: 'Player').pluck(:pickable_id))
       elsif @league.draft_type == 'card'
         @available_players = @draft.league.leagueable.cards.where.not(id: @draft.picks.where(pickable_type: 'Card').pluck(:pickable_id))
-      end 
+      end
 
       @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
 
       @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(pickable_id: nil).order("number ASC")
+    elsif @draft.league.draft_type == 'pick_em'
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
     elsif @draft.league.draft_type == 'special'
       @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:pickable_id) )
 
@@ -82,9 +84,21 @@ class DraftsController < ApplicationController
 
   def submit
     team = current_user.team(@league)
+    if @draft.league.draft_type == 'pick_em'
+      pick_em_params.each do |k, match|
+        users_pick = team.picks.find_by_id(Pick.where(pickable_type: 'Match', pickable_id: match['id']))
+        next unless users_pick
+        users_pick.update(
+          winner_id: match['winner_id']
+        )
+      end
+    end
     if team.update(submitted: true, submitted_at: Time.now)
       flash[:notice] = "You've submitted your team!"
-      redirect_to game_competition_league_path(@game, @competition, @league) and return
+      respond_to do |format|
+        format.html { redirect_to game_competition_league_path(@game, @competition, @league) and return }
+        format.json { render json: {path: game_competition_league_path(@game, @competition, @league)} }
+      end
     else
       flash[:alert] = "Something went wrong with submitting your team. Please try again."
       redirect_to game_competition_league_draft_path(@game, @competition, @league, @draft) and return
@@ -95,6 +109,10 @@ class DraftsController < ApplicationController
 
   def draft_params
     params.require(:draft).permit(:start_time)
+  end
+
+  def pick_em_params
+    params.require(:matches)
   end
 
 end

@@ -24,6 +24,7 @@ class AvailablePlayersTable extends React.Component {
     this.displayPickLink = this.displayPickLink.bind(this);
     this.changeModalPlayer = this.changeModalPlayer.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.handleWinnerSelect = this.handleWinnerSelect.bind(this);
   }
 
   onPick(e, url) {
@@ -62,7 +63,7 @@ class AvailablePlayersTable extends React.Component {
   displayPickLink() {
     if (this.props.draftType === 'snake') {
       return this.props.myPicks.some(item => this.props.currentPick === item)
-    } else if (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) {
+    } else if (this.props.myTeam !== undefined && this.props.myTeam.players !== null && (this.props.myTeam.players.filter(e => e.name !== null).length === this.props.myPicks.length)) {
       return false
     } else {
       return true
@@ -107,6 +108,10 @@ class AvailablePlayersTable extends React.Component {
     })
   }
 
+  handleWinnerSelect(event) {
+    this.props.handleMatchPick(event);
+  }
+
   render() {
     let data = this.props.data
 		if (this.state.search !== '') {
@@ -116,7 +121,7 @@ class AvailablePlayersTable extends React.Component {
 		}
 
     let columns = []
-    if (this.props.draftType !== 'special') {
+    if (this.props.draftType !== 'special' && this.props.draftType !== 'pick_em') {
       if (this.props.pickType === 'player') {
         columns = [
           {
@@ -265,6 +270,25 @@ class AvailablePlayersTable extends React.Component {
           }
         ]
       }
+    } else if (this.props.draftType == 'pick_em') {
+      return (
+        <div>
+          {
+            this.props.data.map((match) =>
+              <div key={match.id} id={match.id} className="form-group">
+                <h5>{match.player_a_name} vs. {match.player_b_name}</h5>
+                <label className="control-label">Winner:</label>
+                <input type="hidden" name="picks[picks][]pick[id]" id="picks_picks_pick_id" value={match.id}></input>
+                <select name="picks[picks][]pick[winner_id]" id="picks_picks_pick_winner_id" required="required" className="form-control" onChange={this.handleWinnerSelect}>
+                  <option value="">Pick the Winner</option>
+                  <option value={match.player_a_id}>{match.player_a_name}</option>
+                  <option value={match.player_b_id}>{match.player_b_name}</option>
+                </select>
+              </div>
+            )
+          }
+        </div>
+      )
     } else {
       columns = [
         {
