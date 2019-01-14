@@ -10,9 +10,14 @@ class Seasons::DraftsController < ApplicationController
     redirect_to new_user_session_path and return unless current_user
     redirect_to game_season_league_path(@game, @season, @league) and return if current_user.team(@league).submitted
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed
-      @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.pluck(:pickable_id) )
 
-      your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id, player_id: nil).order("number ASC").first
+      if @league.draft_type == 'player'
+        @available_players = @draft.league.leagueable.players.where.not(id: @draft.picks.where(pickable_type: 'Player').pluck(:pickable_id))
+      elsif @league.draft_type == 'card'
+        @available_players = @draft.league.leagueable.cards.where.not(id: @draft.picks.where(pickable_type: 'Card').pluck(:pickable_id))
+      end
+
+      your_next_pick = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id, pickable_id: nil).order("number ASC").first
 
       @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("number ASC").pluck(:number)
 
