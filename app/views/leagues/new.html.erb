@@ -21,7 +21,7 @@
         <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
           ?
         </button>
-        <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"],["Snake", "snake"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+        <%= select_tag "league[draft_type]", options_for_select([["Pick X", "pick_x"], ["Snake", "snake"], ["Pick 'Em", "pick_em"]], params[:draft_type]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
       </div>
 
       <%= render 'leagues/draft_types_modal' %>

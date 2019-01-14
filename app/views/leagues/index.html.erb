@@ -186,6 +186,26 @@
                 <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
               </td>
             </tr>
+            <tr>
+              <td>
+                <%= @competition.name %>
+              </td>
+              <td>
+                Single Event
+              </td>
+              <td>
+                Private
+              </td>
+              <td>
+                Pick 'Em
+              </td>
+              <td>
+                <%= @competition.start_date.localtime.strftime('%m/%d/%Y') %>
+              </td>
+              <td>
+                <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_em'), class: 'btn btn-sm btn-primary' %>
+              </td>
+            </tr>
           </tbody>
         </table>
         <h5>Pick X Players/Cards</h5>
