@@ -178,27 +178,69 @@
               <%= link_to 'Create League', new_game_season_league_path(@game, @season, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
             </td>
           </tr>
-          <% League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id in (?) AND competitions.start_date > ? AND leagues.public = ?', @season.competitions.pluck(:id), Time.now, true).each do |league| %>
-            <tr>
-              <td>
-                <%= league.leagueable.name %>
-              </td>
-              <td>
-                Single Event
-              </td>
-              <td>
-                Public
-              </td>
-              <td>
-                <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
-              </td>
-              <td>
-                <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
-              </td>
-              <td>
-                <%= link_to 'Create League', new_game_competition_league_path(league.leagueable.game, league.leagueable, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr>
+          <% @season.competitions.where('start_date > ?', Time.now).order(:start_date).limit(2).each do |competition| %>
+              <tr>
+                <td>
+                  <%= competition.name %>
+                </td>
+                <td>
+                  Single Event
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Pick X
+                </td>
+                <td>
+                  <%= competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_competition_league_path(competition.game, competition, draft_type: 'pick_x'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= competition.name %>
+                </td>
+                <td>
+                  Single Event
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Snake
+                </td>
+                <td>
+                  <%= competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_competition_league_path(competition.game, competition, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+            <% unless competition.matches.empty?  %>
+              <tr>
+                <td>
+                  <%= competition.name %>
+                </td>
+                <td>
+                  Single Event
+                </td>
+                <td>
+                  Private
+                </td>
+                <td>
+                  Pick 'Em
+                </td>
+                <td>
+                  <%= competition.start_date.localtime.strftime('%m/%d/%Y') %>
+                </td>
+                <td>
+                  <%= link_to 'Create League', new_game_competition_league_path(competition.game, competition, draft_type: 'pick_em'), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

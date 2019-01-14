@@ -96,8 +96,8 @@ class LeagueUsersController < ApplicationController
   # TODO notification email for accpted invite
   def update
     if @league_user.update(confirmed: true)
+      team = @league_user.team
       if @league.draft_type == 'pick_x'
-        team = @league_user.team
         @league.num_draft_rounds.times {
           Pick.create(
             draft_id: @league.draft.id,
@@ -105,6 +105,15 @@ class LeagueUsersController < ApplicationController
             pickable_type: @league.pick_type.classify
           )
         }
+      elsif @league.draft_type == 'pick_em'
+        @league.leagueable.matches.each do |match|
+          Pick.create(
+            draft_id: @league.draft.id,
+            team_id: team.id,
+            pickable_type: 'Match',
+            pickable_id: match.id
+          )
+        end
       end
       if @league_user.user == current_user
         flash[:notice] = "Welcome to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League!"

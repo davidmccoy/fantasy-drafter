@@ -31,6 +31,15 @@ class LeaguesController < ApplicationController
           pickable_type: league.pick_type&.classify
         )
       }
+    elsif league.draft_type == 'pick_em'
+      league.leagueable.matches.each do |match|
+        Pick.create(
+          draft_id: league.draft.id,
+          team_id: team.id,
+          pickable_type: 'Match',
+          pickable_id: match.id
+        )
+      end
     end
     User.where(admin: true).each do |user|
       AdminMailer.new_league(league, user.email).deliver_later
