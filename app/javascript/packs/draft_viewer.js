@@ -149,7 +149,7 @@ class DraftViewer extends React.Component {
           player_a_id: event.player_a_id,
           player_b_id: event.player_b_id,
           result: event.result,
-          winner_id: winnerId
+          winner_id: winnerId == '' ? null : winnerId
         }
       } else {
         return {
