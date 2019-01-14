@@ -12,6 +12,13 @@ class Api::DraftsController < ApplicationController
           @current_pick = @draft.picks
           .where(pickable_id: nil)
           .sort_by{ |pick| pick.number }.first
+        elsif @draft.league.draft_type == 'pick_em'
+          @available_players = @draft.league.leagueable.matches.where.not(
+            id: current_user.team(@draft.league).matches.where.not(winner_id: nil).pluck(:id)
+          )
+          # @current_pick = @draft.picks
+          # .where(pickable_type: 'Player', pickable_id: nil)
+          # .sort_by{ |pick| pick.number }.first
         else
           @available_players = @draft.league.leagueable.players.where.not(
             id: current_user.team(@draft.league).players.pluck(:id)
@@ -109,6 +116,8 @@ class Api::DraftsController < ApplicationController
       Pick.where(team_id: current_team.id, player_id: [nil, 0]).count.times do
         current_team_players << { name: nil, delete_link: nil }
       end
+    elsif @draft.league.draft_type == 'pick_em'
+      current_team_players = current_team.matches
     end
 
 

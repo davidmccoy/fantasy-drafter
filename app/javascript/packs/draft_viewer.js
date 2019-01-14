@@ -25,6 +25,7 @@ class DraftViewer extends React.Component {
     this.starPlayer = this.starPlayer.bind(this);
     this.pickPlayer = this.pickPlayer.bind(this);
     this.removePlayer = this.removePlayer.bind(this);
+    this.pickMatch = this.pickMatch.bind(this);
   }
 
   componentDidMount() {
@@ -133,6 +134,46 @@ class DraftViewer extends React.Component {
     });
   }
 
+  pickMatch(event) {
+    let matchId = event.target.parentElement.id;
+    let winnerId = event.target.value;
+    let matches = this.state.myTeam.players.map(function(event) {
+      if (event.id === parseInt(matchId)) {
+        return {
+          arcanis_event_id: event.arcanis_event_id,
+          arcanis_id: event.arcanis_id,
+          arcanis_player_a_id: event.arcanis_player_a_id,
+          arcanis_player_b_id: event.arcanis_player_b_id,
+          competition_id: event.competition_id,
+          id: event.id,
+          player_a_id: event.player_a_id,
+          player_b_id: event.player_b_id,
+          result: event.result,
+          winner_id: winnerId == '' ? null : winnerId
+        }
+      } else {
+        return {
+          arcanis_event_id: event.arcanis_event_id,
+          arcanis_id: event.arcanis_id,
+          arcanis_player_a_id: event.arcanis_player_a_id,
+          arcanis_player_b_id: event.arcanis_player_b_id,
+          competition_id: event.competition_id,
+          id: event.id,
+          player_a_id: event.player_a_id,
+          player_b_id: event.player_b_id,
+          result: event.result,
+          winner_id: event.winner_id
+        }
+      }
+    })
+
+    this.setState({
+      myTeam: {
+        players: matches
+      }
+    });
+  }
+
   removePlayer(url) {
     $.ajax({
       url: url,
@@ -195,6 +236,7 @@ class DraftViewer extends React.Component {
             handleStar={this.starPlayer}
             currentPick={this.state.currentPick}
             handlePick={this.pickPlayer}
+            handleMatchPick={this.pickMatch}
             myPicks={this.props.myPicks}
             myStars={this.state.myStars}
             myTeam={this.state.myTeam}
@@ -215,15 +257,27 @@ class DraftViewer extends React.Component {
             draftId={this.props.draftId}
             draftType={this.props.draftType}
             pickType={this.props.pickType}
+            competitionName={this.props.competitionName}
           />
         </div>
-        { this.props.draftType !== 'snake' &&
+        { this.props.draftType !== 'snake' && this.props.draftType !== 'pick_em' &&
           <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.name !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
             <SubmitMessage
               myTeam={this.state.myTeam}
               myPicks={this.props.myPicks}
               draftSubmitLink={this.props.draftSubmitLink}
               pickType={this.props.pickType}
+            />
+          </div>
+        }
+        { this.props.draftType === 'pick_em' &&
+          <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.winner_id !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
+            <SubmitMessage
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+              draftSubmitLink={this.props.draftSubmitLink}
+              pickType={this.props.pickType}
+              draftType={this.props.draftType}
             />
           </div>
         }
@@ -242,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const draftType = node.getAttribute('data-draft-type');
   const pickType = node.getAttribute('data-pick-type');
   const draftSubmitLink = node.getAttribute('data-submit-link');
+  const competitionName = node.getAttribute('data-competition-name');
   const container = document.createElement('div');
   container.id = 'draft-details-container';
 
@@ -255,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       draftType={draftType}
       pickType={pickType}
       draftSubmitLink={draftSubmitLink}
+      competitionName={competitionName}
     />,
     document.getElementById('draft-details-container').appendChild(container),
   )

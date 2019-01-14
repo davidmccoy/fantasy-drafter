@@ -1,5 +1,4 @@
 class League < ApplicationRecord
-
   belongs_to :leagueable, polymorphic: true
   has_many :league_users, dependent: :destroy
   has_many :users, through: :league_users
@@ -24,11 +23,10 @@ class League < ApplicationRecord
   end
 
   def any_unconfirmed_users?
-    self.league_users.where(confirmed: false).count > 0
+    league_users.where(confirmed: false).count > 0
   end
 
-  def user_confirmed? user
+  def user_confirmed?(user)
     LeagueUser.find_by(user_id: user, league_id: self).confirmed
   end
-
 end

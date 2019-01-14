@@ -21,9 +21,11 @@
         </button>
       </p>
       <%= render 'leagues/draft_types_modal' %>
+      <% unless @league.draft_type == 'pick_em' %>
       <p>
         <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>
       </p>
+      <% end %>
       <p>
         <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
       </p>

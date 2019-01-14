@@ -6,8 +6,13 @@ class Player < ApplicationRecord
   has_many :competitions, through: :competition_players
   has_many :results, as: :resultable
   has_many :player_records
+  has_many :matches
 
   enum player_type: { player: 0, card: 1, deck: 2 }
+
+  def matches
+    Match.where("player_a_id = ? OR player_b_id = ?", id, id)
+  end
 
   def result competition
     self.results.find_by(competition_id: competition.id)

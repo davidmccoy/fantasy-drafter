@@ -23,29 +23,56 @@
       <em>(Through Round <%= @team.league.leagueable.score_as_of_round %>)</em>
     </p>
 
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>
-            Points
-          </th>
-          <th>
-            <%= @player_type %>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
-        <tr id="<%= player.name %>">
-          <td>
-            <%= player.result(@team.league.leagueable)&.points ? player.result(@team.league.leagueable)&.points : "N/A" %>
-          </td>
-          <td>
-            <%= player.name %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <% if @picks %>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Match
+            </th>
+            <th>
+              Your Pick to Win
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @picks.each do |pick| %>
+          <tr id="<%= pick.id %>">
+            <td>
+              <%= pick.pickable.player_a.name %> vs. <%= pick.pickable.player_b.name %>
+            </td>
+            <td>
+              <%= pick.winner&.name %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              Points
+            </th>
+            <th>
+              <%= @player_type %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @players.sort_by { |player| player.result(@team.league.leagueable)&.points or 0 }.reverse.each do |player| %>
+          <tr id="<%= player.name %>">
+            <td>
+              <%= player.result(@team.league.leagueable)&.points ? player.result(@team.league.leagueable)&.points : "N/A" %>
+            </td>
+            <td>
+              <%= player.name %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   </div>
 </div>

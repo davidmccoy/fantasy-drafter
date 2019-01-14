@@ -83,6 +83,12 @@ class DraftInfo extends React.Component {
           </div>
         </div>
       );
+    } else if (this.props.draftType === 'pick_em') {
+      return (
+        <div>
+          wowowow
+        </div>
+      )
     } else {
       if (this.props.pickType === 'player') {
         return (

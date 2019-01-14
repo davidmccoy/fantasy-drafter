@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030174550) do
+ActiveRecord::Schema.define(version: 20190111184642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20181030174550) do
     t.integer "season_id"
     t.date "end_date"
     t.text "about", default: ""
+    t.string "arcanis_id"
+    t.index ["arcanis_id"], name: "index_competitions_on_arcanis_id"
     t.index ["slug"], name: "index_competitions_on_slug", unique: true
   end
 
@@ -117,6 +119,22 @@ ActiveRecord::Schema.define(version: 20181030174550) do
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 
+  create_table "matches", force: :cascade do |t|
+    t.integer "competition_id"
+    t.integer "player_a_id"
+    t.integer "player_b_id"
+    t.integer "winner_id"
+    t.string "arcanis_id"
+    t.string "arcanis_event_id"
+    t.string "arcanis_player_a_id"
+    t.string "arcanis_player_b_id"
+    t.string "result"
+    t.index ["arcanis_id"], name: "index_matches_on_arcanis_id"
+    t.index ["competition_id"], name: "index_matches_on_competition_id"
+    t.index ["player_a_id"], name: "index_matches_on_player_a_id"
+    t.index ["player_b_id"], name: "index_matches_on_player_b_id"
+  end
+
   create_table "picks", id: :serial, force: :cascade do |t|
     t.integer "draft_id"
     t.integer "team_id"
@@ -125,6 +143,7 @@ ActiveRecord::Schema.define(version: 20181030174550) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pickable_type", default: "Player"
+    t.integer "winner_id"
   end
 
   create_table "player_records", force: :cascade do |t|
@@ -149,6 +168,8 @@ ActiveRecord::Schema.define(version: 20181030174550) do
     t.string "stats_url"
     t.text "bio"
     t.integer "player_type", default: 0
+    t.string "arcanis_id"
+    t.index ["arcanis_id"], name: "index_players_on_arcanis_id"
   end
 
   create_table "results", id: :serial, force: :cascade do |t|

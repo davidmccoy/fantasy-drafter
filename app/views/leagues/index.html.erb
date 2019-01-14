@@ -196,6 +196,10 @@
         <p>
           You set a time for your league to draft and each team takes turns picking players or cards for their team. Players or cards can only be on one team per league.
         </p>
+        <h5>Pick 'Em</h5>
+        <p>
+          Rather than drafting players or cards, you pick the winner of a given match. The player who picks the most winners, well, wins!
+        </p>
       </div>
     <% elsif @competition.end_date ?  (Time.now > @competition.end_date) : (Time.now - 4.days > @competition.start_date)  %>
       <h2> This competition has ended!</h2>
