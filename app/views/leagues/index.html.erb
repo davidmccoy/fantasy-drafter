@@ -18,7 +18,7 @@
       <%= markdown(@competition.about) %>
       <% end %>
     </div>
-    <% if Time.now < @competition.start_date %>
+    <% if Date.today - 1.day < @competition.start_date %>
       <div class="featured-leagues content">
         <h2>Featured Public Leagues</h2>
         <p>
