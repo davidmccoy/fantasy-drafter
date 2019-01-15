@@ -6,7 +6,7 @@ class CompetitionsController < ApplicationController
 
   def index
     @competitions = Competition.all
-    @seasons = Season.where('start_date > ?', Time.now).reverse
+    @seasons = Season.where('start_date > ?', Date.today - 1.day).reverse
   end
 
   def new
