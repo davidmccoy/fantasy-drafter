@@ -8,4 +8,8 @@ class Season < ApplicationRecord
   def to_param
     slug
   end
+
+  def score_as_of_round
+    competitions.sum(&:score_as_of_round)
+  end
 end
