@@ -23,7 +23,7 @@
       <em>(Through Round <%= @team.league.leagueable.score_as_of_round %>)</em>
     </p>
 
-    <% if @picks %>
+    <% if @picks && @team.league.draft_type == 'pick_em' %>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
