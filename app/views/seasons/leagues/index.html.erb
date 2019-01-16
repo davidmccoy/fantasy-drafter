@@ -19,7 +19,7 @@
       <p>
         Want to test your skill against other <strong>Thousand Leagues</strong> users? Join one of our public leagues for <%= @season.name %> below.
       </p>
-      <% if League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ?', @season.id, Date.today - 1, true).length > 0 %>
+      <% if League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ?', @season.id, Date.today, true).length > 0 %>
       <table class="table table-outer-border">
         <thead>
           <tr>
@@ -47,7 +47,7 @@
           </tr>
         </thead>
         <tbody>
-          <% League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ?', @season.id, Date.today - 1.day, true).each do |league| %>
+          <% League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ?', @season.id, Date.today, true).each do |league| %>
             <tr>
               <td>
                 <%= league.name %>
