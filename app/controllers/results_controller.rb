@@ -36,6 +36,7 @@ class ResultsController < ApplicationController
         place = row[0].to_i
         name = row[1]
         subbed_name = nil
+        full_name = nil
         points = row[2].to_i
 
         if name.include?("(") && name.include?("[")
@@ -46,7 +47,11 @@ class ResultsController < ApplicationController
           subbed_name = name.gsub!(/\[[^()]*\]/,"").strip.split(',')
         end
 
-        full_name = subbed_name[1].strip + " " + subbed_name[0].strip
+        if subbed_name
+          full_name = subbed_name[1].strip + " " + subbed_name[0].strip
+        else
+          full_name = name
+        end
         player = Player.unaccent(full_name)
         if player
           result = Result.where(game_id: @game.id, competition_id: @competition.id, resultable_id: player.id, resultable_type: 'Player').first_or_create
@@ -59,7 +64,9 @@ class ResultsController < ApplicationController
     elsif params[:resultable_type] == 'Card'
       # expects '3 Teferi, Hero of Dominaria'
       file.each do |row|
-        copies = row[0].split(' ')[0].to_i
+        copies = file[0][0].split(' ')[0].to_i
+        match_points = file[0][1].to_i
+        card_points = match_points ? match_points * copies : copies
         # we use scryfall's naming conventions for split cards, which is a
         # single '/' instead of two.
         card_name = row[0].split(' ').drop(1).join(' ').gsub('//', '/')
@@ -73,7 +80,7 @@ class ResultsController < ApplicationController
             resultable_type: 'Card'
           ).first_or_create
 
-          result.update(points: result.points.to_i + copies)
+          result.update(points: result.points.to_i + card_points)
         else
           failures << row
         end
