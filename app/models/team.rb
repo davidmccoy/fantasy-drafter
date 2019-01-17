@@ -27,6 +27,13 @@ class Team < ApplicationRecord
       end
     end
 
+    self.matches.each do |match|
+      pick = picks.find_by(pickable_id: match.id, pickable_type: 'Match')
+      if pick.winner_id == match.winner_id
+        points = points + 3
+      end
+    end
+
     points
   end
 
