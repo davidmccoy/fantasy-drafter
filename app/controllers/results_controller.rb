@@ -64,8 +64,8 @@ class ResultsController < ApplicationController
     elsif params[:resultable_type] == 'Card'
       # expects '3 Teferi, Hero of Dominaria'
       file.each do |row|
-        copies = file[0][0].split(' ')[0].to_i
-        match_points = file[0][1].to_i
+        copies = row[0].split(' ')[0].to_i
+        match_points = row[1].to_i
         card_points = match_points ? match_points * copies : copies
         # we use scryfall's naming conventions for split cards, which is a
         # single '/' instead of two.
