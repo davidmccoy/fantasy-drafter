@@ -85,6 +85,21 @@ class ResultsController < ApplicationController
           failures << row
         end
       end
+    elsif params[:resultable_type] == 'Match'
+      file.each do |row|
+        player_one_name = row[0].strip
+        player_two_name = row[1].strip
+        winner_name     = row[2].strip
+
+        player_one = Player.find_by_name(player_one_name)
+        player_two = Player.find_by_name(player_two_name)
+        winner = player_one_name == winner_name ? player_one : player_two
+        if player_one && player_two
+          match = @competition.matches.where('(player_a_id = ? OR player_b_id = ?) AND (player_a_id = ? OR player_b_id = ?)', player_one.id, player_one.id, player_two.id, player_two.id).first
+
+          match.update(winner_id: winner.id) if match
+        end
+      end
     end
     # file.each do |row|
     #   place = row[0].to_i
