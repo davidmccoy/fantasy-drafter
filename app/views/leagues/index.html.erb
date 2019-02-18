@@ -32,13 +32,13 @@
                 Name
               </th>
               <th>
-                Acessibility
-              </th>
-              <th>
-                Start Date
+                Entry Fee
               </th>
               <th>
                 Draft Type
+              </th>
+              <th>
+                Start Date
               </th>
               <th>
                 Entries
@@ -55,13 +55,13 @@
                   <%= league.name %>
                 </td>
                 <td>
-                  Public
-                </td>
-                <td>
-                  <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
+                  <%= league.entry %>
                 </td>
                 <td>
                   <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
+                </td>
+                <td>
+                  <%= league.leagueable.start_date.localtime.strftime('%m/%d/%Y') %>
                 </td>
                 <td>
                   <%= league.league_users.count %>
