@@ -19,7 +19,7 @@
       <p>
         Want to test your skill against other <strong>Thousand Leagues</strong> users? Join one of our public leagues for <%= @season.name %> below.
       </p>
-      <% if (League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ? AND leagues.leagueable_type = ?', @season.id, Date.today, true, 'League').length > 0) || League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id in (?) AND competitions.start_date > ? AND leagues.public = ? AND leagues.leagueable_type = ?', @season.competitions.pluck(:id), Time.now, true, 'Competition').length > 0 %>
+      <% if (League.joins('LEFT JOIN seasons ON seasons.id = leagues.leagueable_id').where('seasons.id = ? AND seasons.start_date > ? AND leagues.public = ? AND leagues.leagueable_type = ?', @season.id, Date.today, true, 'League').length > 0) || (League.joins('LEFT JOIN competitions ON competitions.id = leagues.leagueable_id').where('competitions.id in (?) AND competitions.start_date > ? AND leagues.public = ? AND leagues.leagueable_type = ?', @season.competitions.pluck(:id), Time.now, true, 'Competition').length > 0) %>
       <table class="table table-outer-border">
         <thead>
           <tr>

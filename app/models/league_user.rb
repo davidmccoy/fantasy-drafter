@@ -1,8 +1,8 @@
 class LeagueUser < ApplicationRecord
-
   belongs_to :league
   belongs_to :user
   has_one :team, dependent: :destroy
+  has_one :purchase, as: :purchasable
 
   validates_uniqueness_of :user_id, scope: :league_id
 
@@ -15,5 +15,4 @@ class LeagueUser < ApplicationRecord
       return User.new(name: "Deleted User")
     end
   end
-
 end

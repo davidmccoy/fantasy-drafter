@@ -53,7 +53,7 @@
         <strong>Draft Type:</strong> <%= @league.draft_type  == 'special' ? "Pick X" : @league.draft_type.humanize.titleize %>
       </p>
       <p>
-        <strong>Entry:</strong> Free
+        <strong>Entry:</strong> <%= @league.entry %>
       </p>
       <p>
         <strong>Players Per Team:</strong> <%= @league.num_draft_rounds %>

@@ -76,7 +76,8 @@ class LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:num_draft_rounds, :draft_type, :pick_type, draft_attributes: [:id, :start_time])
+    params.require(:league).permit(:num_draft_rounds, :draft_type, :pick_type,
+      :name, draft_attributes: [:id, :start_time])
   end
 
 end

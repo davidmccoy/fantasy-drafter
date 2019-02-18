@@ -1,11 +1,9 @@
 <div class="row">
   <div class="col-md-8 offset-md-2">
+    <span>Create a league for</span>
     <h2><%= @competition.name %></h2>
     <p>
-      A single-event league is an easy way to play <strong>Thousand Leagues</strong>.
-    </p>
-    <p>
-      Looking for something a little more involved? You can also create season-long leagues before <%= @competition.season.name %> begins! Check out our <%= link_to 'season-long leagues', new_game_season_league_path(@game, Season.where(game_id: 1).order(start_date: :desc).first) %>!
+      A single-event league is an easy way to play <strong>Thousand Leagues</strong>. Choose the draft format for your league, invite some friends, and see who can build the best team!
     </p>
     <p>
       <strong>Date:</strong> <%= @competition.start_date.localtime.strftime("%m/%d/%Y") %>
@@ -15,6 +13,10 @@
     </p>
 
     <%= form_for [@competition.game, @competition, @league] do |f| %>
+      <div class="form-group required">
+        <%= f.label :name, class: "control-label" %>
+        <%= f.text_field :name, required: true, class: "form-control" %>
+      </div>
 
       <div class="form-group required">
         <%= f.label :draft_type, "Draft Type", class: "control-label" %>
@@ -33,7 +35,7 @@
       </div>
 
       <div class="form-group required">
-        <%= f.label :num_draft_rounds, "Number of Rounds/Players per Team", class: "control-label" %>
+        <%= f.label :num_draft_rounds, "Number of Rounds/Players/Cards per Team", class: "control-label" %>
         <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
       </div>
 

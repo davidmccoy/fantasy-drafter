@@ -3,43 +3,7 @@
     <div>
       <h1>Featured <%= @game.name %> Events</h1>
     </div>
-    <% if @seasons %>
     <div>
-      <h3>Seasons</h3>
-      <% @seasons.each do |season| %>
-        <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
-          <div class="container">
-            <div class="row">
-              <div class="col-md">
-                <%= season.name %>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="competition-info">
-          <div class="row">
-            <div class="col-md">
-              <p>
-                <strong>Start Date:</strong> <%= season.start_date %>
-              </p>
-            </div>
-            <div class="col-md">
-              <p>
-                <strong>Events:</strong> <%= season.competitions.count %>
-              </p>
-            </div>
-            <div class="col-md">
-              <p>
-                <%= link_to "View Leagues", game_season_leagues_path(season.game, season), class: "btn btn-primary" %>
-              </p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <% end %>
-    <div>
-      <h3>Single Events</h3>
       <% if @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).length > 0 %>
         <% @competitions.where("start_date >= ? AND start_date <= ?", Time.now, Time.now + 2.weeks).order(:start_date).each do |competition| %>
             <div class="competition-header-image hero-image inline-hero-image" style="background-image: url('<%= image_path 'mtgchamp18-header.jpg' %>')">
