@@ -106,7 +106,6 @@ GEM
       thor (>= 0.14, < 2.0)
     js_cookie_rails (2.2.0)
       railties (>= 3.1)
-    json (2.1.0)
     jstz-rails3-plus (1.0.5)
       railties (>= 3.1)
     jwt (2.1.0)
@@ -206,11 +205,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (3.0.0)
     rake (12.3.2)
-    raygun4ruby (3.1.1)
-      concurrent-ruby
-      httparty (> 0.13.7)
-      json
-      rack
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -309,7 +303,6 @@ DEPENDENCIES
   rails (~> 5.1.4)
   rails_12factor
   rails_bootstrap_sortable
-  raygun4ruby
   redcarpet
   redis (~> 3.0)
   rubocop (~> 0.58.2)

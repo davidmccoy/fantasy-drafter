@@ -67,9 +67,6 @@ gem 'gibbon'
 # ENV config
 gem 'figaro'
 
-# error logging
-gem 'raygun4ruby'
-
 # scraping
 gem 'nokogiri'
 

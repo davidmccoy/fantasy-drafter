@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190218151024) do
+ActiveRecord::Schema.define(version: 20190218195109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(version: 20190218151024) do
     t.integer "pick_type", default: 0
     t.boolean "paid_entry", default: false
     t.bigint "entry_fee", default: 0
+    t.text "prize_payouts"
+    t.text "description"
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 

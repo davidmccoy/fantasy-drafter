@@ -151,7 +151,7 @@ class LeagueUsersController < ApplicationController
       if user
         new_competitor = @league.league_users.create(user_id: user.id)
         if new_competitor.save
-          new_competitor.create_team(name: "#{new_competitor.user.name}'s Team")
+          new_team = new_competitor.create_team(name: "Team #{@league.teams.count + 1} (#{new_competitor.user.name})")
           InviteMailer.existing_user(new_competitor).deliver_later
           flash[:notice] = "Successfully added #{user.name} to the league."
         else
@@ -189,7 +189,8 @@ class LeagueUsersController < ApplicationController
 
   # TODO notification email for accpted invite
   def update
-    if @league_user.update(confirmed: true)
+
+    if !@league_user.confirmed && @league_user.update(confirmed: true)
       team = @league_user.team
       if @league.draft_type == 'pick_x'
         @league.num_draft_rounds.times {
@@ -215,10 +216,12 @@ class LeagueUsersController < ApplicationController
       else
         flash[:notice] = "Confirmed #{@league_user.user.name} to #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
       end
-      redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league)
+      redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league) and return
+    elsif @league_user.confirmed
+      redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league) and return
     else
       flash[:alert] = "Something went wrong. Couldn't accept your invitiation to  #{@league_user.league.admin.name}'s #{@league_user.league.leagueable.name} Fantasy League."
-      redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, @league_user)
+      redirect_to game_competition_league_league_user_confirm_url(@league.leagueable.game,@league.leagueable, @league, @league_user) and return
     end
   end
 
@@ -257,7 +260,12 @@ class LeagueUsersController < ApplicationController
 
   def confirm
     @league_user = LeagueUser.find_by_id(params[:league_user_id])
-    redirect_to game_competition_league_path(@game, @competition, @league) unless @league_user
+    if @league_user
+      # redirect if already confirmed
+      redirect_to game_competition_league_path(@league.leagueable.game,@league.leagueable, @league) and return if @league_user.confirmed
+    else
+      redirect_to game_competition_leagues_path(@game, @competition) and return
+    end
   end
 
   def resend_invite

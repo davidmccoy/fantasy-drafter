@@ -10,13 +10,13 @@
         <thead>
           <tr>
             <th>
+              Name
+            </th>
+            <th>
               Competition
             </th>
             <th>
               Event Date
-            </th>
-            <th>
-              Commissioner
             </th>
             <th>
               Players
@@ -30,13 +30,13 @@
           <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.start_date > ?", Date.today - 7.days).each do |league| %>
           <tr>
             <td>
+              <%= league.name %>
+            </td>
+            <td>
               <%= league.leagueable.name %>
             </td>
             <td>
               <%= league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
-            </td>
-            <td>
-              <%= league.admin.name %>
             </td>
             <td>
               <%= league.users.count %>

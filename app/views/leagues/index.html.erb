@@ -186,6 +186,7 @@
                 <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'snake'), class: 'btn btn-sm btn-primary' %>
               </td>
             </tr>
+            <% if @competition.season&.name == 'Vintage Super League (Season 9)' %>
             <tr>
               <td>
                 <%= @competition.name %>
@@ -206,6 +207,7 @@
                 <%= link_to 'Create League', new_game_competition_league_path(@game, @competition, draft_type: 'pick_em'), class: 'btn btn-sm btn-primary' %>
               </td>
             </tr>
+            <% end %>
           </tbody>
         </table>
         <h5>Pick X Players/Cards</h5>

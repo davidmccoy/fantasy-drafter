@@ -48,6 +48,16 @@
         <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
       </div>
 
+      <div class="form-group required">
+        <%= f.label :prize_payouts, class: "control-label" %>
+        <%= f.text_area :prize_payouts, required: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label :description, class: "control-label" %>
+        <%= f.text_area :description, required: true, class: "form-control" %>
+      </div>
+
       <div class="actions">
         <%= f.submit "Create League", class: "btn btn-primary" %>
       </div>
