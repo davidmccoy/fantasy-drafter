@@ -12,9 +12,9 @@ class DraftsController < ApplicationController
     # redirect if user doesn't have a team
     redirect_to game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) and return unless current_user.team(@league)
     # redirect if user hasn't paid entry fee
-    if @league.paid_entry
+    if @league.paid_entry && !current_user.team(@league).paid
       flash[:alert] = "You haven't paid the entry fee yet. Please contact us to resolve this issue."
-      redirect_to game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) and return unless current_user.team(@league).paid
+      redirect_to game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) and return
     end
     # redirect if team has already been submitted
     redirect_to game_competition_league_path(@game, @competition, @league) and return if current_user.team(@league).submitted
