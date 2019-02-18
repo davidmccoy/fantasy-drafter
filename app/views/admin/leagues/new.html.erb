@@ -25,17 +25,17 @@
 
       <div class="form-group required">
         <%= f.label :public, "Public League?", class: "control-label" %>
-        <%= select_tag "league[public]", options_for_select(%w[True False]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
+        <%= select_tag "league[public]", options_for_select([['True', 'true'], ['False', 'false']]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
       </div>
 
       <div class="form-group required">
         <%= f.label :paid_entry, "Paid Entry?", class: "control-label" %>
-        <%= select_tag "league[paid_entry]", options_for_select(%w[True False]), include_blank: "Select Paid Setting", required: true, class: "form-control" %>
+        <%= select_tag "league[paid_entry]", options_for_select([['True', 'true'], ['False', 'false']]), include_blank: "Select Paid Setting", required: true, class: "form-control" %>
       </div>
 
-      <div class="form-group required">
+      <div class="form-group">
         <%= f.label :entry_fee, 'Entry Fee (in cents)', class: "control-label" %>
-        <%= f.text_field :entry_fee, required: true, class: "form-control" %>
+        <%= f.text_field :entry_fee, required: false, class: "form-control" %>
       </div>
 
       <div class="form-group required">
