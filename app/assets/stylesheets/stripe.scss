@@ -1,0 +1,48 @@
+.stripe-button-el {
+  background: $blue !important;
+  background-image: $blue !important;
+  font-family: "Roboto", sans-serif !important;
+  font-size: 0.875em !important;
+  border-color: $blue !important;
+  display: inline-block !important;
+  font-weight: 400 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  border: 1px solid transparent !important;
+  padding: 0.5rem 1.1rem !important;
+  font-size: 1.063rem !important;
+  line-height: 1.5 !important;
+  border-radius: 0.25rem !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+  -webkit-appearance: button !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  &:hover {
+    background: darken($blue, 5%) !important;
+    background-image: darken($blue, 5%)!important;
+    border-color: darken($blue, 5%) !important;
+    span {
+      background: darken($blue, 5%) !important;
+      background-image: darken($blue, 5%)!important;
+    }
+  }
+  span {
+    background: $blue !important;
+    background-image: $blue !important;
+    font-family: "Roboto", sans-serif !important;
+    font-size: 0.875em !important;
+    font-weight: 500 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    line-height: inherit !important;
+    height: auto !important;
+    min-height: inherit !important;
+  }
+}

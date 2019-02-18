@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190111184642) do
+ActiveRecord::Schema.define(version: 20190218151024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20190111184642) do
     t.integer "league_id"
     t.integer "user_id"
     t.boolean "confirmed", default: false, null: false
+    t.boolean "paid", default: false
   end
 
   create_table "leagues", id: :serial, force: :cascade do |t|
@@ -116,6 +117,8 @@ ActiveRecord::Schema.define(version: 20190111184642) do
     t.integer "draft_type"
     t.string "name"
     t.integer "pick_type", default: 0
+    t.boolean "paid_entry", default: false
+    t.bigint "entry_fee", default: 0
     t.index ["leagueable_type", "leagueable_id"], name: "index_leagues_on_leagueable_type_and_leagueable_id"
   end
 
@@ -133,6 +136,28 @@ ActiveRecord::Schema.define(version: 20190111184642) do
     t.index ["competition_id"], name: "index_matches_on_competition_id"
     t.index ["player_a_id"], name: "index_matches_on_player_a_id"
     t.index ["player_b_id"], name: "index_matches_on_player_b_id"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "address_city"
+    t.string "address_country"
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_state"
+    t.string "address_zip"
+    t.string "address_line1_check"
+    t.string "address_zip_check"
+    t.string "cvc_check"
+    t.string "brand"
+    t.string "country"
+    t.string "exp_month"
+    t.string "exp_year"
+    t.string "funding"
+    t.string "stripe_id"
+    t.string "last4"
+    t.string "name"
+    t.string "object"
   end
 
   create_table "picks", id: :serial, force: :cascade do |t|
@@ -170,6 +195,24 @@ ActiveRecord::Schema.define(version: 20190111184642) do
     t.integer "player_type", default: 0
     t.string "arcanis_id"
     t.index ["arcanis_id"], name: "index_players_on_arcanis_id"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "payment_method_id"
+    t.string "purchasable_type"
+    t.bigint "purchasable_id"
+    t.string "stripe_charge_id"
+    t.string "stripe_balance_transaction_id"
+    t.string "stripe_customer_id"
+    t.string "stripe_object"
+    t.bigint "amount"
+    t.bigint "amount_refunded"
+    t.string "currency"
+    t.text "description"
+    t.text "receipt_url"
+    t.jsonb "stripe_source", default: "{}", null: false
+    t.index ["purchasable_type", "purchasable_id"], name: "index_purchases_on_purchasable_type_and_purchasable_id"
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
@@ -231,6 +274,7 @@ ActiveRecord::Schema.define(version: 20190111184642) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.string "stripe_customer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

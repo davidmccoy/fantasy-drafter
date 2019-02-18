@@ -29,7 +29,7 @@
     <strong>Pick Type:</strong> <%= @league.pick_type&.titleize %>
   </p>
   <p>
-    <strong>Entry:</strong> Free
+    <strong>Entry:</strong> <%= @league.entry %>
   </p>
   <p>
     <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>

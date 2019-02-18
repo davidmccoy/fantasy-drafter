@@ -3,7 +3,7 @@
     <div>
       <h1>Featured <%= @game.name %> Events</h1>
     </div>
-    <% if @seasons %>
+    <% unless @seasons.none? %>
     <div>
       <h3>Seasons</h3>
       <% @seasons.each do |season| %>

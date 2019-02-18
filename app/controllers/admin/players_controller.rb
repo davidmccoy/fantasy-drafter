@@ -8,15 +8,25 @@ class Admin::PlayersController < ApplicationController
     file = CSV.read(params[:file].path)
 
     errors = []
+    # update points from pro club
     file.each do |row|
-      name = row[0] + " " + row[1]
+      name = row[0]
       player = Player.unaccent(name)
       if player
-        player.update(elo: row[2], top_25_ranking: row[4], power_ranking: row[5])
+        player.update(points: row[1])
       else
         errors << name
       end
     end
+    # file.each do |row|
+    #   name = row[0] + " " + row[1]
+    #   player = Player.unaccent(name)
+    #   if player
+    #     player.update(elo: row[2], top_25_ranking: row[4], power_ranking: row[5])
+    #   else
+    #     errors << name
+    #   end
+    # end
     puts errors
     redirect_to admin_root_path
   end

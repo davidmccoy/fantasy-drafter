@@ -15,34 +15,125 @@ class LeagueUsersController < ApplicationController
     league_user = nil
     team = nil
     if request.referrer.include? "join"
-      LeagueUser.transaction do
-        Team.transaction do
-          # create league user
-          league_user = LeagueUser.create!(
-            league_id: @league.id,
-            user_id: current_user.id,
-            confirmed: true
-          )
-          # create team
-          team = league_user.create_team(team_params)
-          team.save!
-          # create picks
-          if @league.draft_type == 'pick_x'
-            @league.num_draft_rounds.times {
-              Pick.create(
-                draft_id: @league.draft.id,
-                team_id: team.id,
-                pickable_type: @league.pick_type.classify
+      if @league.paid_entry
+        LeagueUser.transaction do
+          Team.transaction do
+            PaymentMethod.transaction do
+              # create league user
+              league_user = LeagueUser.create!(
+                league_id: @league.id,
+                user_id: current_user.id,
+                confirmed: true
               )
-            }
-          elsif @league.draft_type == 'pick_em'
-            @league.leagueable.matches.each do |match|
-              Pick.create(
-                draft_id: @league.draft.id,
-                team_id: team.id,
-                pickable_type: 'Match',
-                pickable_id: match.id
+              # create team
+              team = league_user.create_team(team_params)
+              team.save!
+              # create picks
+              if @league.draft_type == 'pick_x'
+                @league.num_draft_rounds.times {
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: @league.pick_type.classify
+                  )
+                }
+              elsif @league.draft_type == 'pick_em'
+                @league.leagueable.matches.each do |match|
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: 'Match',
+                    pickable_id: match.id
+                  )
+                end
+              end
+
+              unless current_user.stripe_customer_id
+                # send info to stripe
+                customer = Stripe::Customer.create(
+                  email:  stripe_params[:email],
+                  source: stripe_params[:token_id]
+                )
+                # update user with stripe_id
+                current_user.update(stripe_customer_id: customer.id) if  current_user.stripe_customer_id.blank?
+              end
+
+              charge = Stripe::Charge.create(
+                customer:    current_user.stripe_customer_id,
+                amount:      @league.entry_fee,
+                description: "Entry fee for a #{@league.leagueable.name} league on Thousand Leagues.",
+                currency:    'usd'
               )
+
+              # update league user to paid
+              league_user.update(paid: true)
+
+              # check if payment method
+              # TODO: Shouldn't be selecting .first
+              payment_method = current_user.payment_methods.where(
+                brand: payment_method_params[:brand],
+                exp_month: payment_method_params[:exp_month],
+                exp_year: payment_method_params[:exp_year],
+                last4: payment_method_params[:last4]
+              ).first
+
+              # create payment method if none exists
+              unless payment_method
+                payment_method = current_user.payment_methods.build(payment_method_params)
+                payment_method.save!
+              end
+
+              # create purchase
+              purchase = Purchase.new(
+                user_id: current_user.id,
+                payment_method_id: payment_method.id,
+                purchasable_type: 'LeagueUser',
+                purchasable_id: league_user.id,
+                stripe_charge_id: charge.id,
+                stripe_balance_transaction_id: charge.balance_transaction,
+                stripe_customer_id: charge.customer,
+                stripe_object: charge.object,
+                amount: charge.amount,
+                amount_refunded: charge.amount_refunded,
+                currency: charge.currency,
+                description: charge.description,
+                receipt_url: charge.receipt_url,
+                stripe_source: charge.source,
+              )
+              purchase.save!
+            end
+          end
+        end
+      else
+        LeagueUser.transaction do
+          Team.transaction do
+            # create league user
+            league_user = LeagueUser.create!(
+              league_id: @league.id,
+              user_id: current_user.id,
+              confirmed: true
+            )
+            # create team
+            team = league_user.create_team(team_params)
+            team.save!
+            # create picks
+            if @league.draft_type == 'pick_x'
+              @league.num_draft_rounds.times {
+                Pick.create(
+                  draft_id: @league.draft.id,
+                  team_id: team.id,
+                  pickable_type: @league.pick_type.classify
+                )
+              }
+            elsif @league.draft_type == 'pick_em'
+              @league.leagueable.matches.each do |match|
+                Pick.create(
+                  draft_id: @league.draft.id,
+                  team_id: team.id,
+                  pickable_type: 'Match',
+                  pickable_id: match.id
+                )
+              end
             end
           end
         end
@@ -90,6 +181,9 @@ class LeagueUsersController < ApplicationController
     else
       flash[:alert] = team.errors.messages
     end
+    redirect_to game_competition_league_join_path(@league.leagueable.game,@league.leagueable, @league) and return
+  rescue Stripe::CardError => e
+    flash[:error] = e.message
     redirect_to game_competition_league_join_path(@league.leagueable.game,@league.leagueable, @league) and return
   end
 
@@ -181,4 +275,30 @@ class LeagueUsersController < ApplicationController
     params.require(:team).permit(:name, :supporting)
   end
 
+  def payment_method_params
+    params.require(:payment_method).permit(
+      :address_city,
+      :address_country,
+      :address_line1,
+      :address_line2,
+      :address_state,
+      :address_zip,
+      :brand,
+      :country,
+      :exp_month,
+      :exp_year,
+      :funding,
+      :stripe_id,
+      :last4,
+      :name,
+      :object,
+      :address_line1_check,
+      :address_zip_check,
+      :cvc_check
+    )
+  end
+
+  def stripe_params
+    params.permit(:token_id, :email)
+  end
 end

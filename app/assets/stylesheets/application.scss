@@ -6,12 +6,13 @@
 @import "competitions";
 @import "nav";
 @import "react-table";
+@import "stripe";
 
 @font-face {
     font-family: 'marvin_visions';
     src: font-url('MarvinVisions-Bold.eot');
     src: font-url('MarvinVisions-Bold.eot?#iefix') format('embedded-opentype'),
-         font-url('MarvinVisions-Bold.woff2') format('woff2'),
+         // font-url('MarvinVisions-Bold.woff2') format('woff2'),
          font-url('MarvinVisions-Bold.woff') format('woff');
     font-weight: normal;
     font-style: normal;

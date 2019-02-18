@@ -90,13 +90,13 @@ Rails.application.routes.draw do
       match 'card_competitions/import', to: 'card_competitions#import', via: [:post]
       resources :card_competitions, path: 'cards'
     end
+    get 'players/stats', to: 'players#stats'
+    post 'players/add_stats', to: 'players#add_stats'
     resources :players
     resources :cards
     post 'cards/import', to: 'cards#import'
     resources :seasons do
       resources :leagues
     end
-    get 'players/stats', to: 'players#stats'
-    post 'players/add_stats', to: 'players#add_stats'
   end
 end

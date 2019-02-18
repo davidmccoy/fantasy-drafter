@@ -12,7 +12,7 @@
         <em>Public league</em>
       </p>
       <p>
-        <strong>Entry:</strong> Free
+        <strong>Entry:</strong> <%= @league.entry %>
       </p>
       <p>
         <strong>Draft Type:</strong> <%= @league.draft_type.humanize.titleize %>
@@ -30,7 +30,7 @@
         <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
       </p>
 
-      <%= form_for [@competition.game, @competition, @league, @league_user] do |f| %>
+      <%= form_for [@competition.game, @competition, @league, @league_user], html: { class: 'needs-validation', novalidate: true } do |f| %>
         <div class="form-group">
           <%= label_tag 'team[name]', "Team Name", class: "control-label" %>
           <%= text_field_tag 'team[name]', nil, required: true, class: "form-control" %>
@@ -67,10 +67,113 @@
             </div>
           </div>
         <% end %>
-        <div class="actions">
-          <%= f.submit "Join", class: "btn btn-primary" %>
-        </div>
+        <% if !@league.paid_entry %>
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
+            data-description="Join this league!"
+            data-amount="<%= @league.entry_fee %>"
+            data-locale="auto"
+            data-zip-code="true"
+            data-currency="USD"
+            data-label="Join"
+            data-panel-label="Join for"
+            data-billing-address="true"
+            data-name="Thousand Leagues"></script>
+            <!-- data-email="<%= current_user&.email %>" -->
+        <% else %>
+          <script src="https://checkout.stripe.com/checkout.js"></script>
 
+          <div class="actions">
+            <%= f.submit "Join", id: 'join', class: "btn btn-info" %>
+          </div>
+
+          <script>
+            var form = document.getElementsByClassName('needs-validation')[0];
+
+            var handler = StripeCheckout.configure({
+              key: '<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>',
+              // image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+              locale: 'auto',
+              token: function(token) {
+                var attributes = [
+                  {email: token.email},
+                  {token_id: token.id}
+                ];
+
+                attributes.forEach(function(attribute) {
+                  var hiddenFieldName = Object.keys(attribute)[0];
+                  var hiddenFieldValue = attribute[hiddenFieldName];
+
+                  var input = document.createElement('input');
+                  input.setAttribute('type', 'hidden');
+                  input.setAttribute('name', hiddenFieldName);
+                  input.setAttribute('value', hiddenFieldValue);
+                  document.getElementById('join').appendChild(input);
+                })
+
+                var cardAttributes = [
+                  {address_city: token.card.address_city},
+                  {address_country: token.card.address_country},
+                  {address_line1: token.card.address_line1},
+                  {address_line1_check: token.card.address_line1_check},
+                  {address_line2: token.card.address_line2},
+                  {address_state: token.card.address_state},
+                  {address_zip: token.card.address_zip},
+                  {address_zip_check: token.card.address_zip_check},
+                  {brand: token.card.brand},
+                  {country: token.card.country},
+                  {cvc_check: token.card.cvc_check},
+                  {exp_month: token.card.exp_month},
+                  {exp_year: token.card.exp_year},
+                  {funding: token.card.funding},
+                  {stripe_id: token.card.id},
+                  {last4: token.card.last4},
+                  {name: token.card.name},
+                  {object: token.card.object}
+                ];
+
+                cardAttributes.forEach(function(attribute) {
+                  var hiddenFieldName = Object.keys(attribute)[0];
+                  var hiddenFieldValue = attribute[hiddenFieldName];
+
+                  var input = document.createElement('input');
+                  input.setAttribute('type', 'hidden');
+                  input.setAttribute('name', 'payment_method[' + hiddenFieldName + ']');
+                  input.setAttribute('value', hiddenFieldValue);
+                  document.getElementById('join').appendChild(input);
+                })
+
+                form.submit();
+              }
+            });
+
+            document.getElementById('join').addEventListener('click', function(e) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                return false
+              }
+              // Open Checkout with further options:
+              handler.open({
+                description: 'Join this league!',
+                amount: <%= @league.entry_fee %>,
+                zipCode: true,
+                currency: 'USD',
+                panelLabel: 'Join for',
+                billingAddress: true,
+                email: '<%= current_user&.email %>',
+                name: 'Thousand Leagues'
+              });
+              e.preventDefault();
+            });
+
+            // Close Checkout on page navigation:
+            window.addEventListener('popstate', function() {
+              handler.close();
+            });
+          </script>
+        <% end %>
       <% end %>
     </div>
   </div>

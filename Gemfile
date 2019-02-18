@@ -79,6 +79,9 @@ gem 'redcarpet'
 # API requests
 gem 'httparty'
 
+# Payments
+gem 'stripe', '~> 4.0.3'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry'

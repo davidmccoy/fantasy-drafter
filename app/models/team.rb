@@ -50,6 +50,10 @@ class Team < ApplicationRecord
     points
   end
 
+  def paid
+    league_user.paid
+  end
+
   private
 
   def unique_team_names

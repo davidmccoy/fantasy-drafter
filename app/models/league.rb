@@ -2,7 +2,7 @@ class League < ApplicationRecord
   belongs_to :leagueable, polymorphic: true
   has_many :league_users, dependent: :destroy
   has_many :users, through: :league_users
-  belongs_to :admin, class_name: "User", foreign_key: "user_id"
+  belongs_to :admin, class_name: 'User', foreign_key: 'user_id'
   has_one :draft, dependent: :destroy
   has_many :teams, through: :league_users
   has_many :invites
@@ -28,5 +28,17 @@ class League < ApplicationRecord
 
   def user_confirmed?(user)
     LeagueUser.find_by(user_id: user, league_id: self).confirmed
+  end
+
+  def entry
+    paid_entry ? format_cents_to_dollars(entry_fee) : 'Free'
+  end
+
+  private
+
+  def format_cents_to_dollars(cents)
+    dollars = cents / 100
+    cents = cents % 100
+    format('$%d.%02d', dollars, cents)
   end
 end

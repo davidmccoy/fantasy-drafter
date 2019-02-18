@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   has_many :league_users
   has_many :leagues, through: :league_users
   has_many :league_admins, class_name: "League", foreign_key: "user_id"
@@ -8,6 +7,8 @@ class User < ApplicationRecord
   has_many :picks, through: :teams
   has_many :invites, class_name: "Invite", foreign_key: "invited_user_id"
   has_many :invited_users, class_name: "Invite", foreign_key: "inviting_user_id"
+  has_many :payment_methods
+  has_many :purchases
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
