@@ -5,14 +5,13 @@
       <p>
         This competition has already had cards added to it.
       </p>
-    <% else %>
-      <%= form_tag admin_competition_card_competitions_import_path(@competition), multipart: true do %>
-        <div class="form-group required">
-          <%= label_tag :file, nil, class: "control-label" %>
-          <%= file_field_tag :file, required: true, class: "form-control" %>
-        </div>
-        <%= submit_tag "Add Cards", class: "btn btn-primary" %>
-      <% end %>
+    <% end %>
+    <%= form_tag admin_competition_card_competitions_import_path(@competition), multipart: true do %>
+      <div class="form-group required">
+        <%= label_tag :file, nil, class: "control-label" %>
+        <%= file_field_tag :file, required: true, class: "form-control" %>
+      </div>
+      <%= submit_tag "Add Cards", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
