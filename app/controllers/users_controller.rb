@@ -14,7 +14,10 @@ class UsersController < ApplicationController
   private
 
   def authorize_user_leagues
-    current_user ||= User.new
-    authorize current_user, :leagues?
+    if current_user
+      authorize current_user, :leagues?
+    else
+      authorize User.new, :leagues?
+    end
   end
 end
