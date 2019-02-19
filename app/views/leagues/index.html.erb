@@ -35,7 +35,10 @@
                 Entry Fee
               </th>
               <th>
-                Draft Type
+                Prizes
+              </th>
+              <th>
+                Draft
               </th>
               <th>
                 Start Date
@@ -58,6 +61,11 @@
                   <%= league.entry %>
                 </td>
                 <td>
+                  <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#prize-payout-modal">
+                    $
+                  </button>
+                </td>
+                <td>
                   <%= league.draft_type  == 'special' ? "Pick X" : league.draft_type.humanize.titleize %>
                 </td>
                 <td>
@@ -70,6 +78,26 @@
                   <%= link_to 'Play Now', game_competition_league_path(league.leagueable.game, league.leagueable, league), class: 'btn btn-sm btn-primary' %>
                 </td>
               </tr>
+              <div id="prize-payout-modal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title"><%= league.name %></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <h5>Prize Payouts</h5>
+                      <p><em><%= league.entry %></em></p>
+                      <%= simple_format(league.prize_payouts) %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             <% end %>
           </tbody>
         </table>
@@ -93,7 +121,7 @@
                 Acessibility
               </th>
               <th>
-                Draft Type
+                Draft
               </th>
               <th>
                 Start Date
@@ -196,7 +224,7 @@
   <% if Time.now < @competition.start_date %>
     <div id="submit-message" class="submit-message submit-message-absolute alert-ready-to-submit alert-fixed">
       <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-success' %>
-      <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
+      <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.where(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true).order(:id).first), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
     </div>
   <% end %>
 </div>
