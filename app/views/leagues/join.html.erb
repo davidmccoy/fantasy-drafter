@@ -68,18 +68,7 @@
           </div>
         <% end %>
         <% if !@league.paid_entry %>
-          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
-            data-description="Join this league!"
-            data-amount="<%= @league.entry_fee %>"
-            data-locale="auto"
-            data-zip-code="true"
-            data-currency="USD"
-            data-label="Join"
-            data-panel-label="Join for"
-            data-billing-address="true"
-            data-name="Thousand Leagues"></script>
-            <!-- data-email="<%= current_user&.email %>" -->
+          <%= f.submit "Join", id: 'join', class: "btn btn-primary" %>
         <% else %>
           <script src="https://checkout.stripe.com/checkout.js"></script>
 
