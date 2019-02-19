@@ -26,6 +26,27 @@ class Admin::LeaguesController < ApplicationController
     redirect_to admin_root_path
   end
 
+  def edit
+    @league = League.find_by_id(params[:id])
+
+    if request.url.include? 'seasons'
+      @leagueables = Season.where('start_date > ?', Time.now).reverse
+    else
+      @leagueables = Competition.where('start_date > ?', Time.now).reverse
+    end
+  end
+
+  def update
+    @league = League.find_by_id(params[:id])
+    if @league.update(league_params)
+      flash[:notice] = "Successfully updated league."
+    else
+      flash[:alert] = "Failed to update league."
+      redirect_to new_admin_league_path and return
+    end
+    redirect_to admin_root_path
+  end
+
   private
 
   def league_params
