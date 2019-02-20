@@ -189,7 +189,7 @@ class DraftInfo extends React.Component {
               </p>
               <h5>Scoring</h5>
               <p>
-                Once you've drafted your team, your cards will earn 1 point for every copy in the Top 8. The team with the most points wins the league.
+                Once you've drafted your team, your cards will earn points for every copy in the Top 8: 3 points per copy in the maindecks and 1 point for every copy in the sideboards. The team with the most points wins the league.
               </p>
             </div>
           </div>

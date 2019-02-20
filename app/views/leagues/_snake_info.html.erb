@@ -1,36 +1,79 @@
 <div id="league-info">
-  <h1><%= @league.leagueable.name %></h1>
-    <% if current_user == @league.admin || current_user.admin %>
-      <div class="actions">
+  <h1><%= @league.name %></h1>
+  <% if current_user == @league.admin || current_user.admin %>
+    <div class="actions">
+      <p>
+        <% if !@league.draft.completed && !@league.draft.active %>
+          <%= link_to "Edit", edit_game_competition_league_path(@game, @competition, @league), class: "btn btn-sm btn-secondary" %>
+          <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+  <% if @league.description %>
+    <p>
+      <%= simple_format(@league.description) %>
+    </p>
+  <% end %>
+  <div class="row">
+    <div class="col-md">
+      <p>
+        <strong>Commissioner:</strong> <%= @league.admin.name %>
+      </p>
+      <p>
+        <strong>Event:</strong> <%= @league.leagueable.name %>
+      </p>
+      <p>
+        <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
+      </p>
+      <p>
+        <strong>Entry:</strong> <%= @league.entry %>
+      </p>
+      <% if @league.prize_payouts %>
+      <p>
+        <strong>Prizes:</strong> <%= simple_format(@league.prize_payouts) %>
+      </p>
+      <% end %>
+      <% if @league.leagueable.class == 'Season' %>
+      <p>
+        <strong>League Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
+      </p>
+      <p>
+        <strong>League End:</strong> <%= @league.leagueable.end_date %>
+      </p>
+      <% end %>
+    </div>
+    <div class="col-md">
+      <p>
+        <strong>Draft Type:</strong> <%= @league.draft_type  == 'special' ? "Pick X" : @league.draft_type.humanize.titleize %>
+        <button type="button" class="btn btn-secondary btn-sm btn-more-info" data-toggle="modal" data-target="#draft-types-modal">
+          ?
+        </button>
+      </p>
+      <p>
+        <strong>Rounds:</strong> <%= @league.num_draft_rounds %>
+      </p>
+      <p>
+        <strong>Draft Start:</strong>
+        <% if @league.draft.start_time %>
+          <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>
+        <% else %>
+          No time has been set
+        <% end %>
+      </p>
+      <p>
+        <strong>Pick Type:</strong> <%= @league.pick_type&.titleize %>
+      </p>
+      <% if @league.pick_type == 'player' %>
         <p>
-          <% if !@league.draft.completed && !@league.draft.active %>
-            <%= link_to "Edit", edit_game_competition_league_path(@game, @competition, @league), class: "btn btn-sm btn-secondary" %>
-            <%= link_to "Start Draft", game_competition_league_draft_start_path(@competition.game, @competition, @league, @league.draft), method: "post", class: "btn btn-sm btn-success" %>
-          <% end %>
+          <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. Players that make the Top 8 will earn your team another three points, plus three points per match win in the Top 8.
         </p>
-      </div>
-    <% end %>
-  <p>
-    <strong>Commissioner:</strong> <%= @league.admin.name %>
-  </p>
-  <p>
-    <strong>Rounds:</strong> <%= @league.num_draft_rounds %>
-  </p>
-  <p>
-    <strong>Pick Type:</strong> <%= @league.pick_type&.titleize %>
-  </p>
-  <p>
-    <strong>Draft Start:</strong>
-    <% if @league.draft.start_time %>
-      <%= @league.draft.start_time.localtime.strftime("%m/%d/%Y at %I:%M%p") %>
-    <% else %>
-      No time has been set
-    <% end %>
-  </p>
-  <p>
-    <strong>League Start:</strong> <%= @league.leagueable.start_date %>
-  </p>
-  <p>
-    <strong>League End:</strong> <%= @league.leagueable.end_date %>
-  </p>
+      <% elsif @league.pick_type == 'card' %>
+        <p>
+          <strong>Scoring:</strong> Each card will earn your team three points per copy that appears in the maindeck of a deck in Top 8 of MC Cleveland, plus one point per copy in the the sideboard of a deck.
+        </p>
+      <% end %>
+    </div>
+    <%= render 'leagues/draft_types_modal' %>
+  </div>
 </div>
