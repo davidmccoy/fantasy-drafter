@@ -10,12 +10,13 @@
 <div id="league" class="row">
   <div class="col-md-8 offset-md-2 with-fixed-bottom-bar">
     <div class="content">
+      <%= Time.now.utc %> vs <%=  @competition.start_date.utc %>
       <% if @competition.about.blank? %>
-      <p>
-        There are tons of ways to play <strong>Thousand Leagues</strong>! Create your own league and invite your friends, or join a public league!
-      </p>
+        <p>
+          There are tons of ways to play <strong>Thousand Leagues</strong>! Create your own league and invite your friends, or join a public league!
+        </p>
       <% else %>
-      <%= markdown(@competition.about) %>
+        <%= markdown(@competition.about) %>
       <% end %>
     </div>
     <% if Time.now.utc < @competition.start_date.utc %>
