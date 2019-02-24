@@ -72,6 +72,7 @@ class PicksController < ApplicationController
   end
 
   def pick_x
+    return false unless Time.now.utc < (@competition.start_date.utc + 5.hours + 30.minutes)
     # TODO: why are picks being assigned pickable_id: 0 ?
     picks = Pick.where(id: pick_params[:my_picks].split(','), pickable_id: [nil, 0], team_id: current_user.team(@league).id)
     return if player_already_chosen? params, current_user, @league
@@ -148,8 +149,8 @@ class PicksController < ApplicationController
             name: star.starrable.name,
             player_id: star.starrable.id,
             player_type: star.starrable_type,
-            xrank: star.starrable.xrank(@draft.league.leagueable), 
-            percent_of_decks: star.starrable.percent_of_decks(@draft.league.leagueable), 
+            xrank: star.starrable.xrank(@draft.league.leagueable),
+            percent_of_decks: star.starrable.percent_of_decks(@draft.league.leagueable),
             number_of_copies: star.starrable.number_of_copies(@draft.league.leagueable),
             pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{star.starrable.id}"
           }
@@ -171,8 +172,8 @@ class PicksController < ApplicationController
         player_type: pickable.class.name,
         elo: pickable.class.name == 'Player' ? pickable.elo : nil,
         points: pickable.class.name == 'Player' ? pickable.points : nil,
-        xrank: pickable.class.name == 'Player' ? pickable.power_ranking : pickable.xrank(@draft.league.leagueable), 
-        percent_of_decks: pickable.class.name == 'Card' ? pickable.percent_of_decks(@draft.league.leagueable) : nil, 
+        xrank: pickable.class.name == 'Player' ? pickable.power_ranking : pickable.xrank(@draft.league.leagueable),
+        percent_of_decks: pickable.class.name == 'Card' ? pickable.percent_of_decks(@draft.league.leagueable) : nil,
         number_of_copies: pickable.class.name == 'Card' ? pickable.number_of_copies(@draft.league.leagueable) : nil,
         name: pickable.name,
         pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{pickable.id}")
