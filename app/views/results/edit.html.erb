@@ -3,7 +3,7 @@
     <h1>Edit Result</h1>
     <%= form_for [@game, @competition, @result] do |f| %>
       <p>
-        <strong>Player:</strong> <%= @result.player.name %>
+        <strong>Player:</strong> <%= @result.resultable.name %>
       </p>
       <div class="form-group required">
         <%= f.label :points, "Points", class: "control-label" %>
