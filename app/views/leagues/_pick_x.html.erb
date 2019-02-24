@@ -1,9 +1,7 @@
 <% if @league.leagueable.start_date < Time.now %>
-  <% if @league.leagueable.score_as_of_round != '0' %>
-    <p>
-      <em>(Through Round <%= @league.leagueable.score_as_of_round %>)</em>
-    </p>
-  <% end %>
+  <p>
+    <em>(Through <%= @league.leagueable.score_as_of_round %>)</em>
+  </p>
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
