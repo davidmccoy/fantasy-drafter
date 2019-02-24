@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190218233422) do
+ActiveRecord::Schema.define(version: 20190224040053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20190218233422) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.integer "score_as_of_round", default: 0
+    t.string "score_as_of_round", default: "0"
     t.integer "season_id"
     t.date "end_date"
     t.text "about", default: ""
