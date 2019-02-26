@@ -72,7 +72,6 @@ class PicksController < ApplicationController
   end
 
   def pick_x
-    return false unless Time.now.utc < (@competition.start_date.utc + 5.hours + 30.minutes)
     # TODO: why are picks being assigned pickable_id: 0 ?
     picks = Pick.where(id: pick_params[:my_picks].split(','), pickable_id: [nil, 0], team_id: current_user.team(@league).id)
     return if player_already_chosen? params, current_user, @league
