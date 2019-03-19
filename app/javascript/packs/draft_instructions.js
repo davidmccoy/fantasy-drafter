@@ -62,6 +62,15 @@ class DraftInstructions extends React.Component {
           </p>
         </div>
       )
+    } else if (this.props.draftType === 'bracket') {
+      return (
+        <div>
+          <h3>Bracket</h3>
+          <p>
+            Below are all of the matches in this competition. You must pick a winner for every match before submitting your team.
+          </p>
+        </div>
+      )
     } else {
       if (this.props.pickType === 'player') {
         return (

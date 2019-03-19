@@ -26,7 +26,7 @@ class SubmitMessage extends React.Component {
   }
 
   render() {
-    if (this.props.draftType === 'pick_em') {
+    if (this.props.draftType === 'pick_em' || this.props.draftType === 'bracket') {
       return (
         <div>
           { (this.props.myTeam !== undefined && (this.props.myTeam.players.filter(e => e.winner_id !== null).length !== this.props.myPicks.length)) &&

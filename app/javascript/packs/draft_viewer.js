@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 import AvailablePlayersTable from "./available_players_table";
+import Bracket from "./bracket";
 import DraftInstructions from "./draft_instructions";
 import DraftViewerRightPanel from "./draft_viewer_right_panel";
 import SubmitMessage from "./submit_message";
@@ -26,6 +27,7 @@ class DraftViewer extends React.Component {
     this.pickPlayer = this.pickPlayer.bind(this);
     this.removePlayer = this.removePlayer.bind(this);
     this.pickMatch = this.pickMatch.bind(this);
+    this.pickBracketMatch = this.pickBracketMatch.bind(this);
   }
 
   componentDidMount() {
@@ -174,6 +176,92 @@ class DraftViewer extends React.Component {
     });
   }
 
+  pickBracketMatch(matchId, winnerId, winnerName) {
+    let nextBracketMatchPlayerA = this.state.myTeam.players.filter(e => e.player_a_previous_match_id === matchId)[0]
+    let nextBracketMatchPlayerB = this.state.myTeam.players.filter(e => e.player_b_previous_match_id === matchId)[0]
+    let pickedMatch = this.state.myTeam.players.filter(e => e.id === matchId)[0]
+
+    let matches = this.state.myTeam.players.map(function(match) {
+      if (match.id === parseInt(matchId)) {
+        return {
+          bracket_position: match.bracket_position,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: match.player_a_name,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: match.player_a_seed,
+          player_b_id: match.player_b_id,
+          player_b_name: match.player_b_name,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: match.player_b_seed,
+          round: match.round,
+          winner_id: winnerId == '' ? null : winnerId
+        }
+      } else if (nextBracketMatchPlayerA && match.id === nextBracketMatchPlayerA.id) {
+        let pickedMatchWinnerSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_seed : pickedMatch.player_b_seed
+        return {
+          bracket_position: match.bracket_position,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: winnerId,
+          player_a_name: winnerName,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: pickedMatchWinnerSeed,
+          player_b_id: match.player_b_id,
+          player_b_name: match.player_b_name,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: match.player_b_seed,
+          round: match.round,
+          winner_id: match.winner_id
+        }
+      } else if (nextBracketMatchPlayerB && match.id === nextBracketMatchPlayerB.id) {
+        let pickedMatchWinnerSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_seed : pickedMatch.player_b_seed
+        return {
+          bracket_position: match.bracket_position,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: match.player_a_name,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: match.player_a_seed,
+          player_b_id: winnerId,
+          player_b_name: winnerName,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: pickedMatchWinnerSeed,
+          round: match.round,
+          winner_id: match.winner_id
+        }
+      } else {
+        return {
+          bracket_position: match.bracket_position,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: match.player_a_name,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: match.player_a_seed,
+          player_b_id: match.player_b_id,
+          player_b_name: match.player_b_name,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: match.player_b_seed,
+          round: match.round,
+          winner_id: match.winner_id
+        }
+      }
+    })
+
+    this.setState({
+      myTeam: {
+        players: matches
+      }
+    });
+  }
+
   removePlayer(url) {
     $.ajax({
       url: url,
@@ -225,42 +313,61 @@ class DraftViewer extends React.Component {
   render() {
     return (
       <div id="something" className="row">
-        <div id="players" className="col-md-6">
-          <DraftInstructions
-            draftType={this.props.draftType}
-            pickType={this.props.pickType}
-          />
-          <AvailablePlayersTable
-            data={this.state.data}
-            loading={this.state.loading}
-            handleStar={this.starPlayer}
-            currentPick={this.state.currentPick}
-            handlePick={this.pickPlayer}
-            handleMatchPick={this.pickMatch}
-            myPicks={this.props.myPicks}
-            myStars={this.state.myStars}
-            myTeam={this.state.myTeam}
-            draftType={this.props.draftType}
-            pickType={this.props.pickType}
-          />
-        </div>
-        <div id="left-tabbed-panel" className="col-md-6">
-          <DraftViewerRightPanel
-            otherTeams={this.state.otherTeams}
-            myTeam={this.state.myTeam}
-            myStars={this.state.myStars}
-            currentPick={this.state.currentPick}
-            myPicks={this.props.myPicks}
-            handleStar={this.starPlayer}
-            handlePick={this.pickPlayer}
-            handleRemovePlayer={this.removePlayer}
-            draftId={this.props.draftId}
-            draftType={this.props.draftType}
-            pickType={this.props.pickType}
-            competitionName={this.props.competitionName}
-          />
-        </div>
-        { this.props.draftType !== 'snake' && this.props.draftType !== 'pick_em' &&
+        { this.props.draftType !== 'bracket' &&
+          <div id="players" className="col-md-6">
+            <DraftInstructions
+              draftType={this.props.draftType}
+              pickType={this.props.pickType}
+            />
+            <AvailablePlayersTable
+              data={this.state.data}
+              loading={this.state.loading}
+              handleStar={this.starPlayer}
+              currentPick={this.state.currentPick}
+              handlePick={this.pickPlayer}
+              handleMatchPick={this.pickMatch}
+              myPicks={this.props.myPicks}
+              myStars={this.state.myStars}
+              myTeam={this.state.myTeam}
+              draftType={this.props.draftType}
+              pickType={this.props.pickType}
+            />
+          </div>
+        }
+        { this.props.draftType !== 'bracket' &&
+          <div id="left-tabbed-panel" className="col-md-6">
+            <DraftViewerRightPanel
+              otherTeams={this.state.otherTeams}
+              myTeam={this.state.myTeam}
+              myStars={this.state.myStars}
+              currentPick={this.state.currentPick}
+              myPicks={this.props.myPicks}
+              handleStar={this.starPlayer}
+              handlePick={this.pickPlayer}
+              handleRemovePlayer={this.removePlayer}
+              draftId={this.props.draftId}
+              draftType={this.props.draftType}
+              pickType={this.props.pickType}
+              competitionName={this.props.competitionName}
+            />
+          </div>
+        }
+        { this.props.draftType === 'bracket' &&
+          <div id="left-tabbed-panel" className="col-md-12">
+            <Bracket
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+              handlePick={this.pickPlayer}
+              handleRemovePlayer={this.removePlayer}
+              draftId={this.props.draftId}
+              draftType={this.props.draftType}
+              pickType={this.props.pickType}
+              competitionName={this.props.competitionName}
+              handlePick={this.pickBracketMatch}
+            />
+          </div>
+        }
+        { this.props.draftType !== 'snake' && this.props.draftType !== 'pick_em' && this.props.draftType !== 'bracket' &&
           <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.name !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
             <SubmitMessage
               myTeam={this.state.myTeam}
@@ -271,6 +378,17 @@ class DraftViewer extends React.Component {
           </div>
         }
         { this.props.draftType === 'pick_em' &&
+          <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.winner_id !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
+            <SubmitMessage
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+              draftSubmitLink={this.props.draftSubmitLink}
+              pickType={this.props.pickType}
+              draftType={this.props.draftType}
+            />
+          </div>
+        }
+        { this.props.draftType === 'bracket' &&
           <div id="submit-message" className={(this.state.myTeam !== undefined && (this.state.myTeam.players.filter(e => e.winner_id !== null).length !== this.props.myPicks.length)) ?  "submit-message submit-message-absolute" : (this.footerVisible() ? "submit-message submit-message-absolute alert-ready-to-submit" : "submit-message submit-message-absolute alert-ready-to-submit alert-fixed") }>
             <SubmitMessage
               myTeam={this.state.myTeam}

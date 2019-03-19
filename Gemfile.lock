@@ -297,7 +297,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-twitter
-  pg (~> 0.18)
+  pg (>= 0.18, < 2.0)
   popper_js (~> 1.12.9)
   pry
   puma (~> 3.0)

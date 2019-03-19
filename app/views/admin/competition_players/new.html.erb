@@ -11,6 +11,10 @@
           <%= label_tag :file, nil, class: "control-label" %>
           <%= file_field_tag :file, required: true, class: "form-control" %>
         </div>
+        <div class="form-group required">
+          <%= label_tag :bracket, nil, class: 'control-label' %>
+          <%= select_tag :bracket, options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Is this a bracket competition?', required: true, class: 'form-control' %>
+        </div>
         <%= submit_tag "Add Players", class: "btn btn-primary" %>
       <% end %>
     <% end %>

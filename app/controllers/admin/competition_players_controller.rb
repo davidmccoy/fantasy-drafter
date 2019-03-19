@@ -30,17 +30,32 @@ class Admin::CompetitionPlayersController < ApplicationController
   def import
     file = CSV.read(params[:file].path)
     failures = []
-    file.each do |row|
-      puts row[0]
-      puts row[1]
-      name = row[0] + " " + row[1]
-      player = Player.unaccent(name)
 
-      if player
-        CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
-      else
-        new_player = Player.create(name: name)
-        CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
+    file.each do |row|
+      if params[:bracket] == 'false'
+        name   = row[0] + ' ' + row[1]
+        player = Player.unaccent(name)
+
+        if player
+          CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
+        else
+          new_player = Player.create(name: name)
+          CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
+        end
+      elsif params[:bracket] == 'true'
+        name   = row[0]
+        seed   = row[1]
+        group  = row[2]
+        player = Character.find_by_name(name)
+
+        if player
+          character_competition = CharacterCompetition.where(competition_id: @competition, character_id: player).first_or_create
+          character_competition.update(seed: seed, group: group)
+        else
+          new_character = Character.create(name: name)
+          character_competition = CharacterCompetition.where(competition_id: @competition, character_id: new_character).first_or_create
+          character_competition.update(seed: seed, group: group)
+        end
       end
 
       # puts row[0]

@@ -13,7 +13,7 @@ class DraftPolicy <  ApplicationPolicy
   end
 
   def submit?
-    if record.league.draft_type == 'pick_x' || record.league.draft_type == 'pick_em'
+    if record.league.draft_type == 'pick_x' || record.league.draft_type == 'bracket'
       true
     elsif record.league.draft_type == 'special'
       true

@@ -4,58 +4,58 @@
     <%= form_for @league, url: admin_leagues_path do |f| %>
 
       <div class="form-group required">
-        <%= f.label :name, class: "control-label" %>
-        <%= f.text_field :name, required: true, class: "form-control" %>
+        <%= f.label :name, class: 'control-label' %>
+        <%= f.text_field :name, required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :leagueable_id, "Competition", class: "control-label" %>
-        <%= select_tag "league[leagueable_id]", options_from_collection_for_select(@leagueables, 'id', 'name'), include_blank: "Select Competition", required: true, class: "form-control" %>
+        <%= f.label :leagueable_id, 'Competition', class: 'control-label' %>
+        <%= select_tag 'league[leagueable_id]', options_from_collection_for_select(@leagueables, 'id', 'name'), include_blank: 'Select Competition', required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :leagueable_type, "League Type", class: "control-label" %>
-        <%= select_tag "league[leagueable_type]", options_for_select([["Individual Competition", "Competition"], ["Season", "Season"]]), include_blank: "Select League Type", required: true, class: "form-control" %>
+        <%= f.label :leagueable_type, 'League Type', class: 'control-label' %>
+        <%= select_tag 'league[leagueable_type]', options_for_select([['Individual Competition', 'Competition'], ['Season', 'Season']]), include_blank: 'Select League Type', required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :draft_type, "Draft Type", class: "control-label" %>
-        <%= select_tag "league[draft_type]", options_for_select([["Snake", "snake"], ["Pick X", "pick_x"], ["Pick 'Em", "pick_em"], ["Special", "special"]]), required: true, include_blank: "Select Draft Type", class: "form-control" %>
+        <%= f.label :draft_type, 'Draft Type', class: 'control-label' %>
+        <%= select_tag 'league[draft_type]', options_for_select([['Snake', 'snake'], ['Pick X', 'pick_x'], ['Pick \'Em', 'pick_em'], ['Special', 'special'], ['Bracket', 'bracket']]), required: true, include_blank: 'Select Draft Type', class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :public, "Public League?", class: "control-label" %>
-        <%= select_tag "league[public]", options_for_select([['True', 'true'], ['False', 'false']]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
+        <%= f.label :public, 'Public League?', class: 'control-label' %>
+        <%= select_tag 'league[public]', options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Select Public Setting', required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :paid_entry, "Paid Entry?", class: "control-label" %>
-        <%= select_tag "league[paid_entry]", options_for_select([['True', 'true'], ['False', 'false']]), include_blank: "Select Paid Setting", required: true, class: "form-control" %>
+        <%= f.label :paid_entry, 'Paid Entry?', class: 'control-label' %>
+        <%= select_tag 'league[paid_entry]', options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Select Paid Setting', required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group">
-        <%= f.label :entry_fee, 'Entry Fee (in cents)', class: "control-label" %>
-        <%= f.text_field :entry_fee, required: false, class: "form-control" %>
+        <%= f.label :entry_fee, 'Entry Fee (in cents)', class: 'control-label' %>
+        <%= f.text_field :entry_fee, required: false, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :public, "Pick Type", class: "control-label" %>
-        <%= select_tag "league[pick_type]", options_for_select(%w[player card]), include_blank: "Select Public Setting", required: true, class: "form-control" %>
+        <%= f.label :public, 'Pick Type', class: 'control-label' %>
+        <%= select_tag 'league[pick_type]', options_for_select(%w[player card]), include_blank: 'Select Public Setting', required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :num_draft_rounds, "Number of Picks Per Player", class: "control-label" %>
-        <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: "form-control" %>
+        <%= f.label :num_draft_rounds, 'Number of Picks Per Player', class: 'control-label' %>
+        <%= f.number_field :num_draft_rounds, min: 1, max: 12, required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :prize_payouts, class: "control-label" %>
-        <%= f.text_area :prize_payouts, required: true, class: "form-control" %>
+        <%= f.label :prize_payouts, class: 'control-label' %>
+        <%= f.text_area :prize_payouts, required: true, class: 'form-control' %>
       </div>
 
       <div class="form-group required">
-        <%= f.label :description, class: "control-label" %>
-        <%= f.text_area :description, required: true, class: "form-control" %>
+        <%= f.label :description, class: 'control-label' %>
+        <%= f.text_area :description, required: true, class: 'form-control' %>
       </div>
 
       <div class="actions">

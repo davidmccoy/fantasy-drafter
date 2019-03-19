@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190224040053) do
+ActiveRecord::Schema.define(version: 20190314165908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(version: 20190224040053) do
     t.string "frame"
     t.index ["colors"], name: "index_cards_on_colors", using: :gin
     t.index ["legalities"], name: "index_cards_on_legalities", using: :gin
+  end
+
+  create_table "character_competitions", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "competition_id"
+    t.bigint "seed"
+    t.string "group"
+  end
+
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.text "bio"
   end
 
   create_table "competition_players", id: :serial, force: :cascade do |t|
@@ -134,6 +146,11 @@ ActiveRecord::Schema.define(version: 20190224040053) do
     t.string "arcanis_player_a_id"
     t.string "arcanis_player_b_id"
     t.string "result"
+    t.integer "round"
+    t.string "group"
+    t.integer "bracket_position"
+    t.integer "player_a_previous_match_id"
+    t.integer "player_b_previous_match_id"
     t.index ["arcanis_id"], name: "index_matches_on_arcanis_id"
     t.index ["competition_id"], name: "index_matches_on_competition_id"
     t.index ["player_a_id"], name: "index_matches_on_player_a_id"
