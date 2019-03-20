@@ -9,18 +9,35 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 200px;
+  width: 155px;
   list-style: none;
   padding: 0;
   white-space: nowrap;
 
+  &.round-1 {
+    .game {
+      margin-left: 30px;
+    }
+  }
+
   &.right {
     .game {
       padding-right: 1rem;
+      padding-left: 0;
+      img {
+        right: -55px;
+        left: auto;
+      }
     }
     .game-spacer {
       border-left: 1px solid #aaa;
       border-right: none;
+    }
+    &.round-1 {
+      .game {
+        padding-right: 0;
+        margin-left: 0;
+      }
     }
   }
 
@@ -76,9 +93,13 @@
 // }
 
 .game {
-  padding-left: 1rem;
-  &.white {
+  padding-left: 1.5rem;
+  position: relative;
+  &.blank {
     color: white;
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 
@@ -86,8 +107,19 @@
   font-weight: bold;
 }
 .game span {
-  float: right;
-  margin-right: 5px;
+  position: absolute;
+  left: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.game img {
+  position: absolute;
+  left: -30px;
+  top: -14px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
 }
 
 .game-top {

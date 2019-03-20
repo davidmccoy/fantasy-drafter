@@ -180,6 +180,12 @@ class DraftViewer extends React.Component {
     let nextBracketMatchPlayerA = this.state.myTeam.players.filter(e => e.player_a_previous_match_id === matchId)[0]
     let nextBracketMatchPlayerB = this.state.myTeam.players.filter(e => e.player_b_previous_match_id === matchId)[0]
     let pickedMatch = this.state.myTeam.players.filter(e => e.id === matchId)[0]
+    let pickedMatchWinnerId = pickedMatch.winner_id
+    let previouslyPickedMatchIds = []
+
+    if (pickedMatchWinnerId !== null) {
+      previouslyPickedMatchIds = this.state.myTeam.players.filter(e => ((e.player_a_id === pickedMatch.winner_id) || (e.player_b_id === pickedMatch.winner_id)) && (e.round > pickedMatch.round + 1)).map(e => e.id)
+    }
 
     let matches = this.state.myTeam.players.map(function(match) {
       if (match.id === parseInt(matchId)) {
@@ -192,15 +198,21 @@ class DraftViewer extends React.Component {
           player_a_name: match.player_a_name,
           player_a_previous_match_id: match.player_a_previous_match_id,
           player_a_seed: match.player_a_seed,
+          player_a_image_url: match.player_a_image_url,
           player_b_id: match.player_b_id,
           player_b_name: match.player_b_name,
           player_b_previous_match_id: match.player_b_previous_match_id,
           player_b_seed: match.player_b_seed,
+          player_b_image_url: match.player_b_image_url,
           round: match.round,
           winner_id: winnerId == '' ? null : winnerId
         }
       } else if (nextBracketMatchPlayerA && match.id === nextBracketMatchPlayerA.id) {
         let pickedMatchWinnerSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_seed : pickedMatch.player_b_seed
+        let pickedMatchWinnerImageUrl = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_image_url : pickedMatch.player_b_image_url
+
+        let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+
         return {
           bracket_position: match.bracket_position,
           competition_id: match.competition_id,
@@ -210,15 +222,20 @@ class DraftViewer extends React.Component {
           player_a_name: winnerName,
           player_a_previous_match_id: match.player_a_previous_match_id,
           player_a_seed: pickedMatchWinnerSeed,
+          player_a_image_url: pickedMatchWinnerImageUrl,
           player_b_id: match.player_b_id,
           player_b_name: match.player_b_name,
           player_b_previous_match_id: match.player_b_previous_match_id,
           player_b_seed: match.player_b_seed,
+          player_b_image_url: match.player_b_image_url,
           round: match.round,
-          winner_id: match.winner_id
+          winner_id: matchWinnerId
         }
       } else if (nextBracketMatchPlayerB && match.id === nextBracketMatchPlayerB.id) {
         let pickedMatchWinnerSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_seed : pickedMatch.player_b_seed
+        let pickedMatchWinnerImageUrl = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_image_url : pickedMatch.player_b_image_url
+
+        let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
         return {
           bracket_position: match.bracket_position,
           competition_id: match.competition_id,
@@ -228,12 +245,56 @@ class DraftViewer extends React.Component {
           player_a_name: match.player_a_name,
           player_a_previous_match_id: match.player_a_previous_match_id,
           player_a_seed: match.player_a_seed,
+          player_a_image_url: match.player_a_image_url,
           player_b_id: winnerId,
           player_b_name: winnerName,
           player_b_previous_match_id: match.player_b_previous_match_id,
           player_b_seed: pickedMatchWinnerSeed,
+          player_b_image_url: pickedMatchWinnerImageUrl,
           round: match.round,
-          winner_id: match.winner_id
+          winner_id: matchWinnerId
+        }
+      } else if (previouslyPickedMatchIds.includes(match.id)) {
+        if (pickedMatchWinnerId == match.player_a_id) {
+          let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+          return {
+            bracket_position: match.bracket_position,
+            competition_id: match.competition_id,
+            group: match.group,
+            id: match.id,
+            player_a_id: null,
+            player_a_name: null,
+            player_a_previous_match_id: match.player_a_previous_match_id,
+            player_a_seed: null,
+            player_a_image_url: null,
+            player_b_id: match.player_b_id,
+            player_b_name: match.player_b_name,
+            player_b_previous_match_id: match.player_b_previous_match_id,
+            player_b_seed: match.player_b_seed,
+            player_b_image_url: match.player_b_image_url,
+            round: match.round,
+            winner_id: matchWinnerId
+          }
+        } else if (pickedMatchWinnerId == match.player_b_id) {
+          let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+          return {
+            bracket_position: match.bracket_position,
+            competition_id: match.competition_id,
+            group: match.group,
+            id: match.id,
+            player_a_id: match.player_a_id,
+            player_a_name: match.player_a_name,
+            player_a_previous_match_id: match.player_a_previous_match_id,
+            player_a_seed: match.player_a_seed,
+            player_a_image_url: match.player_a_image_url,
+            player_b_id: null,
+            player_b_name: null,
+            player_b_previous_match_id: match.player_b_previous_match_id,
+            player_b_seed: null,
+            player_b_image_url: null,
+            round: match.round,
+            winner_id: matchWinnerId
+          }
         }
       } else {
         return {
@@ -245,10 +306,12 @@ class DraftViewer extends React.Component {
           player_a_name: match.player_a_name,
           player_a_previous_match_id: match.player_a_previous_match_id,
           player_a_seed: match.player_a_seed,
+          player_a_image_url: match.player_a_image_url,
           player_b_id: match.player_b_id,
           player_b_name: match.player_b_name,
           player_b_previous_match_id: match.player_b_previous_match_id,
           player_b_seed: match.player_b_seed,
+          player_b_image_url: match.player_b_image_url,
           round: match.round,
           winner_id: match.winner_id
         }

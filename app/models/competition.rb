@@ -69,8 +69,8 @@ class Competition < ApplicationRecord
            2 => 8,
            3 => 5,
            4 => 4,
-           5 => 6,
-           6 => 3,
+           5 => 3,
+           6 => 6,
            7 => 7,
            8 => 2
           }
