@@ -27,7 +27,7 @@ class BracketDivisionWinner extends React.Component {
               position={'top'}
               handlePick={this.props.handlePick}
               winnerId={null}
-              playerSeed={this.props.previousMatch ? this.props.previousMatch.player_a_seed : null}
+              playerSeed={this.props.previousMatch ? (this.props.previousMatch.player_a_id === this.props.previousMatch.winner_id ? this.props.previousMatch.player_a_seed : this.props.previousMatch.player_b_seed) : null}
               matchId={this.props.nextMatch ? this.props.nextMatch.id : null}
               handlePick={this.props.handlePick}
             />
