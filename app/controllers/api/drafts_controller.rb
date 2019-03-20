@@ -126,10 +126,11 @@ class Api::DraftsController < ApplicationController
         character_b = Character.find_by_id(match.player_b_id)
 
         character_a_asset_name = character_a ? character_a.name.parameterize : nil
-        character_a_asset_path = Rails.application.assets.find_asset("spark-madness/#{character_a_asset_name}.jpg") ? ActionController::Base.helpers.asset_path("spark-madness/#{character_a_asset_name}.jpg") : nil
+
+        character_a_asset_path = character_a_asset_name ? ActionController::Base.helpers.asset_path("spark-madness/#{character_a_asset_name}.jpg") : nil
 
         character_b_asset_name = character_b ? character_b.name.parameterize : nil
-        character_b_asset_path = Rails.application.assets.find_asset("spark-madness/#{character_b_asset_name}.jpg") ? ActionController::Base.helpers.asset_path("spark-madness/#{character_b_asset_name}.jpg") : nil
+        character_b_asset_path = character_b_asset_name ? ActionController::Base.helpers.asset_path("spark-madness/#{character_b_asset_name}.jpg") : nil
 
         info_for_all_matches << {
           bracket_position: match.bracket_position,

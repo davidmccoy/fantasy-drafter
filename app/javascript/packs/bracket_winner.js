@@ -24,9 +24,11 @@ class BracketWinner extends React.Component {
             <BracketPlayer
               playerId={this.props.match ? this.props.match.winner_id : null}
               playerName={winnerName}
+              playerImageUrl={this.props.match ? this.props.match.player_a_image_url : null}
               position={'top'}
               handlePick={this.props.handlePick}
               winnerId={this.props.match ? this.props.match.winner_id : null}
+              winner={true}
             />
             <BracketSpacer isGameSpacer={false} />
           </React.Fragment>

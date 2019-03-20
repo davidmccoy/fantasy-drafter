@@ -27,8 +27,8 @@ class BracketPlayer extends React.Component {
           onClick={(e) => {this.onPick(e, this.props.matchId, this.props.playerId, this.props.playerName)}}
         >
           {this.props.playerSeed ? `(${this.props.playerSeed})` : null} {this.props.playerName ? this.props.playerName : 'Winner' } <span></span>
-          { this.props.playerId && this.props.roundNumber == 1 &&
-            <img src={this.props.playerImageUrl} />
+          { this.props.playerId && (this.props.roundNumber === 1) &&
+            <img src={this.props.playerImageUrl} className={`${this.props.winner === true ? 'winner' : null}`} />
           }
         </div>
     )
