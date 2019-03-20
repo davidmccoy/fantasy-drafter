@@ -15,11 +15,12 @@
   white-space: nowrap;
 
   &.round-1 {
-    .game {
-      margin-left: 30px;
-    }
+    margin-left: 60px;
   }
-
+  &.round-1.right {
+    margin-left: 0;
+    margin-right: 60px;
+  }
   &.right {
     .game {
       padding-right: 1rem;
@@ -93,13 +94,22 @@
 // }
 
 .game {
-  padding-left: 1.5rem;
   position: relative;
   &.blank {
     color: white;
   }
   &:hover {
     cursor: pointer;
+  }
+  &.game-spacer {
+    &:hover{
+      cursor: default;
+    }
+  }
+  &.blank {
+    &:hover{
+      cursor: default;
+    }
   }
 }
 
@@ -115,7 +125,7 @@
 }
 .game img {
   position: absolute;
-  left: -30px;
+  left: -55px;
   top: -14px;
   border-radius: 50%;
   height: 50px;
