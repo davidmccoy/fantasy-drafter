@@ -101,4 +101,9 @@ Rails.application.routes.draw do
       resources :leagues
     end
   end
+
+  # Redircts #
+  ############
+
+  get '/sparkmadness', to: 'redirects#sparkmadness'
 end
