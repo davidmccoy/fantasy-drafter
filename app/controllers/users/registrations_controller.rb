@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
             end
 
             invite = Invite.find(params[:invite_id])
-            invite.update(accepted: true, token: nil)
+            invite.update(accepted: true, token: nil) unless invite.for_group
 
             if league.leagueable.class.name == 'Season'
               redirect_to game_season_league_path(league.leagueable.game, league.leagueable, league) and return

@@ -66,5 +66,27 @@
       <%= submit_tag "Add User", class: "btn btn-primary" %>
 
     <% end %>
+    <br />
+    <% if @league.invites.where(for_group: true).none? %>
+      <h3>Create a Group Invite Link</h3>
+
+      <p>
+        Use the button below to create a link that can be used by multiple users to join your league. <strong>BEWARE!</strong> Anyone with this link will be able to join&mdash;so be careful how you share it.
+      </p>
+
+      <%= form_tag game_competition_league_group_invite_path(@league.leagueable.game, @league.leagueable, @league) do %>
+
+        <%= submit_tag "Create Link", class: "btn btn-primary" %>
+
+      <% end %>
+    <% else %>
+      <h3>Group Invite Link</h3>
+        <p>
+          This link can be used by multiple users to join your league. <strong>BEWARE!</strong> Anyone with this link will be able to join&mdash;so be careful how you share it.
+        </p>
+        <p>
+          <% invite = @league.invites.find_by(for_group: true) %>
+          <%= Rails.application.routes.url_helpers.invite_url(invite, token: invite.token) %>
+      <% end %>
   </div>
 </div>

@@ -1,0 +1,167 @@
+#bracket {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.85rem;
+  overflow-x: scroll;
+}
+
+#bracket-instructions {
+  margin-bottom: 2rem;
+  .bracket-instruction {
+    margin: 1rem 0;
+  }
+}
+
+.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 155px;
+  list-style: none;
+  padding: 0;
+  white-space: nowrap;
+
+  &.round-1 {
+    margin-left: 60px;
+  }
+  &.round-1.right {
+    margin-left: 0;
+    margin-right: 60px;
+  }
+  &.right {
+    .game {
+      padding-right: 1rem;
+      padding-left: 0;
+      img {
+        right: -55px;
+        left: auto;
+      }
+    }
+    .game-spacer {
+      border-left: 1px solid #aaa;
+      border-right: none;
+    }
+    &.round-1 {
+      .game {
+        padding-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
+
+  &.bracket-winner {
+    min-width: 250px;
+    .game {
+      position: relative;
+      border: 1px solid #aaa;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      white-space: normal;
+      text-align: center;
+      .winner-title {
+        position: absolute;
+        top: -48px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+.round .spacer {
+  flex-grow: 1;
+}
+.round .spacer:first-child,
+.round .spacer:last-child {
+  flex-grow: 1;
+}
+
+.round .game-spacer {
+  flex-grow: 4;
+}
+
+// .round-2 {
+//   .spacer:first-child, .spacer:last-child {
+//     flex-grow: 1;
+//   }
+//   .game-spacer {
+//     flex-grow: 5;
+//   }
+// }
+
+// .round-3 {
+//   .spacer:first-child, .spacer:last-child {
+//     flex-grow: 1.5;
+//   }
+//   .game-spacer {
+//     flex-grow: 4;
+//   }
+// }
+
+.game {
+  position: relative;
+  padding-left: 5px;
+  &.blank {
+    color: white;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &.game-spacer {
+    &:hover{
+      cursor: default;
+    }
+  }
+  &.blank {
+    &:hover{
+      cursor: default;
+    }
+  }
+}
+
+.game.winner {
+  font-weight: bold;
+}
+.game span {
+  position: absolute;
+  left: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.game img {
+  position: absolute;
+  left: -55px;
+  top: -14px;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.game-top {
+  border-bottom: 1px solid #aaa;
+}
+
+.game-spacer {
+  border-right: 1px solid #aaa;
+  min-height: 40px;
+}
+
+.game-bottom {
+  border-top: 1px solid #aaa;
+}
+
+.spanner {
+  display: inline-block;
+}
+
+@media (min-width: 768px) {
+  #bracket-instructions {
+    .bracket-instruction {
+      display: table;
+      margin: 0 auto;
+    }
+  }
+}

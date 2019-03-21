@@ -118,6 +118,42 @@ class Api::DraftsController < ApplicationController
       end
     elsif @draft.league.draft_type == 'pick_em'
       current_team_players = current_team.matches
+    elsif @draft.league.draft_type == 'bracket'
+      info_for_all_matches = []
+      current_team_matches = current_team.matches.sort_by {|match| [match.group, match.round, match.bracket_position] }
+      current_team_matches.each do |match|
+        character_a = Character.find_by_id(match.player_a_id)
+        character_b = Character.find_by_id(match.player_b_id)
+
+        character_a_asset_name = character_a ? character_a.name.parameterize : nil
+
+        character_a_asset_path = character_a_asset_name ? ActionController::Base.helpers.asset_path("spark-madness/#{character_a_asset_name}.jpg") : nil
+
+        character_b_asset_name = character_b ? character_b.name.parameterize : nil
+        character_b_asset_path = character_b_asset_name ? ActionController::Base.helpers.asset_path("spark-madness/#{character_b_asset_name}.jpg") : nil
+
+        info_for_all_matches << {
+          bracket_position: match.bracket_position,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: character_a&.name,
+          player_a_bio: character_a&.bio,
+          player_a_image_url: character_a_asset_path,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: (character_a.seed(@draft.league.leagueable) if character_a),
+          player_b_id: match.player_b_id,
+          player_b_name: character_b&.name,
+          player_b_bio: character_b&.bio,
+          player_b_image_url: character_b_asset_path,
+          player_b_seed: (character_b.seed(@draft.league.leagueable) if character_b),
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          round: match.round,
+          winner_id: match.winner_id
+        }
+      end
+      current_team_players = info_for_all_matches
     end
 
 

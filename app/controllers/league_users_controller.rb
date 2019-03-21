@@ -14,7 +14,7 @@ class LeagueUsersController < ApplicationController
   def create
     league_user = nil
     team = nil
-    if request.referrer.include? "join"
+    if request.referrer.include? 'join'
       if @league.paid_entry
         LeagueUser.transaction do
           Team.transaction do
@@ -38,6 +38,15 @@ class LeagueUsersController < ApplicationController
                   )
                 }
               elsif @league.draft_type == 'pick_em'
+                @league.leagueable.matches.each do |match|
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: 'Match',
+                    pickable_id: match.id
+                  )
+                end
+              elsif @league.draft_type == 'bracket'
                 @league.leagueable.matches.each do |match|
                   Pick.create(
                     draft_id: @league.draft.id,
@@ -126,6 +135,15 @@ class LeagueUsersController < ApplicationController
                 )
               }
             elsif @league.draft_type == 'pick_em'
+              @league.leagueable.matches.each do |match|
+                Pick.create(
+                  draft_id: @league.draft.id,
+                  team_id: team.id,
+                  pickable_type: 'Match',
+                  pickable_id: match.id
+                )
+              end
+            elsif @league.draft_type == 'bracket'
               @league.leagueable.matches.each do |match|
                 Pick.create(
                   draft_id: @league.draft.id,

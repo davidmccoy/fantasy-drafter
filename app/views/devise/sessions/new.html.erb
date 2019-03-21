@@ -21,7 +21,9 @@
       <% end -%>
 
       <div class="actions">
-        <%= hidden_field_tag :url, params[:url] %>
+        <%= hidden_field_tag :url, params[:url] if params[:url] %>
+        <%= hidden_field_tag :league_id, params[:league_id] if params[:league_id] %>
+        <%= hidden_field_tag :invite_id, params[:invite_id] if params[:invite_id] %>
         <%= f.submit "Log In", class: "btn btn-primary" %>
       </div>
     <% end %>

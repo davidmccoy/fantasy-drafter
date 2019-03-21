@@ -59,6 +59,8 @@ class DraftsController < ApplicationController
       @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
 
       @your_lineup = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).where.not(pickable_id: nil).order("number ASC")
+    elsif @draft.league.draft_type == 'bracket'
+      @your_picks = Pick.where(draft_id: @draft.id, team_id: current_user.team(@draft.league)&.id).order("id ASC").pluck(:id)
     end
   end
 
@@ -101,6 +103,15 @@ class DraftsController < ApplicationController
         )
       end
     end
+    if @draft.league.draft_type == 'bracket'
+      bracket_params.each do |k, match|
+        users_pick = team.picks.find_by_id(Pick.where(pickable_type: 'Match', pickable_id: match['id']))
+        next unless users_pick
+        users_pick.update(
+          winner_id: match['winner_id']
+        )
+      end
+    end
     if team.update(submitted: true, submitted_at: Time.now)
       flash[:notice] = "You've submitted your team!"
       respond_to do |format|
@@ -123,4 +134,7 @@ class DraftsController < ApplicationController
     params.require(:matches)
   end
 
+  def bracket_params
+    params.require(:matches)
+  end
 end

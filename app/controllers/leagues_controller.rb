@@ -73,6 +73,21 @@ class LeaguesController < ApplicationController
     @league_user = LeagueUser.new
   end
 
+  def group_invite
+    invite = Invite.create(
+      league_id: @league.id,
+      for_group: true
+    )
+
+    if invite
+      flash[:notice] = "Successfully created group invite link."
+    else
+      flash[:alert] = "Failed to create group invite link."
+    end
+
+    redirect_to game_competition_league_league_users_path(@game, @competition, @league) and return
+  end
+
   private
 
   def league_params

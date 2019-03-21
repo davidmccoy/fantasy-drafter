@@ -225,6 +225,11 @@ class TeamList extends React.Component {
         <div>
         </div>
       )
+    } else if (this.props.draftType === 'bracket') {
+      return (
+        <div>
+        </div>
+      )
     } else if (this.props.draftType === 'special') {
       return (
         <div>

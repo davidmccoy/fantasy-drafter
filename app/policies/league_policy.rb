@@ -26,4 +26,8 @@ class LeaguePolicy <  ApplicationPolicy
   def join?
     record.public
   end
+
+  def group_invite?
+    edit?
+  end
 end

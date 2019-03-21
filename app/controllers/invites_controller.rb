@@ -5,6 +5,30 @@ class InvitesController < ApplicationController
 
   def show
     if @invite.token == params[:token]
+      if current_user && @invite.for_group
+        # TODO: include check for existing individual invite to the league
+        unless current_user.leagues.include? @invite.league
+          league_user = nil
+          team = nil
+          LeagueUser.transaction do
+            Team.transaction do
+              league_user = LeagueUser.create(
+                league_id: @invite.league.id,
+                user_id: current_user.id,
+                confirmed: true
+              )
+              team = league_user.create_team(name: "Team #{@invite.league.teams.count + 1} (#{league_user.user.name})")
+            end
+          end
+
+          if league_user && team
+            # TODO: make it work with seasonal leagues
+            flash[:notice] = "You've joined #{@invite.league.name}!"
+            redirect_to game_competition_league_path(@invite.league.leagueable.game, @invite.league.leagueable, @invite.league) and return
+          end
+        end
+      end
+
       if params[:errors]&.include? "password"
         @password_message = "Your password is #{params[:errors][:password].first[:error]&.humanize&.downcase}. The minimum length is #{params[:errors][:password].first[:count]&.humanize&.downcase}."
       end
@@ -32,7 +56,7 @@ class InvitesController < ApplicationController
     end
 
     if leagueable_class == Season
-      redirect_to game_season_league_league_users_path(league.leagueable.game, league.leagueable, league) and return 
+      redirect_to game_season_league_league_users_path(league.leagueable.game, league.leagueable, league) and return
     elsif leagueable_class == Competition
       redirect_to game_competition_league_league_users_path(league.leagueable.game, league.leagueable, league) and return
     end

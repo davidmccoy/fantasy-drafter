@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :seasons, param: :slug do
       resources :leagues, controller: 'seasons/leagues' do
         match 'join', to: 'seasons/leagues#join', via: [:get]
+        post 'group_invite', to: 'leagues/group_invite'
         resources :league_users, controller: 'seasons/league_users' do
           match 'confirm', to: 'seasons/league_users#confirm', via: [:get]
           match 'resend_invite', to: 'seasons/league_users#resend_invite', via: [:get]
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
       resources :competition_players, path: 'players', only: [:index, :show]
       resources :leagues do
         match 'join', to: 'leagues#join', via: [:get]
+        post 'group_invite', to: 'leagues/group_invite'
         resources :league_users do
           match 'confirm', to: 'league_users#confirm', via: [:get]
           match 'resend_invite', to: 'league_users#resend_invite', via: [:get]
@@ -99,4 +101,9 @@ Rails.application.routes.draw do
       resources :leagues
     end
   end
+
+  # Redircts #
+  ############
+
+  get '/sparkmadness', to: 'redirects#sparkmadness'
 end

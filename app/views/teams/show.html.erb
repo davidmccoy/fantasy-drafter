@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8 offset-md-2">
+  <div class="<%= @picks && @team.league.draft_type == 'bracket' ? 'col' : 'col-md-8 offset-md-2' %>">
     <%= link_to "< Back To Your League", game_competition_league_path(@team.league.leagueable.game, @team.league.leagueable, @team.league) %>
 
     <h1>
@@ -20,7 +20,7 @@
       <% end %>
     <% end %>
     <p>
-      <em>(Through Round <%= @team.league.leagueable.score_as_of_round %>)</em>
+      <em><%= "(Through Round #{@team.league.leagueable.score_as_of_round})" unless @league.draft_type == 'bracket' %></em>
     </p>
 
     <% if @picks && @team.league.draft_type == 'pick_em' %>
@@ -48,6 +48,188 @@
           <% end %>
         </tbody>
       </table>
+    <% elsif @picks && @team.league.draft_type == 'bracket' %>
+      You chose <%= Character.find_by_id(@winner.winner_id)&.name %> to win Spark Madness!
+
+      <div id="bracket">
+        <div class="round round-1">
+          <% @matches.select{ |match| match.round == 1 && match.group == '1' }.each do |match| %>
+            <% character_a = Character.find_by_id(match.player_a_id) %>
+            <% character_b = Character.find_by_id(match.player_b_id) %>
+
+            <% character_a_asset_name = character_a ? character_a.name.parameterize : nil %>
+            <% character_b_asset_name = character_b ? character_b.name.parameterize : nil %>
+
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>">
+              <%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %>
+              <%= image_tag "spark-madness/#{character_a_asset_name}.jpg" %>
+            </div>
+            <div class="game game-spacer">&nbsp;
+            </div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>">
+              <%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %>
+              <%= image_tag "spark-madness/#{character_b_asset_name}.jpg" %>
+            </div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-2">
+          <% @matches.select{ |match| match.round == 2 && match.group == '1' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-3">
+          <% @matches.select{ |match| match.round == 3 && match.group == '1' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-4">
+          <% @matches.select{ |match| match.round == 4 && match.group == '1' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-5">
+          <% @matches.select{ |match| match.round == 4 && match.group == '1' }.each do |match| %>
+            <% previous_pick = @picks.find_by(pickable_id: match.id) %>
+            <% character_a = Character.find_by_id(previous_pick.winner_id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round bracket-winner">
+          <% character = Character.find_by_id(@picks.find_by(pickable_id: @matches.last).winner_id) %>
+          <div class="spacer">&nbsp;</div>
+          <div class="game game-top winner">
+            <div class="winner-title">
+              WINNER!
+            </div>
+            <%= "(#{character.seed(@competition)}) #{character&.name}" %>
+          </div>
+          <div class="spacer">&nbsp;</div>
+        </div>
+        <div class="round round-5 right">
+          <% @matches.select{ |match| match.round == 4 && match.group == '2' }.each do |match| %>
+            <% previous_pick = @picks.find_by(pickable_id: match.id) %>
+            <% character_a = Character.find_by_id(previous_pick.winner_id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-4 right">
+          <% @matches.select{ |match| match.round == 4 && match.group == '2' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-3 right">
+          <% @matches.select{ |match| match.round == 3 && match.group == '2' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-2 right">
+          <% @matches.select{ |match| match.round == 2 && match.group == '2' }.each do |match| %>
+            <% character_a = Character.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+            <% character_b = Character.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>"><%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %></div>
+            <div class="game game-spacer">&nbsp;</div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>"><%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %></div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+        <div class="round round-1 right">
+          <% @matches.select{ |match| match.round == 1 && match.group == '2' }.each do |match| %>
+            <% character_a = Character.find_by_id(match.player_a_id) %>
+            <% character_b = Character.find_by_id(match.player_b_id) %>
+
+            <% character_a_asset_name = character_a ? character_a.name.parameterize : nil %>
+            <% character_b_asset_name = character_b ? character_b.name.parameterize : nil %>
+
+            <% pick = @picks.find_by(pickable_id: match.id) %>
+
+            <div class="spacer">&nbsp;</div>
+
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>">
+              <%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %>
+              <%= image_tag "spark-madness/#{character_a_asset_name}.jpg" %>
+            </div>
+            <div class="game game-spacer">&nbsp;
+            </div>
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>">
+              <%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %>
+              <%= image_tag "spark-madness/#{character_b_asset_name}.jpg" %>
+            </div>
+
+            <div class="spacer">&nbsp;</div>
+          <% end %>
+        </div>
+      </div>
     <% else %>
       <table class="table table-bordered table-hover">
         <thead>

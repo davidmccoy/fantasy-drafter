@@ -52,7 +52,12 @@ class ApplicationController < ActionController::Base
 
   # customize Devise's sign in path
   def after_sign_in_path_for(resource)
-    params[:url] || session[:previous_url] || root_path
+    if params[:league_id] && params[:invite_id]
+      invite = Invite.find_by_id(params[:invite_id])
+      invite_path(invite, token: invite.token)
+    else
+      params[:url] || session[:previous_url] || root_path
+    end
   end
 
   # store client's timezone
