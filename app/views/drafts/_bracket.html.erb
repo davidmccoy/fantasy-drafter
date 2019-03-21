@@ -1,11 +1,8 @@
 <div id="draft-progress-container" style="background: #191919;">
   <div class="page-title">
-    <p class="page-instructions intro">
-      Welcome to your bracket for
-    </p>
-    <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
+    <%= image_tag 'spark-madness/logo.png', style: 'height: 300px; width: auto; margin-bottom: 1rem;' %>
     <p class="page-instructions">
-      You'll find the rules and your bracket below.
+      Welcome to your bracket for <%= @draft.league.leagueable.name %>.
     </p>
   </div>
 </div>

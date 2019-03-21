@@ -417,6 +417,23 @@ class DraftViewer extends React.Component {
         }
         { this.props.draftType === 'bracket' &&
           <div id="left-tabbed-panel" className="col-md-12">
+            <div id="bracket-instructions" className="row">
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  1. Click on the Planeswalkers to fill out your bracket.
+                </div>
+              </div>
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  2. To make changes, just click on the Planeswalker you want to win instead.
+                </div>
+              </div>
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  3. Submit your bracket after you have filled it out!
+                </div>
+              </div>
+            </div>
             <Bracket
               myTeam={this.state.myTeam}
               myPicks={this.props.myPicks}

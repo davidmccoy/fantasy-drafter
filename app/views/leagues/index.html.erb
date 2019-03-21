@@ -103,6 +103,7 @@
         </table>
         <% end %>
       </div>
+      <% unless @competition.name == 'Spark Madness' %>
       <div class="create-a-league content">
         <h2> Create Your Own League!</h2>
         <p>
@@ -213,6 +214,7 @@
           A bracket league allows you to pick the winners of every match in a single-elimination tournament, all the way to the finals!
         </p>
       </div>
+      <% end %>
     <% elsif @competition.end_date ?  (Time.now > @competition.end_date) : (Time.now - 4.days > @competition.start_date)  %>
       <h2> This competition has ended!</h2>
       <p>
@@ -227,8 +229,8 @@
   </div>
   <% if Time.now < @competition.start_date %>
     <div id="submit-message" class="submit-message submit-message-absolute alert-ready-to-submit alert-fixed">
-      <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-success' %>
-      <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.where(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true).order(:id).first), class: 'btn btn-light' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
+      <%= link_to 'Create a League', new_game_competition_league_path(@game, @competition), class: 'btn btn-light' unless @competition.name == 'Spark Madness' %>
+      <%= link_to 'Draft Now', game_competition_league_path(@game, @competition, League.where(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true).order(:id).first), class: 'btn btn-success' if League.find_by(leagueable_id: @competition.id, leagueable_type: 'Competition', public: true)%>
     </div>
   <% end %>
 </div>

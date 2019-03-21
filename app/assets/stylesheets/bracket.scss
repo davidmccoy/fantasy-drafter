@@ -5,6 +5,13 @@
   overflow-x: scroll;
 }
 
+#bracket-instructions {
+  margin-bottom: 2rem;
+  .bracket-instruction {
+    margin: 1rem 0;
+  }
+}
+
 .round {
   display: flex;
   flex-direction: column;
@@ -95,6 +102,7 @@
 
 .game {
   position: relative;
+  padding-left: 5px;
   &.blank {
     color: white;
   }
@@ -147,4 +155,13 @@
 
 .spanner {
   display: inline-block;
+}
+
+@media (min-width: 768px) {
+  #bracket-instructions {
+    .bracket-instruction {
+      display: table;
+      margin: 0 auto;
+    }
+  }
 }
