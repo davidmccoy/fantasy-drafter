@@ -3,10 +3,10 @@
     <div id="invite" class="show">
       <h2>Welcome to Thousand Leagues!</h2>
       <p>
-        You've been invited to participate in a <%= @invite.league.leagueable.name %> Fantasy Draft!
+        You've been invited to participate in a <%= @invite.league.leagueable.name %> fantasy league on Thousand Leagues!
       </p>
       <p>
-        Please create an account to accept this invitation and join the league!
+        Please create an account or sign in to accept this invitation and join the league!
       </p>
 
       <% if @password_message || @password_confirmation_message %>
@@ -53,6 +53,12 @@
         <%= hidden_field_tag :league_id, @invite.league.id %>
         <%= hidden_field_tag :invite_id, @invite.id %>
       <% end %>
+      <br />
+      <div>
+        <h5>Or, sign in</h5>
+        <%= link_to 'Sign In', new_user_session_path(league_id: @invite.league.id, invite_id: @invite.id), class: 'btn btn-primary' %>
+      </div>
+
     </div>
   </div>
 </div>

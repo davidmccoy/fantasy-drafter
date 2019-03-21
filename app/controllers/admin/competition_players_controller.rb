@@ -33,13 +33,18 @@ class Admin::CompetitionPlayersController < ApplicationController
 
     file.each do |row|
       if params[:bracket] == 'false'
-        name   = row[0] + ' ' + row[1]
+        name = if params[:name_in_one_column] == 'true'
+          row[0]
+        else
+          row[0] + ' ' + row[1]
+        end
         player = Player.unaccent(name)
 
         if player
+          player.update(mtg_arena_handle: row[2])
           CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
         else
-          new_player = Player.create(name: name)
+          new_player = Player.create(name: name, mtg_arena_handle: row[2])
           CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
         end
       elsif params[:bracket] == 'true'

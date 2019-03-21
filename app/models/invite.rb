@@ -1,5 +1,4 @@
 class Invite < ApplicationRecord
-
   has_secure_token
 
   belongs_to :league
@@ -16,5 +15,4 @@ class Invite < ApplicationRecord
   def send_invite
     InviteMailer.new_user(self).deliver_now
   end
-
 end
