@@ -5,22 +5,21 @@
       <p>
         This competition has already had players added to it.
       </p>
-    <% else %>
-      <%= form_tag admin_competition_players_import_path(@competition), multipart: true do %>
-        <div class="form-group required">
-          <%= label_tag :file, nil, class: "control-label" %>
-          <%= file_field_tag :file, required: true, class: "form-control" %>
-        </div>
-        <div class="form-group required">
-          <%= label_tag :bracket, nil, class: 'control-label' %>
-          <%= select_tag :bracket, options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Is this a bracket competition?', required: true, class: 'form-control' %>
-        </div>
-        <div class="form-group required">
-          <%= label_tag :name_in_one_column, nil, class: 'control-label' %>
-          <%= select_tag :name_in_one_column, options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Are the names in one column?', required: true, class: 'form-control' %>
-        </div>
-        <%= submit_tag "Add Players", class: "btn btn-primary" %>
-      <% end %>
+    <% end %>
+    <%= form_tag admin_competition_players_import_path(@competition), multipart: true do %>
+      <div class="form-group required">
+        <%= label_tag :file, nil, class: "control-label" %>
+        <%= file_field_tag :file, required: true, class: "form-control" %>
+      </div>
+      <div class="form-group required">
+        <%= label_tag :bracket, nil, class: 'control-label' %>
+        <%= select_tag :bracket, options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Is this a bracket competition?', required: true, class: 'form-control' %>
+      </div>
+      <div class="form-group required">
+        <%= label_tag :name_in_one_column, nil, class: 'control-label' %>
+        <%= select_tag :name_in_one_column, options_for_select([['True', 'true'], ['False', 'false']]), include_blank: 'Are the names in one column?', required: true, class: 'form-control' %>
+      </div>
+      <%= submit_tag "Add Players", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
