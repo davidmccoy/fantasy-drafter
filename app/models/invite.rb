@@ -4,7 +4,7 @@ class Invite < ApplicationRecord
   belongs_to :league
 
   before_save { self.email = email.downcase if email}
-  after_create :send_invite
+  after_create :send_invite, unless: self.group_invite
 
   def expired?
     Time.now > (self.created_at + 1.day)
