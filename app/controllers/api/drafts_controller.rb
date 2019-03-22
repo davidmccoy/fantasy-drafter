@@ -174,7 +174,7 @@ class Api::DraftsController < ApplicationController
         }
       end
       @teams << {
-        user_id: team.user.id,
+        user_id: team.user&.id,
         team_id: team.id,
         name: team.name,
         players: players
