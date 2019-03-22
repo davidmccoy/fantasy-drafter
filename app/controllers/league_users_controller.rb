@@ -11,6 +11,8 @@ class LeagueUsersController < ApplicationController
   def index
   end
 
+  # TODO: lots of repetition
+  # TODO: this is repeated in the invites controller
   def create
     league_user = nil
     team = nil

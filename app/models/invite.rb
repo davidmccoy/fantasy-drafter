@@ -13,6 +13,6 @@ class Invite < ApplicationRecord
   private
 
   def send_invite
-    InviteMailer.new_user(self).deliver_now
+    InviteMailer.new_user(self).deliver_now unless self.for_group
   end
 end

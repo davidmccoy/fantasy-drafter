@@ -41,11 +41,34 @@ class Admin::CompetitionPlayersController < ApplicationController
         player = Player.unaccent(name)
 
         if player
-          player.update(mtg_arena_handle: row[2])
-          CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
+          player.update(
+            mtg_arena_handle: row[2],
+            image_url: row[3],
+            twitter_handle: row[4],
+            bio: row[5],
+            bio_source: row[6],
+            mpl_member: row[7] == 'MPL' ? true : false
+          )
+          competition_player = CompetitionPlayer.where(
+            competition_id: @competition,
+            player_id: player
+          ).first_or_create
+          competition_player.update(group: row[8])
         else
-          new_player = Player.create(name: name, mtg_arena_handle: row[2])
-          CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
+          new_player = Player.create(
+            name: name,
+            mtg_arena_handle: row[2],
+            image_url: row[3],
+            twitter_handle: row[4],
+            bio: row[5],
+            bio_source: row[6],
+            mpl_member: row[7] == 'MPL' ? true : false
+          )
+          competition_player = CompetitionPlayer.where(
+            competition_id: @competition,
+            player_id: player
+          ).first_or_create
+          competition_player.update(group: row[8])
         end
       elsif params[:bracket] == 'true'
         name   = row[0]

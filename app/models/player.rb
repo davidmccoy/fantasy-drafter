@@ -14,6 +14,10 @@ class Player < ApplicationRecord
     Match.where("player_a_id = ? OR player_b_id = ?", id, id)
   end
 
+  def group(competition)
+    competition_players.find_by(competition_id: competition.id).group
+  end
+
   def result competition
     self.results.find_by(competition_id: competition.id)
   end

@@ -87,19 +87,25 @@ class AvailablePlayersTable extends React.Component {
   }
 
   changeModalPlayer(e, playerId) {
-    let modalUrl = this.props.pickType === 'player' ?
-     `/api/players/${playerId}` : `/api/cards/${playerId}`
+    let player = this.props.data.filter( e => e.player_id === playerId)[0]
+    this.setState({
+      player: player,
+      showModal: true
+    })
 
-    $.ajax({
-      url: modalUrl,
-      dataType: 'json',
-      success: function(data){
-        this.setState({
-          player: data.player,
-          showModal: true
-        })
-      }.bind(this)
-    });
+    // let modalUrl = this.props.pickType === 'player' ?
+    //  `/api/players/${playerId}` : `/api/cards/${playerId}`
+
+    // $.ajax({
+    //   url: modalUrl,
+    //   dataType: 'json',
+    //   success: function(data){
+    //     this.setState({
+    //       player: data.player,
+    //       showModal: true
+    //     })
+    //   }.bind(this)
+    // });
   }
 
   hideModal() {
@@ -144,8 +150,8 @@ class AvailablePlayersTable extends React.Component {
                 )
               },
               {
-                Header: "Points",
-                accessor: "points",
+                Header: "Group",
+                accessor: "group",
                 maxWidth: 50,
                 filterable: false,
                 Cell: row => (
@@ -158,7 +164,12 @@ class AvailablePlayersTable extends React.Component {
                 Header: "ELO",
                 accessor: "elo",
                 filterable: false,
-                maxWidth: 55
+                maxWidth: 55,
+                Cell: row => (
+                  <div>
+                    {row.value ? row.value : 1500}
+                  </div>
+                )
               },
               {
                 Header: "Name",
