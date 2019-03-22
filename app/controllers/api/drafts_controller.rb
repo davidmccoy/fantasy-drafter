@@ -165,20 +165,24 @@ class Api::DraftsController < ApplicationController
     }
 
     @teams = []
-    @draft.league.teams.where.not(id: current_user.team(@draft.league)).each do |team|
-      players = []
-      team.players.each do |player|
-        players << {
-          id: player.id,
-          name: player.name
+
+    # only build other teams if they are displayed in the draft viewer
+    if @draft.league.draft_type == 'snake'
+      @draft.league.teams.where.not(id: current_user.team(@draft.league)).each do |team|
+        players = []
+        team.players.each do |player|
+          players << {
+            id: player.id,
+            name: player.name
+          }
+        end
+        @teams << {
+          user_id: team.user&.id,
+          team_id: team.id,
+          name: team.name,
+          players: players
         }
       end
-      @teams << {
-        user_id: team.user&.id,
-        team_id: team.id,
-        name: team.name,
-        players: players
-      }
     end
   end
 
