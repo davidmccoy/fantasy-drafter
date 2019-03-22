@@ -66,7 +66,7 @@ class Admin::CompetitionPlayersController < ApplicationController
           )
           competition_player = CompetitionPlayer.where(
             competition_id: @competition,
-            player_id: player
+            player_id: new_player
           ).first_or_create
           competition_player.update(group: row[8])
         end
