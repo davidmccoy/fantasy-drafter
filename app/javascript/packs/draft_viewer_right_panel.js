@@ -53,6 +53,7 @@ class DraftViewerRightPanel extends React.Component {
                 handleStar={this.props.handleStar}
                 draftType={this.props.draftType}
                 pickType={this.props.pickType}
+                allPlayers={this.props.allPlayers}
               />
             </div>
             { this.props.draftType === 'snake' &&

@@ -7,17 +7,49 @@ class InvitesController < ApplicationController
     if @invite.token == params[:token]
       if current_user && @invite.for_group
         # TODO: include check for existing individual invite to the league
+        # TODO: this is repeated in the league users controller
         unless current_user.leagues.include? @invite.league
+          @league = @invite.league
           league_user = nil
           team = nil
           LeagueUser.transaction do
             Team.transaction do
-              league_user = LeagueUser.create(
-                league_id: @invite.league.id,
+              # create league user
+              league_user = LeagueUser.create!(
+                league_id: @league.id,
                 user_id: current_user.id,
                 confirmed: true
               )
+              # create team
               team = league_user.create_team(name: "Team #{@invite.league.teams.count + 1} (#{league_user.user.name})")
+              # create picks
+              if @league.draft_type == 'pick_x'
+                @league.num_draft_rounds.times {
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: @league.pick_type.classify
+                  )
+                }
+              elsif @league.draft_type == 'pick_em'
+                @league.leagueable.matches.each do |match|
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: 'Match',
+                    pickable_id: match.id
+                  )
+                end
+              elsif @league.draft_type == 'bracket'
+                @league.leagueable.matches.each do |match|
+                  Pick.create(
+                    draft_id: @league.draft.id,
+                    team_id: team.id,
+                    pickable_type: 'Match',
+                    pickable_id: match.id
+                  )
+                end
+              end
             end
           end
 

@@ -5,6 +5,7 @@ class LeagueMailer < ApplicationMailer
     @league = league
     @league_admin = league.admin
     @user = user
+    @url = nil
     leagueable_class = @leagueable.class
 
     if leagueable_class == Season

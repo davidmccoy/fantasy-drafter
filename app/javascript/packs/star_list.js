@@ -65,19 +65,11 @@ class StarList extends React.Component {
   }
 
   changeModalPlayer(e, playerId) {
-    let modalUrl = this.props.pickType === 'player' ?
-     `/api/players/${playerId}` : `/api/cards/${playerId}`
-
-    $.ajax({
-      url: modalUrl,
-      dataType: 'json',
-      success: function(data){
-        this.setState({
-          player: data.player,
-          showModal: true
-        })
-      }.bind(this)
-    });
+    let player = this.props.allPlayers.filter( e => e.player_id === playerId)[0]
+    this.setState({
+      player: player,
+      showModal: true
+    })
   }
 
   hideModal() {
@@ -116,8 +108,8 @@ class StarList extends React.Component {
                 )
               },
               {
-                Header: "Points",
-                accessor: "points",
+                Header: "Group",
+                accessor: "group",
                 maxWidth: 50,
                 sortable: false,
                 sortMethod: (a, b) => {

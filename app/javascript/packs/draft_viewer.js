@@ -412,6 +412,7 @@ class DraftViewer extends React.Component {
               draftType={this.props.draftType}
               pickType={this.props.pickType}
               competitionName={this.props.competitionName}
+              allPlayers={this.state.data}
             />
           </div>
         }

@@ -47,7 +47,7 @@ class DraftInstructions extends React.Component {
               <p>
                 Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite players to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a player and add them to your team.
               </p>
-              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-dark">
+              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-light">
                 Hide
               </p>
             </div>
@@ -105,7 +105,7 @@ class DraftInstructions extends React.Component {
               <p>
                 Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite players to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a player and add them to your team.
               </p>
-              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-dark">
+              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-light">
                 Hide
               </p>
             </div>
@@ -144,7 +144,7 @@ class DraftInstructions extends React.Component {
               <p>
                 Click the <button className="btn btn-sm star-link"><img src={starGold} className="star-gold-image"/><img src={star} className="star-image" /></button> to save a list of your favorite cards to pick when it's your turn. Click the <button className="btn btn-sm btn-success pick-link"><img src={plus} /></button> to draft a card and add it to your team.
               </p>
-              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-dark">
+              <p onClick={this.toggleInstructions} className="hide-available-players-instructions btn btn-sm btn-light">
                 Hide
               </p>
             </div>

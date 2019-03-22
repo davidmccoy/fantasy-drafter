@@ -79,8 +79,8 @@ class TeamList extends React.Component {
                           }
                         },
                         {
-                          Header: "Points",
-                          accessor: "points",
+                          Header: "Group",
+                          accessor: "group",
                           maxWidth: 50,
                           sortable: false,
                           sortMethod: (a, b) => {
@@ -379,8 +379,8 @@ class TeamList extends React.Component {
                           }
                         },
                         {
-                          Header: "Points",
-                          accessor: "points",
+                          Header: "Group",
+                          accessor: "group",
                           maxWidth: 50,
                           sortable: false,
                           sortMethod: (a, b) => {

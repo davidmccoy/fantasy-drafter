@@ -1,8 +1,15 @@
 json.star do
   json.star_link "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/stars/#{@star.id}"
   json.id @star.id
-  json.name @star.starrable.name
   json.player_id @star.starrable.id
+  json.name              star.starrable.name
+  json.bio               star.starrable.class.name == 'Player' ? star.starrable.bio : nil
+  json.image_url         star.starrable.class.name == 'Player' ? star.starrable.image_url : nil
+  json.twitter_handle    star.starrable.class.name == 'Player' ? star.starrable.twitter_handle : nil
+  json.mtg_arena_handle  star.starrable.class.name == 'Player' ? star.starrable.mtg_arena_handle : nil
+  json.bio_source        star.starrable.class.name == 'Player' ? star.starrable.bio_source : nil
+  json.mpl_member        star.starrable.class.name == 'Player' ? star.starrable.mpl_member : nil
+  json.group             star.starrable.class.name == 'Player' ? star.starrable.group(@draft.league.leagueable) : nil
   json.starrable_type @star.starrable_type
   json.elo @star.starrable_type == 'Player' ? @star.starrable.elo : nil
   json.points @star.starrable_type == 'Player' ? @star.starrable.points : nil

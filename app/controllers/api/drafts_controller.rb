@@ -76,7 +76,14 @@ class Api::DraftsController < ApplicationController
           points: pick.pickable_type == 'Player' ? pick.pickable&.points: nil,
           xrank: pick.pickable_type == 'Player' ? pick.pickable&.power_ranking : pick.pickable&.xrank(pick.draft.league.leagueable),
           percent_of_decks: pick.pickable_type == 'Card' ? pick.pickable&.percent_of_decks(pick.draft.league.leagueable) : nil,
-          number_of_copies: pick.pickable_type == 'Card' ? pick.pickable&.number_of_copies(pick.draft.league.leagueable) : nil
+          number_of_copies: pick.pickable_type == 'Card' ? pick.pickable&.number_of_copies(pick.draft.league.leagueable) : nil,
+          bio:               pick.pickable_type == 'Player' ? pick.pickable&.bio : nil,
+          image_url:         pick.pickable_type == 'Player' ? pick.pickable&.image_url : nil,
+          twitter_handle:    pick.pickable_type == 'Player' ? pick.pickable&.twitter_handle : nil,
+          mtg_arena_handle:  pick.pickable_type == 'Player' ? pick.pickable&.mtg_arena_handle : nil,
+          bio_source:        pick.pickable_type == 'Player' ? pick.pickable&.bio_source : nil,
+          mpl_member:        pick.pickable_type == 'Player' ? pick.pickable&.mpl_member : nil,
+          group:             pick.pickable_type == 'Player' ? pick.pickable&.group(@draft.league.leagueable) : nil
         }
       }
     elsif @draft.league.draft_type == 'pick_x'
@@ -89,7 +96,14 @@ class Api::DraftsController < ApplicationController
             elo: player.elo,
             points: player.points,
             power_ranking: player.power_ranking,
-            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil"
+            delete_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/remove_player?pick_id=#{@draft.picks.find_by(pickable_type: 'Player', pickable_id: player.id, team_id: current_team.id).id}&pickable_id=nil",
+            bio:               player.bio,
+            image_url:         player.image_url,
+            twitter_handle:    player.twitter_handle,
+            mtg_arena_handle:  player.mtg_arena_handle,
+            bio_source:        player.bio_source,
+            mpl_member:        player.mpl_member,
+            group:             player.group(@draft.league.leagueable)
           }
         }
       elsif @draft.league.pick_type == 'card'

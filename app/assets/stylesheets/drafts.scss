@@ -38,7 +38,7 @@
         }
       }
       .pick-order-container {
-        overflow-y: hidden;
+        overflow: hidden;
         white-space: nowrap;
         padding: 0 15px 0 0;
         .pick-order {
@@ -231,5 +231,20 @@
   text-align: center;
   .modal-card-image {
     max-width: 90%;
+  }
+}
+
+.modal-player-image-container {
+  text-align: center;
+  img {
+    &.player-image {
+      width: 100%;
+      height: auto;
+      border-radius: 0.3rem;
+    }
+    &.mpl-logo {
+      width: 150px;
+      height: auto;
+    }
   }
 }
