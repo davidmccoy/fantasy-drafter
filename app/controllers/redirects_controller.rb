@@ -16,7 +16,7 @@ class RedirectsController < ApplicationController
   def mythic_invitational
     competition = Competition.find_by_name('Mythic Invitational')
     if competition
-      redirect_to game_competition_leagues_path(competition.game, competition, league) and return
+      redirect_to game_competition_leagues_path(competition.game, competition) and return
     else
       redirect_to root_path and return
     end
