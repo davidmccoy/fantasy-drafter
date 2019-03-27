@@ -51,9 +51,18 @@
         </p>
       <% end %>
       <% if @league.draft_type == 'bracket' %>
+        <% if @league.leagueable.name == 'Spark Madness' %>
         <p>
           <strong>Scoring:</strong> This league won't use traditional bracket scoring. Instead, a winning bracket will be chosen randomly from among the users that chose the correct planeswalker to win their bracket.
         </p>
+        <% else %>
+        <% if @league.description %>
+          <strong>Description:</strong> <%= simple_format(@league.description) %>
+        <% end %>
+        <p>
+          <strong>Scoring:</strong> This league use traditional bracket scoring, assuming that the Loser's bracket is structured correctly.
+        </p>
+        <% end %>
       <% elsif @league.pick_type == 'player' %>
         <p>
           <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. Players that make the Top 8 will earn your team another three points, plus three points per match win in the Top 8.
