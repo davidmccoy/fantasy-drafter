@@ -19,7 +19,7 @@ class Player < ApplicationRecord
   end
 
   def group(competition)
-    competition_players.find_by(competition_id: competition.id).group
+    competition_players.find_by(competition_id: competition.id)&.group
   end
 
   def result competition

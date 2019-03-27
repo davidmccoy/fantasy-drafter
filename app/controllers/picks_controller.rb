@@ -137,6 +137,7 @@ class PicksController < ApplicationController
             name: star.starrable.name,
             player_id: star.starrable.id,
             player_type: star.starrable_type,
+            group: star.starrable.group(@pick.draft.league.leagueable),
             elo: star.starrable.elo,
             power_ranking: star.starrable.power_ranking,
             pick_link: "/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{star.starrable.id}"
@@ -169,6 +170,7 @@ class PicksController < ApplicationController
                  ),
         player_id: pickable.id,
         player_type: pickable.class.name,
+        group: pickable.class.name == 'Player' ? pickable.group(@pick.draft.league.leagueable) : nil,
         elo: pickable.class.name == 'Player' ? pickable.elo : nil,
         points: pickable.class.name == 'Player' ? pickable.points : nil,
         xrank: pickable.class.name == 'Player' ? pickable.power_ranking : pickable.xrank(@draft.league.leagueable),
@@ -177,6 +179,7 @@ class PicksController < ApplicationController
         name: pickable.name,
         pick_link: ("/games/mtg/competitions/ptdom/leagues/#{@draft.league.id}/drafts/#{@draft.id}/picks/pick-number?pickable_id=#{pickable.id}")
       }
+
       if @pick.update(pick_params)
         @response = {
           team_id: @pick.team_id,
