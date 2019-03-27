@@ -132,7 +132,7 @@ class Api::DraftsController < ApplicationController
       end
     elsif @draft.league.draft_type == 'pick_em'
       current_team_players = current_team.matches
-    elsif @draft.league.draft_type == 'bracket'
+    elsif @draft.league.draft_type == 'bracket' && @draft.league.leagueable.name == 'Spark Madness'
       info_for_all_matches = []
       current_team_matches = current_team.matches.sort_by {|match| [match.group, match.round, match.bracket_position] }
       current_team_matches.each do |match|
@@ -162,6 +162,37 @@ class Api::DraftsController < ApplicationController
           player_b_bio: character_b&.bio,
           player_b_image_url: character_b_asset_path,
           player_b_seed: (character_b.seed(@draft.league.leagueable) if character_b),
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          round: match.round,
+          winner_id: match.winner_id
+        }
+      end
+      current_team_players = info_for_all_matches
+    elsif @draft.league.draft_type == 'bracket' && @draft.league.leagueable.name == 'Mythic Invitational'
+
+      info_for_all_matches = []
+      current_team_matches = current_team.matches.sort_by {|match| [match.group, match.round, match.bracket_position] }
+      current_team_matches.each do |match|
+        player_a = Player.find_by_id(match.player_a_id)
+        player_b = Player.find_by_id(match.player_b_id)
+
+        info_for_all_matches << {
+          bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: player_a&.name,
+          player_a_bio: player_a&.bio,
+          player_a_image_url: player_a&.image_url,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: (player_a.seed(@draft.league.leagueable) if player_a),
+          player_b_id: match.player_b_id,
+          player_b_name: player_b&.name,
+          player_b_bio: player_b&.bio,
+          player_b_image_url: player_b&.image_url,
+          player_b_seed: (player_b.seed(@draft.league.leagueable) if player_b),
           player_b_previous_match_id: match.player_b_previous_match_id,
           round: match.round,
           winner_id: match.winner_id

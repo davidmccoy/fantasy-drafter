@@ -12,7 +12,12 @@ class BracketRound extends React.Component {
 
   render() {
     return (
-      <div className={`round round-${this.props.roundNumber} ${this.props.bracketSide}`}>
+      <div className={`round round-${this.props.roundNumber} ${this.props.bracketSide} ${this.props.bracketSection}`}>
+        { (this.props.bracketSection && this.props.bracketSection === 'losers') && (this.props.roundNumber && this.props.roundNumber === 2) &&
+          <React.Fragment>
+            <BracketSpacer isGameSpacer={false} />
+          </React.Fragment>
+        }
         { this.props.matches.map((match, key) =>
           <React.Fragment key={key}>
             <BracketSpacer isGameSpacer={false} />
@@ -21,12 +26,13 @@ class BracketRound extends React.Component {
               playerBio={match.player_a_bio}
               playerImageUrl={match.player_a_image_url}
               playerId={match.player_a_id}
-              playerSeed={match.player_a_seed}
+              playerSeed={this.props.seeded && this.props.seeded === 'true' ? match.player_a_seed : null}
               position={'top'}
               winnerId={match.winner_id}
               matchId={match.id}
               handlePick={this.props.handlePick}
               roundNumber={this.props.roundNumber}
+              bracketSection={this.props.bracketSection}
             />
             <BracketSpacer isGameSpacer={true} />
             <BracketPlayer
@@ -34,16 +40,34 @@ class BracketRound extends React.Component {
               playerBio={match.player_b_bio}
               playerImageUrl={match.player_b_image_url}
               playerId={match.player_b_id}
-              playerSeed={match.player_b_seed}
+              playerSeed={this.props.seeded && this.props.seeded === 'true' ? match.player_b_seed : null}
               position={'bottom'}
               winnerId={match.winner_id}
               matchId={match.id}
               handlePick={this.props.handlePick}
               roundNumber={this.props.roundNumber}
+              bracketSection={this.props.bracketSection}
             />
             <BracketSpacer isGameSpacer={false} />
+            { (this.props.bracketSection && this.props.bracketSection === 'losers') && (this.props.roundNumber && this.props.roundNumber === 5) &&
+              <React.Fragment>
+                <BracketSpacer isGameSpacer={false} />
+                <BracketSpacer isGameSpacer={false} />
+              </React.Fragment>
+            }
           </React.Fragment>
         )}
+        { (this.props.bracketSection && this.props.bracketSection === 'losers') && (this.props.roundNumber && this.props.roundNumber === 3) &&
+          <React.Fragment>
+            <BracketSpacer isGameSpacer={false} />
+          </React.Fragment>
+        }
+        { (this.props.bracketSection && this.props.bracketSection === 'losers') && (this.props.roundNumber && this.props.roundNumber === 5) &&
+          <React.Fragment>
+            <BracketSpacer isGameSpacer={false} />
+            <BracketSpacer isGameSpacer={false} />
+          </React.Fragment>
+        }
       </div>
     )
   }

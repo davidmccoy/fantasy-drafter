@@ -74,16 +74,28 @@ class Admin::CompetitionPlayersController < ApplicationController
         name   = row[0]
         seed   = row[1]
         group  = row[2]
-        player = Character.find_by_name(name)
+
+        player = Player.find_by_name(name)
 
         if player
-          character_competition = CharacterCompetition.where(competition_id: @competition, character_id: player).first_or_create
-          character_competition.update(seed: seed, group: group)
+          competition_player = CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
+          competition_player.update(seed: seed, group: group)
         else
-          new_character = Character.create(name: name)
-          character_competition = CharacterCompetition.where(competition_id: @competition, character_id: new_character).first_or_create
-          character_competition.update(seed: seed, group: group)
+          new_player = Player.create(name: name)
+          competition_player = CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
+          competition_player.update(seed: seed, group: group)
         end
+
+        # player = Character.find_by_name(name)
+
+        # if player
+        #   character_competition = CharacterCompetition.where(competition_id: @competition, character_id: player).first_or_create
+        #   character_competition.update(seed: seed, group: group)
+        # else
+        #   new_character = Character.create(name: name)
+        #   character_competition = CharacterCompetition.where(competition_id: @competition, character_id: new_character).first_or_create
+        #   character_competition.update(seed: seed, group: group)
+        # end
       end
 
       # puts row[0]

@@ -40,6 +40,7 @@ class Competition < ApplicationRecord
     end
   end
 
+  # uses seeds
   def create_bracket_matches
     groups = character_competitions.pluck(:group).uniq
     num_teams = character_competitions.count
@@ -162,6 +163,243 @@ class Competition < ApplicationRecord
         player_b_previous_match_id: bottom_team_previous_match.id,
         winner_id:                  nil
       )
+    end
+  end
+
+  # unseeded
+  def create_double_elim_bracket_matches
+    groups = competition_players.pluck(:group).uniq
+    num_teams = competition_players.count
+    num_teams_per_group = num_teams / groups.count
+    num_winners_rounds = 3
+    num_losers_rounds = 4
+
+    # iterate through each group
+    groups.each do |group|
+      comp_players = competition_players.where(group: group).where.not(seed: nil).order(:seed)
+      num_teams_in_group = comp_players.count
+
+      # iterate over each round to create winners' bracket
+      num_winners_rounds.times do |rounds_index|
+        round_number = rounds_index + 1
+        num_matches_in_round = num_teams_in_group / 2 ** round_number
+
+        # create each match
+        num_matches_in_round.times do |matches_index|
+          match_number = matches_index + 1
+
+          # - only assign teams to matches in the first round
+          # - otherwise, determine which matches from the previous round will
+          #     feed the match
+          if round_number == 1
+            Match.create(
+              competition_id:             id,
+              player_a_id:                comp_players.first.player_id,
+              player_b_id:                comp_players.second.player_id,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'winners',
+              bracket_position:           match_number,
+              player_a_previous_match_id: nil,
+              player_b_previous_match_id: nil,
+              winner_id:                  nil
+            )
+
+            # remove teams from the array
+            comp_players = comp_players - [comp_players.first] - [comp_players.second]
+          else
+            # create winners' bracket matches
+            top_team_previous_match_bracket_position = (match_number * 2) - 1
+            top_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: top_team_previous_match_bracket_position
+            )
+
+            bottom_team_previous_match_bracket_position = (match_number * 2)
+            bottom_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: bottom_team_previous_match_bracket_position
+            )
+
+            Match.create(
+              competition_id:             id,
+              player_a_id:                nil,
+              player_b_id:                nil,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'winners',
+              bracket_position:           match_number,
+              player_a_previous_match_id: top_team_previous_match.id,
+              player_b_previous_match_id: bottom_team_previous_match.id,
+              winner_id:                  nil
+            )
+          end
+        end
+      end
+
+      # iterate over each round to create losers' bracket
+      num_losers_rounds.times do |rounds_index|
+        # losers' bracket starts in round 2
+        round_number = rounds_index + 2
+        num_matches_in_round = {
+          2 => 4,
+          3 => 4,
+          4 => 2,
+          5 => 2
+        }
+        # create each match
+        num_matches_in_round[round_number].times do |matches_index|
+          match_number = matches_index + 1
+          # first round of losers' bracket
+          if round_number == 2
+            # fill initial losers' bracket matches from all of the losers
+            # from round 1
+            top_team_previous_match_bracket_position = (match_number * 2) - 1
+            top_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: top_team_previous_match_bracket_position
+            )
+
+            bottom_team_previous_match_bracket_position = (match_number * 2)
+            bottom_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: bottom_team_previous_match_bracket_position
+            )
+
+            Match.create(
+              competition_id:             id,
+              player_a_id:                nil,
+              player_b_id:                nil,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'losers',
+              bracket_position:           match_number,
+              player_a_previous_match_id: top_team_previous_match.id,
+              player_b_previous_match_id: bottom_team_previous_match.id,
+              winner_id:                  nil
+            )
+          # fill top of each round 3 match with winner's bracket losers from
+          # round 2 and the bottom of each match with the losers' bracket
+          # winner from round 2
+          elsif round_number == 3
+            winners_bracket_match_position = num_matches_in_round[round_number] - matches_index
+            top_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: winners_bracket_match_position
+            )
+
+            bottom_team_previous_match_bracket_position = match_number
+            bottom_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'losers',
+              bracket_position: bottom_team_previous_match_bracket_position
+            )
+
+            Match.create(
+              competition_id:             id,
+              player_a_id:                nil,
+              player_b_id:                nil,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'losers',
+              bracket_position:           match_number,
+              player_a_previous_match_id: top_team_previous_match.id,
+              player_b_previous_match_id: bottom_team_previous_match.id,
+              winner_id:                  nil
+            )
+
+          # fill both matches with the losers' bracket winners from round 3
+          elsif round_number == 4
+            top_team_previous_match_bracket_position = (match_number * 2) - 1
+            top_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'losers',
+              bracket_position: top_team_previous_match_bracket_position
+            )
+
+            bottom_team_previous_match_bracket_position = (match_number * 2)
+            bottom_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'losers',
+              bracket_position: bottom_team_previous_match_bracket_position
+            )
+
+            Match.create(
+              competition_id:             id,
+              player_a_id:                nil,
+              player_b_id:                nil,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'losers',
+              bracket_position:           match_number,
+              player_a_previous_match_id: top_team_previous_match.id,
+              player_b_previous_match_id: bottom_team_previous_match.id,
+              winner_id:                  nil
+            )
+          # fill top of each round 5 match with winner's bracket losers from
+          # round 3 and the bottom of each match with the losers' bracket
+          # winner from round 4
+          elsif round_number == 5
+            winners_bracket_match_position = num_matches_in_round[round_number] - matches_index
+            top_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 2,
+              group:            group,
+              bracket_section:  'winners',
+              bracket_position: winners_bracket_match_position
+            )
+
+            bottom_team_previous_match_bracket_position = match_number
+            bottom_team_previous_match = Match.find_by(
+              competition_id:   id,
+              round:            round_number - 1,
+              group:            group,
+              bracket_section:  'losers',
+              bracket_position: bottom_team_previous_match_bracket_position
+            )
+
+            Match.create(
+              competition_id:             id,
+              player_a_id:                nil,
+              player_b_id:                nil,
+              player_type:                'Player',
+              round:                      round_number,
+              group:                      group,
+              bracket_section:            'losers',
+              bracket_position:           match_number,
+              player_a_previous_match_id: top_team_previous_match.id,
+              player_b_previous_match_id: bottom_team_previous_match.id,
+              winner_id:                  nil
+            )
+          end
+        end
+      end
     end
   end
 end
