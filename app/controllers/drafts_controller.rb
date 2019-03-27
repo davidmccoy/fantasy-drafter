@@ -17,7 +17,10 @@ class DraftsController < ApplicationController
       redirect_to game_competition_league_path(@league.leagueable.game, @league.leagueable, @league) and return
     end
     # redirect if team has already been submitted
-    redirect_to game_competition_league_path(@game, @competition, @league) and return if current_user.team(@league).submitted
+    # redirect_to game_competition_league_path(@game, @competition, @league) and return if current_user.team(@league).submitted
+
+    # redirect if event has already started
+    redirect_to game_competition_league_path(@game, @competition, @league) and return if @competition.start_date < Time.now
 
     # if the user can still draft
     if (@draft.active || (Time.now > @draft.start_time if @draft.start_time)) && !@draft.completed

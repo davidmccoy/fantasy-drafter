@@ -2,12 +2,15 @@
   <div class="<%= @picks && @team.league.draft_type == 'bracket' ? 'col' : 'col-md-8 offset-md-2' %>">
     <%= link_to "< Back To Your League", game_competition_league_path(@team.league.leagueable.game, @team.league.leagueable, @team.league) %>
 
-    <h1>
-      <%= @team.name %>
+    <h1><%= @team.name %></h1>
+    <p>
       <% if current_user == @team.user || current_user == @team.league.admin || current_user.admin %>
-        <%= link_to "(Edit)", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team) %>
+        <%= link_to 'Change Picks', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-dark' %>
+        <% if @league.leagueable.start_date > Time.now %>
+        <%= link_to "Edit Team", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team), class: 'btn btn-light' %>
+        <% end %>
       <% end %>
-    </h1>
+    </p>
     <% if @team.league.draft_type == 'special' %>
       <% if @team.supporting.blank? %>
         <p>
