@@ -11,7 +11,7 @@ class Player < ApplicationRecord
   enum player_type: { player: 0, card: 1, deck: 2 }
 
   def seed(competition)
-    competition_players.find_by(competition_id: competition.id).seed
+    competition_players.find_by(competition_id: competition.id)&.seed
   end
 
   def matches

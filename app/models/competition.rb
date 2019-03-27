@@ -176,7 +176,7 @@ class Competition < ApplicationRecord
 
     # iterate through each group
     groups.each do |group|
-      comp_players = competition_players.where(group: group).order(:seed)
+      comp_players = competition_players.where(group: group).where.not(seed: nil).order(:seed)
       num_teams_in_group = comp_players.count
 
       # iterate over each round to create winners' bracket
