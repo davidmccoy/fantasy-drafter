@@ -11,9 +11,9 @@ class BracketPlayer extends React.Component {
     this.onPick = this.onPick.bind(this);
   }
 
-  onPick(e, matchId, winnerId, winnerName) {
+  onPick(e, matchId, winnerId, winnerName, bracketSection) {
     e.preventDefault();
-    this.props.handlePick(matchId, winnerId, winnerName);
+    this.props.handlePick(matchId, winnerId, winnerName, bracketSection);
   }
 
   render() {
@@ -24,7 +24,7 @@ class BracketPlayer extends React.Component {
             ${this.props.winnerId === this.props.playerId ? 'winner' : null}
             ${this.props.playerId === null ? 'blank' : null}`
           }
-          onClick={(e) => {this.onPick(e, this.props.matchId, this.props.playerId, this.props.playerName)}}
+          onClick={(e) => {this.onPick(e, this.props.matchId, this.props.playerId, this.props.playerName, this.props.bracketSection)}}
         >
           {this.props.playerSeed ? `(${this.props.playerSeed})` : null} {this.props.playerName ? this.props.playerName : 'Winner' } <span></span>
           { this.props.playerId && (this.props.roundNumber === 1) &&

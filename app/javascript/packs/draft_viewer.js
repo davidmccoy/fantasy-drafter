@@ -176,21 +176,44 @@ class DraftViewer extends React.Component {
     });
   }
 
-  pickBracketMatch(matchId, winnerId, winnerName) {
-    let nextBracketMatchPlayerA = this.state.myTeam.players.filter(e => e.player_a_previous_match_id === matchId)[0]
-    let nextBracketMatchPlayerB = this.state.myTeam.players.filter(e => e.player_b_previous_match_id === matchId)[0]
-    let pickedMatch = this.state.myTeam.players.filter(e => e.id === matchId)[0]
+  pickBracketMatch(matchId, winnerId, winnerName, bracketSection) {
+    let nextBracketMatchPlayerA = this.state.myTeam.players.filter(e => (e.player_a_previous_match_id === matchId) && (e.bracket_section === bracketSection))[0]
+    let nextBracketMatchPlayerB = this.state.myTeam.players.filter(e => (e.player_b_previous_match_id === matchId) && (e.bracket_section === bracketSection))[0]
+
+    let losersNextLoserBracketMatch = null
+    let nextBracketMatchPlayerAAlreadyHasWinner = nextBracketMatchPlayerA ? (nextBracketMatchPlayerA.winner_id ? true : false) : false
+    if (nextBracketMatchPlayerAAlreadyHasWinner && bracketSection === 'winners') {
+      losersNextLoserBracketMatch = this.state.myTeam.players.filter(e => (e.player_a_previous_match_id === nextBracketMatchPlayerA.id) && (e.bracket_section === 'losers'))[0]
+    }
+
+    let nextBracketMatchPlayerBAlreadyHasWinner = nextBracketMatchPlayerB ? (nextBracketMatchPlayerB.winner_id ? true : false) : false
+    if (nextBracketMatchPlayerBAlreadyHasWinner && bracketSection === 'winners') {
+      losersNextLoserBracketMatch = this.state.myTeam.players.filter(e => (e.player_a_previous_match_id === nextBracketMatchPlayerB.id) && (e.bracket_section === 'losers'))[0]
+    }
+
+    let nextLosersBracketMatchPlayerA = this.state.myTeam.players.filter(e => (e.player_a_previous_match_id === matchId) && (e.bracket_section === (bracketSection === 'winners' ? 'losers' : 'winners')))[0]
+    let nextLosersBracketMatchPlayerB = this.state.myTeam.players.filter(e => (e.player_b_previous_match_id === matchId) && (e.bracket_section === (bracketSection === 'winners' ? 'losers' : 'winners')))[0]
+
+    let pickedMatch = this.state.myTeam.players.filter(e => (e.id === matchId) && (e.bracket_section === bracketSection))[0]
     let pickedMatchWinnerId = pickedMatch.winner_id
     let previouslyPickedMatchIds = []
 
     if (pickedMatchWinnerId !== null) {
-      previouslyPickedMatchIds = this.state.myTeam.players.filter(e => ((e.player_a_id === pickedMatch.winner_id) || (e.player_b_id === pickedMatch.winner_id)) && (e.round > pickedMatch.round + 1)).map(e => e.id)
+      previouslyPickedMatchIds = this.state.myTeam.players.filter(e => (((e.player_a_id === pickedMatch.winner_id)) || (e.player_b_id === pickedMatch.winner_id)) && (e.round > pickedMatch.round + 1)).map(e => e.id)
+    }
+
+    let pickedMatchLoserId = pickedMatch.winner_id === pickedMatch.player_a_id ? pickedMatch.player_b_id : pickedMatch.player_a_id
+    let previouslyPickedLoserMatchIds = []
+
+    if (pickedMatchLoserId !== null) {
+      previouslyPickedLoserMatchIds = this.state.myTeam.players.filter(e => (((e.player_a_id === pickedMatchLoserId)) || (e.player_b_id === pickedMatchLoserId)) && (e.round > pickedMatch.round + 1)).map(e => e.id)
     }
 
     let matches = this.state.myTeam.players.map(function(match) {
       if (match.id === parseInt(matchId)) {
         return {
           bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
           competition_id: match.competition_id,
           group: match.group,
           id: match.id,
@@ -215,6 +238,7 @@ class DraftViewer extends React.Component {
 
         return {
           bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
           competition_id: match.competition_id,
           group: match.group,
           id: match.id,
@@ -238,6 +262,7 @@ class DraftViewer extends React.Component {
         let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
         return {
           bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
           competition_id: match.competition_id,
           group: match.group,
           id: match.id,
@@ -254,11 +279,89 @@ class DraftViewer extends React.Component {
           round: match.round,
           winner_id: matchWinnerId
         }
+      } else if (nextLosersBracketMatchPlayerA && match.id === nextLosersBracketMatchPlayerA.id) {
+        let pickedMatchLoserSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_seed : pickedMatch.player_a_seed
+        let pickedMatchLoserImageUrl = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_image_url : pickedMatch.player_a_image_url
+        let pickedMatchLoserName = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_name : pickedMatch.player_a_name
+        let pickedMatchLoserId = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_id : pickedMatch.player_a_id
+        let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+        return {
+          bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: pickedMatchLoserId,
+          player_a_name: pickedMatchLoserName,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: pickedMatchLoserSeed,
+          player_a_image_url: pickedMatchLoserImageUrl,
+          player_b_id: match.player_b_id,
+          player_b_name: match.player_b_name,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: match.player_b_seed,
+          player_b_image_url: match.player_b_image_url,
+          round: match.round,
+          winner_id: matchWinnerId
+        }
+      } else if (nextLosersBracketMatchPlayerB && match.id === nextLosersBracketMatchPlayerB.id) {
+        let pickedMatchLoserSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_seed : pickedMatch.player_a_seed
+        let pickedMatchLoserImageUrl = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_image_url : pickedMatch.player_a_image_url
+        let pickedMatchLoserName = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_name : pickedMatch.player_a_name
+        let pickedMatchLoserId = winnerId === pickedMatch.player_a_id ? pickedMatch.player_b_id : pickedMatch.player_a_id
+        let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+        return {
+          bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: match.player_a_id,
+          player_a_name: match.player_a_name,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: match.player_a_seed,
+          player_a_image_url: match.player_a_image_url,
+          player_b_id: pickedMatchLoserId,
+          player_b_name: pickedMatchLoserName,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: pickedMatchLoserSeed,
+          player_b_image_url: pickedMatchLoserImageUrl,
+          round: match.round,
+          winner_id: matchWinnerId
+        }
+      } else if (losersNextLoserBracketMatch && match.id === losersNextLoserBracketMatch.id) {
+        let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+        let pickedMatchLoserSeed = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_seed : pickedMatch.player_b_seed
+        let pickedMatchLoserImageUrl = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_image_url : pickedMatch.player_b_image_url
+        let pickedMatchLoserName = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_name : pickedMatch.player_b_name
+        let pickedMatchLoserId = winnerId === pickedMatch.player_a_id ? pickedMatch.player_a_id : pickedMatch.player_b_id
+
+        return {
+          bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
+          competition_id: match.competition_id,
+          group: match.group,
+          id: match.id,
+          player_a_id: pickedMatchLoserId,
+          player_a_name: pickedMatchLoserName,
+          player_a_previous_match_id: match.player_a_previous_match_id,
+          player_a_seed: pickedMatchLoserSeed,
+          player_a_image_url: pickedMatchLoserImageUrl,
+          player_b_id: match.player_b_id,
+          player_b_name: match.player_b_name,
+          player_b_previous_match_id: match.player_b_previous_match_id,
+          player_b_seed: match.player_b_seed,
+          player_b_image_url: match.player_b_image_url,
+          round: match.round,
+          winner_id: matchWinnerId
+        }
+
       } else if (previouslyPickedMatchIds.includes(match.id)) {
         if (pickedMatchWinnerId == match.player_a_id) {
           let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
           return {
             bracket_position: match.bracket_position,
+            bracket_section: match.bracket_section,
             competition_id: match.competition_id,
             group: match.group,
             id: match.id,
@@ -279,6 +382,51 @@ class DraftViewer extends React.Component {
           let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
           return {
             bracket_position: match.bracket_position,
+            bracket_section: match.bracket_section,
+            competition_id: match.competition_id,
+            group: match.group,
+            id: match.id,
+            player_a_id: match.player_a_id,
+            player_a_name: match.player_a_name,
+            player_a_previous_match_id: match.player_a_previous_match_id,
+            player_a_seed: match.player_a_seed,
+            player_a_image_url: match.player_a_image_url,
+            player_b_id: null,
+            player_b_name: null,
+            player_b_previous_match_id: match.player_b_previous_match_id,
+            player_b_seed: null,
+            player_b_image_url: null,
+            round: match.round,
+            winner_id: matchWinnerId
+          }
+        }
+      } else if (previouslyPickedLoserMatchIds.includes(match.id)) {
+        if (pickedMatchLoserId == match.player_a_id) {
+          let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+          return {
+            bracket_position: match.bracket_position,
+            bracket_section: match.bracket_section,
+            competition_id: match.competition_id,
+            group: match.group,
+            id: match.id,
+            player_a_id: null,
+            player_a_name: null,
+            player_a_previous_match_id: match.player_a_previous_match_id,
+            player_a_seed: null,
+            player_a_image_url: null,
+            player_b_id: match.player_b_id,
+            player_b_name: match.player_b_name,
+            player_b_previous_match_id: match.player_b_previous_match_id,
+            player_b_seed: match.player_b_seed,
+            player_b_image_url: match.player_b_image_url,
+            round: match.round,
+            winner_id: matchWinnerId
+          }
+        } else if (pickedMatchLoserId == match.player_b_id) {
+          let matchWinnerId = pickedMatchWinnerId === match.winner_id ? null : match.winner_id
+          return {
+            bracket_position: match.bracket_position,
+            bracket_section: match.bracket_section,
             competition_id: match.competition_id,
             group: match.group,
             id: match.id,
@@ -299,6 +447,7 @@ class DraftViewer extends React.Component {
       } else {
         return {
           bracket_position: match.bracket_position,
+          bracket_section: match.bracket_section,
           competition_id: match.competition_id,
           group: match.group,
           id: match.id,
@@ -416,7 +565,7 @@ class DraftViewer extends React.Component {
             />
           </div>
         }
-        { this.props.draftType === 'bracket' &&
+        { (this.props.draftType === 'bracket') && (this.props.competitionName == 'Spark Madness') &&
           <div id="left-tabbed-panel" className="col-md-12">
             <div id="bracket-instructions" className="row">
               <div className="col-md">
@@ -432,6 +581,43 @@ class DraftViewer extends React.Component {
               <div className="col-md">
                 <div className="bracket-instruction">
                   3. Submit your bracket after you have filled it out!
+                </div>
+              </div>
+            </div>
+            <Bracket
+              myTeam={this.state.myTeam}
+              myPicks={this.props.myPicks}
+              handlePick={this.pickPlayer}
+              handleRemovePlayer={this.removePlayer}
+              draftId={this.props.draftId}
+              draftType={this.props.draftType}
+              pickType={this.props.pickType}
+              competitionName={this.props.competitionName}
+              handlePick={this.pickBracketMatch}
+            />
+          </div>
+        }
+        { (this.props.draftType === 'bracket') && (this.props.competitionName == 'Mythic Invitational') &&
+          <div id="left-tabbed-panel" className="col-md-12">
+            <div id="bracket-instructions" className="row">
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  1. Click on the players to fill out your bracket.
+                </div>
+              </div>
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  2. To make changes, just click on the player you want to win instead.
+                </div>
+              </div>
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  3. The losers of each match in the Winner's bracket will appear in the Loser's bracket for you to choose again.
+                </div>
+              </div>
+              <div className="col-md">
+                <div className="bracket-instruction">
+                  4. Submit your bracket after you have filled it out!
                 </div>
               </div>
             </div>

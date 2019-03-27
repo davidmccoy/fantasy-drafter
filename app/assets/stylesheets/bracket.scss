@@ -1,8 +1,9 @@
-#bracket {
+.bracket {
   display: flex;
   flex-direction: row;
   font-size: 0.85rem;
   overflow-x: scroll;
+  // justify-content: center;
 }
 
 #bracket-instructions {
@@ -76,6 +77,18 @@
 .round .spacer:first-child,
 .round .spacer:last-child {
   flex-grow: 1;
+}
+
+.losers.round.round-4 .spacer:last-child {
+  flex-grow: 2;
+}
+
+.losers.round.round-5 .game-spacer {
+  flex-grow: 15;
+}
+
+.losers.round.round-6 .spacer:last-child {
+  flex-grow: 2.5;
 }
 
 .round .game-spacer {

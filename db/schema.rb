@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190322025937) do
+ActiveRecord::Schema.define(version: 20190326225521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20190322025937) do
     t.integer "competition_id"
     t.integer "player_id"
     t.string "group"
+    t.integer "seed"
   end
 
   create_table "competitions", id: :serial, force: :cascade do |t|
@@ -153,6 +154,8 @@ ActiveRecord::Schema.define(version: 20190322025937) do
     t.integer "bracket_position"
     t.integer "player_a_previous_match_id"
     t.integer "player_b_previous_match_id"
+    t.string "player_type"
+    t.integer "bracket_section"
     t.index ["arcanis_id"], name: "index_matches_on_arcanis_id"
     t.index ["competition_id"], name: "index_matches_on_competition_id"
     t.index ["player_a_id"], name: "index_matches_on_player_a_id"

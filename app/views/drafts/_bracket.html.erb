@@ -1,10 +1,19 @@
 <div id="draft-progress-container" style="background: #191919;">
-  <div class="page-title">
-    <%= image_tag 'spark-madness/logo.png', style: 'height: 300px; width: auto; margin-bottom: 1rem;' %>
-    <p class="page-instructions">
-      Welcome to your bracket for <%= @draft.league.leagueable.name %>.
-    </p>
-  </div>
+  <% if @draft.league.leagueable.name == 'Spark Madness' %>
+    <div class="page-title">
+      <%= image_tag 'spark-madness/logo.png', style: 'height: 300px; width: auto; margin-bottom: 1rem;' %>
+      <p class="page-instructions">
+        Welcome to your bracket for <%= @draft.league.leagueable.name %>.
+      </p>
+    </div>
+  <% else %>
+    <div class="page-title">
+      <h1><span class="tertiary-font"><%= @draft.league.leagueable.name %></span></h1>
+      <p class="page-instructions">
+        Welcome to your bracket for <%= @draft.league.leagueable.name %>.
+      </p>
+    </div>
+  <% end %>
 </div>
 <div id="draft-details-container" class="row" data="<%= @draft.id %>" data-team="<%= current_user.team(@draft.league)&.id %>" data-current-pick="<%= @current_pick&.number %>" data-current-pick-id="<%= @current_pick&.id %>" data-your-picks="<%= @your_picks %>" data-draft-type="<%= @draft.league.draft_type %>" data-pick-type="<%= @draft.league.pick_type %>" data-submit-link="<%= Rails.application.routes.url_helpers.game_competition_league_draft_submit_url(@draft.league.leagueable.game, @draft.league.leagueable, @draft.league, @draft, protocol: Rails.env.production? ? 'https' : 'http')%>" data-competition-name="<%= @draft.league.leagueable.name %>">
   <%= javascript_pack_tag "draft_viewer" %>

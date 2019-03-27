@@ -18,7 +18,7 @@ class TeamsController < ApplicationController
 
     if @league.draft_type == 'bracket'
       finals = @competition.matches.where(group: "finals").first
-      @winner = Pick.find_by(draft_id: @league.draft.id, team_id: @team.id, pickable_id: finals.id, pickable_type: 'Match')
+      @winner = Pick.find_by(draft_id: @league.draft.id, team_id: @team.id, pickable_id: finals&.id, pickable_type: 'Match')
       @matches = @team.matches.sort_by {|match| [match.group, match.round, match.bracket_position] }
     end
   end
