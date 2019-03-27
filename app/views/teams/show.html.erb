@@ -5,10 +5,10 @@
     <h1><%= @team.name %></h1>
     <p>
       <% if current_user == @team.user || current_user == @team.league.admin || current_user.admin %>
-        <%= link_to 'Change Picks', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-dark' %>
         <% if @league.leagueable.start_date > Time.now %>
-        <%= link_to "Edit Team", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team), class: 'btn btn-light' %>
+          <%= link_to 'Change Picks', game_competition_league_draft_path(@game, @competition, @league, @league.draft), class: 'btn btn-dark' %>
         <% end %>
+        <%= link_to "Edit Team", edit_game_competition_league_team_path(@team.league.leagueable.game, @team.league.leagueable, @team.league, @team), class: 'btn btn-light' %>
       <% end %>
     </p>
     <% if @team.league.draft_type == 'special' %>
