@@ -81,8 +81,8 @@ class Admin::CompetitionPlayersController < ApplicationController
           competition_player = CompetitionPlayer.where(competition_id: @competition, player_id: player).first_or_create
           competition_player.update(seed: seed, group: group)
         else
-          new_character = Player.create(name: name)
-          competition_player = CompetitionPlayer.where(competition_id: @competition, player_id: new_character).first_or_create
+          new_player = Player.create(name: name)
+          competition_player = CompetitionPlayer.where(competition_id: @competition, player_id: new_player).first_or_create
           competition_player.update(seed: seed, group: group)
         end
 

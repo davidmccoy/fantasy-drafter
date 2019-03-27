@@ -51,7 +51,7 @@
     <% elsif @picks && @team.league.draft_type == 'bracket' && @league.leagueable.name == 'Spark Madness' %>
       You chose <%= Character.find_by_id(@winner.winner_id)&.name %> to win Spark Madness!
 
-      <div id="bracket">
+      <div id="bracket" class="brackets">
         <div class="round round-1">
           <% @matches.select{ |match| match.round == 1 && match.group == '1' }.each do |match| %>
             <% character_a = Character.find_by_id(match.player_a_id) %>
