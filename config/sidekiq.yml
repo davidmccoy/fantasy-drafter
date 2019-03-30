@@ -1,0 +1,12 @@
+:concurrency: 5
+:timeout: 8
+staging:
+  :concurrency: 2
+production:
+  :concurrency: 2
+:queues:
+  - critical
+  - default
+  - mailers
+  - low
+  - bottom

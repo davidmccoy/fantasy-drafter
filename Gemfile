@@ -60,6 +60,7 @@ gem 'browser-timezone-rails'
 gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 
 gem 'will_paginate'
+gem 'pagy'
 
 # Mailchimp integration
 gem 'gibbon'
@@ -81,6 +82,9 @@ gem 'stripe', '~> 4.0.3'
 
 # Error reporting
 gem 'sentry-raven'
+
+# For background jobs
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

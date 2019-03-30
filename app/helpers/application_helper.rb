@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   def resource_name
    :user
@@ -11,5 +12,4 @@ module ApplicationHelper
   def devise_mapping
    @devise_mapping ||= Devise.mappings[:user]
   end
-  
 end
