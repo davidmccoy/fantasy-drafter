@@ -10,7 +10,7 @@ class Team < ApplicationRecord
 
   validate :unique_team_names
 
-  def points
+  def calculate_points
     points = 0
 
     self.players.each do |player|
