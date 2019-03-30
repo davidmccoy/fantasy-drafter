@@ -119,8 +119,9 @@ class ResultsController < ApplicationController
 
     puts failures
 
-    @competition.leagues.find_each do |league|
-      LeagueCalculateTeamPointsWorker.perform_async(league.id, params[:resultable_type]&.downcase)
+    pick_type = params[:resultable_type]&.downcase
+    @competition.leagues.where(pick_type: pick_type).find_each do |league|
+      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type)
     end
 
     redirect_to game_competition_results_path
