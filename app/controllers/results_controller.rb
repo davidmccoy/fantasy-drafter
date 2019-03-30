@@ -118,6 +118,7 @@ class ResultsController < ApplicationController
     # end
 
     puts failures
+
     @competition.leagues.find_each do |league|
       LeagueCalculateTeamPointsWorker.perform_async(league.id, params[:resultable_type]&.downcase)
     end
