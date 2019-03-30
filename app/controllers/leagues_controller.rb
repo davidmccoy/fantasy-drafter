@@ -10,6 +10,7 @@ class LeaguesController < ApplicationController
   end
 
   def show
+    @pagy, @teams = pagy(@league.standings)
   end
 
   def new

@@ -13,7 +13,8 @@ class League < ApplicationRecord
   accepts_nested_attributes_for :draft, allow_destroy: false
 
   def standings
-    teams.sort_by { |team| [-team.points, team.submitted_at ? team.submitted_at : Date.today] }
+    teams.order(points: :desc, submitted_at: :asc)
+    # teams.sort_by { |team| [-team.points, team.submitted_at ? team.submitted_at : Date.today] }
   end
 
   def any_unconfirmed_users?

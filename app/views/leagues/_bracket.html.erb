@@ -17,21 +17,22 @@
       </tr>
     </thead>
     <tbody>
-      <% @league.standings.each_with_index do |team, index| %>
-      <tr id="<%= team.points %>">
-        <td>
-          <%= index + 1 %>
-        </td>
-        <td>
-          <%= link_to team.name, game_competition_league_team_path(team.league.leagueable.game, team.league, team.league, team) %>
-        </td>
-        <td>
-          <%= team.points %>
-        </td>
-      </tr>
+      <% @teams.each_with_index do |team, index| %>
+        <tr id="<%= team.points %>">
+          <td>
+            <%= index + ((@pagy.page - 1) * @pagy.items) + 1 %>
+          </td>
+          <td>
+            <%= link_to team.name, game_competition_league_team_path(@game, @competition, @league, team) %>
+          </td>
+          <td>
+            <%= team.points %>
+          </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
+  <%== pagy_bootstrap_nav(@pagy).html_safe %>
 <% else %>
   <% if @league.public %>
     <h3>Registered Teams</h3>

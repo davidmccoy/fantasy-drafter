@@ -1,0 +1,15 @@
+html body #content {
+  .pagination {
+    margin: 0 auto;
+    li {
+      a {
+        text-decoration: none;
+      }
+      &.active {
+        a {
+          color: white;
+        }
+      }
+    }
+  }
+}

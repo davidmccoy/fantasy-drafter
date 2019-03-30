@@ -60,6 +60,7 @@ gem 'browser-timezone-rails'
 gem 'faker', branch: 'master' , git: 'https://github.com/stympy/faker.git'
 
 gem 'will_paginate'
+gem 'pagy'
 
 # Mailchimp integration
 gem 'gibbon'
