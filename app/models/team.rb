@@ -21,14 +21,14 @@ class Team < ApplicationRecord
           total_points = total_points + result.points
         end
       end
-    when 'cards'
+    when 'card'
       self.cards.each do |card|
         result = card.result(self.league.leagueable)
         if result
           total_points = total_points + result.points
         end
       end
-    when 'matches'
+    when 'match'
       self.matches.each do |match|
         pick = picks.find_by(pickable_id: match.id, pickable_type: 'Match')
         if pick.winner_id == match.winner_id

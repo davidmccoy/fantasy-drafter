@@ -87,17 +87,17 @@ class ResultsController < ApplicationController
       end
     elsif params[:resultable_type] == 'Match'
       file.each do |row|
-        player_one_name = row[0].strip
-        player_two_name = row[1].strip
-        winner_name     = row[2].strip
+        match_id = row[0]
+        player_one_name = row[1].strip
+        player_two_name = row[2].strip
+        winner_name     = row[3].strip
 
-        player_one = Player.find_by_name(player_one_name)
-        player_two = Player.find_by_name(player_two_name)
-        winner = player_one_name == winner_name ? player_one : player_two
-        if player_one && player_two
-          match = @competition.matches.where('(player_a_id = ? OR player_b_id = ?) AND (player_a_id = ? OR player_b_id = ?)', player_one.id, player_one.id, player_two.id, player_two.id).first
-
-          match.update(winner_id: winner.id) if match
+        player_a = Player.find_by_name(player_one_name)
+        player_b = Player.find_by_name(player_two_name)
+        winner = player_one_name == winner_name ? player_a : player_b
+        if player_a && player_b
+          match = @competition.matches.find_by_id(match_id)
+          match.update(player_a_id: player_a.id, player_b_id: player_b.id, winner_id: winner.id) if match
         end
       end
     end
