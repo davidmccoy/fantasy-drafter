@@ -10,27 +10,30 @@ class Team < ApplicationRecord
 
   validate :unique_team_names
 
-  def calculate_points
+  def calculate_points(pick_type)
     total_points = 0
 
-    self.players.each do |player|
-      result = player.result(self.league.leagueable)
-      if result
-        total_points = total_points + result.points
+    case pick_type
+    when 'player'
+      self.players.each do |player|
+        result = player.result(self.league.leagueable)
+        if result
+          total_points = total_points + result.points
+        end
       end
-    end
-
-    self.cards.each do |card|
-      result = card.result(self.league.leagueable)
-      if result
-        total_points = total_points + result.points
+    when 'cards'
+      self.cards.each do |card|
+        result = card.result(self.league.leagueable)
+        if result
+          total_points = total_points + result.points
+        end
       end
-    end
-
-    self.matches.each do |match|
-      pick = picks.find_by(pickable_id: match.id, pickable_type: 'Match')
-      if pick.winner_id == match.winner_id
-        total_points = total_points + 3
+    when 'matches'
+      self.matches.each do |match|
+        pick = picks.find_by(pickable_id: match.id, pickable_type: 'Match')
+        if pick.winner_id == match.winner_id
+          total_points = total_points + 3
+        end
       end
     end
 
