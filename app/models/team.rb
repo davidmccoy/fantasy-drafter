@@ -10,31 +10,31 @@ class Team < ApplicationRecord
 
   validate :unique_team_names
 
-  def points
-    points = 0
+  def calculate_points
+    total_points = 0
 
     self.players.each do |player|
       result = player.result(self.league.leagueable)
       if result
-        points = points + result.points
+        total_points = total_points + result.points
       end
     end
 
     self.cards.each do |card|
       result = card.result(self.league.leagueable)
       if result
-        points = points + result.points
+        total_points = total_points + result.points
       end
     end
 
     self.matches.each do |match|
       pick = picks.find_by(pickable_id: match.id, pickable_type: 'Match')
       if pick.winner_id == match.winner_id
-        points = points + 3
+        total_points = total_points + 3
       end
     end
 
-    points
+    update_column(:points, total_points)
   end
 
   def season_points
