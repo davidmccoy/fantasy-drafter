@@ -247,13 +247,13 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a.id %>">
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_a&.name %>
                 <%= image_tag "#{player_a.image_url}" %>
               </div>
               <div class="game game-spacer">&nbsp;
               </div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b.id %>">
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_b&.name %>
                 <%= image_tag "#{player_b.image_url}" %>
               </div>
@@ -269,9 +269,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -285,9 +285,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -299,7 +299,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -314,23 +314,31 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
           </div>
           <div class="round round-5 right losers">
             <% @matches.select{ |match| match.round == 5 && match.group == 'A' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
               <div class="spacer">&nbsp;</div>
@@ -348,9 +356,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -358,16 +366,24 @@
           </div>
           <div class="round round-3 right">
             <% @matches.select{ |match| match.round == 3 && match.group == 'A' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -390,9 +406,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -410,13 +426,13 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>">
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_a&.name %>
                 <%= image_tag "#{player_a.image_url}" %>
               </div>
               <div class="game game-spacer">&nbsp;
               </div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>">
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_b&.name %>
                 <%= image_tag "#{player_b.image_url}" %>
               </div>
@@ -432,9 +448,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -448,9 +464,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -462,7 +478,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -477,23 +493,31 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
           </div>
           <div class="round round-5 right losers">
             <% @matches.select{ |match| match.round == 5 && match.group == 'B' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
               <div class="spacer">&nbsp;</div>
@@ -511,9 +535,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -521,16 +545,24 @@
           </div>
           <div class="round round-3 right">
             <% @matches.select{ |match| match.round == 3 && match.group == 'B' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -553,9 +585,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -573,13 +605,13 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>">
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_a&.name %>
                 <%= image_tag "#{player_a.image_url}" %>
               </div>
               <div class="game game-spacer">&nbsp;
               </div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>">
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_b&.name %>
                 <%= image_tag "#{player_b.image_url}" %>
               </div>
@@ -647,7 +679,15 @@
           </div>
           <div class="round round-5 right losers">
             <% @matches.select{ |match| match.round == 5 && match.group == 'C' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
@@ -684,7 +724,15 @@
           </div>
           <div class="round round-3 right">
             <% @matches.select{ |match| match.round == 3 && match.group == 'C' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
@@ -736,13 +784,13 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>">
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_a&.name %>
                 <%= image_tag "#{player_a.image_url}" %>
               </div>
               <div class="game game-spacer">&nbsp;
               </div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>">
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
                 <%= player_b&.name %>
                 <%= image_tag "#{player_b.image_url}" %>
               </div>
@@ -810,7 +858,15 @@
           </div>
           <div class="round round-5 right losers">
             <% @matches.select{ |match| match.round == 5 && match.group == 'D' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>
@@ -847,7 +903,15 @@
           </div>
           <div class="round round-3 right">
             <% @matches.select{ |match| match.round == 3 && match.group == 'D' && match.bracket_section == 'losers' }.each do |match| %>
-              <% player_a = Player.find_by_id(@picks.find_by(pickable_id: match.player_a_previous_match_id).winner_id) %>
+              <% player_a_previous_match = Match.find_by_id(match.player_a_previous_match_id) %>
+              <% player_a_previous_match_pick = @picks.find_by(pickable_id: match.player_a_previous_match_id) %>
+              <% match_player_a_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_a_previous_match_id) %>
+              <% match_player_b_previous_match_pick = @picks.find_by(pickable_id: player_a_previous_match.player_b_previous_match_id) %>
+
+              <% player_a = Player.find_by_id(
+                player_a_previous_match_pick&.winner_id == match_player_a_previous_match_pick&.winner_id ? match_player_b_previous_match_pick&.winner_id : match_player_a_previous_match_pick&.winner_id
+                )
+              %>
               <% player_b = Player.find_by_id(@picks.find_by(pickable_id: match.player_b_previous_match_id).winner_id) %>
 
               <% pick = @picks.find_by(pickable_id: match.id) %>

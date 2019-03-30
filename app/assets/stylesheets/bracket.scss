@@ -170,6 +170,14 @@
   display: inline-block;
 }
 
+.incorrect-pick {
+  color: $red;
+}
+
+.correct-pick {
+  color: $green;
+}
+
 @media (min-width: 768px) {
   #bracket-instructions {
     .bracket-instruction {
