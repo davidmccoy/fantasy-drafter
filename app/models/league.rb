@@ -13,12 +13,6 @@ class League < ApplicationRecord
   accepts_nested_attributes_for :draft, allow_destroy: false
 
   def standings
-    teams = []
-
-    self.teams.each do |team|
-      teams << team
-    end
-
     teams.sort_by { |team| [-team.points, team.submitted_at ? team.submitted_at : Date.today] }
   end
 
