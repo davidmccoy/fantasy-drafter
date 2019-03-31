@@ -87,7 +87,7 @@ class ResultsController < ApplicationController
       end
     elsif params[:resultable_type] == 'Match'
       file.each do |row|
-        match_id = row[0]
+        match_id = row[0].to_i
         player_one_name = row[1].strip
         player_two_name = row[2].strip
         winner_name     = row[3].strip
