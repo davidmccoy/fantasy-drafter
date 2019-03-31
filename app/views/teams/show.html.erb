@@ -627,9 +627,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -643,9 +643,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -657,7 +657,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -672,7 +672,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -694,9 +694,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
               <div class="spacer">&nbsp;</div>
@@ -714,9 +714,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -739,9 +739,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -764,9 +764,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -806,9 +806,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -822,9 +822,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -836,7 +836,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -851,7 +851,7 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top winner"><%= player_a&.name %></div>
+              <div class="game game-top winner <%= previous_pick&.winner_id == player_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -873,9 +873,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
               <div class="spacer">&nbsp;</div>
@@ -893,9 +893,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -918,9 +918,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
@@ -943,9 +943,9 @@
 
               <div class="spacer">&nbsp;</div>
 
-              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %>"><%= player_a&.name %></div>
+              <div class="game game-top <%= 'winner' if pick&.winner_id == player_a&.id %> <%= pick&.winner_id == player_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_a&.name %></div>
               <div class="game game-spacer">&nbsp;</div>
-              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %>"><%= player_b&.name  %></div>
+              <div class="game game-bottom <%= 'winner' if pick&.winner_id == player_b&.id %> <%= pick&.winner_id == player_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= player_b&.name  %></div>
 
               <div class="spacer">&nbsp;</div>
             <% end %>
