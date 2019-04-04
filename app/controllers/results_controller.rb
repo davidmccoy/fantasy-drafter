@@ -92,8 +92,8 @@ class ResultsController < ApplicationController
         player_two_name = row[2].strip
         winner_name     = row[3].strip
 
-        player_a = Player.find_by_name(player_one_name)
-        player_b = Player.find_by_name(player_two_name)
+        player_a = Character.find_by_name(player_one_name)
+        player_b = Character.find_by_name(player_two_name)
         winner = player_one_name == winner_name ? player_a : player_b
         if player_a && player_b
           match = @competition.matches.find_by_id(match_id)
