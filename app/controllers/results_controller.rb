@@ -92,12 +92,16 @@ class ResultsController < ApplicationController
         player_two_name = row[2].strip
         winner_name     = row[3].strip
 
-        player_a = Character.find_by_name(player_one_name)
-        player_b = Character.find_by_name(player_two_name)
+        player_a = Player.find_by_name(player_one_name)
+        player_b = Player.find_by_name(player_two_name)
         winner = player_one_name == winner_name ? player_a : player_b
         if player_a && player_b
           match = @competition.matches.find_by_id(match_id)
-          match.update(player_a_id: player_a.id, player_b_id: player_b.id, winner_id: winner.id) if match
+          if match
+            match.update(player_a_id: player_a.id, player_b_id: player_b.id, winner_id: winner.id)
+          else
+            @competition.matches.create(player_a_id: player_a.id, player_b_id: player_b.id, winner_id: winner.id)
+          end
         end
       end
     end
