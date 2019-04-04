@@ -52,7 +52,7 @@
         </tbody>
       </table>
     <% elsif @picks && @team.league.draft_type == 'bracket' && @league.leagueable.name == 'Spark Madness' %>
-      <%= winning_character = Character.find_by_id(@winner.winner_id) %>
+      <% winning_character = Character.find_by_id(@winner.winner_id) %>
       <% if winning_character %>
         You chose <%= winning_character.name %> to win Spark Madness!
       <% else %>
