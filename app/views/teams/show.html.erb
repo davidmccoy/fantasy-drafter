@@ -72,13 +72,13 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>">
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
               <%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %>
               <%= image_tag "spark-madness/#{character_a_asset_name}.jpg" %>
             </div>
             <div class="game game-spacer">&nbsp;
             </div>
-            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>">
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
               <%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %>
               <%= image_tag "spark-madness/#{character_b_asset_name}.jpg" %>
             </div>
@@ -94,9 +94,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -109,9 +109,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -124,9 +124,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -138,15 +138,17 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= previous_pick&.winner_id == character_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
         </div>
         <div class="round bracket-winner">
-          <% character = Character.find_by_id(@picks.find_by(pickable_id: @matches.last).winner_id) %>
+          <% match = @competition.matches.find_by(group: 'finals') %>
+          <% pick = @picks.find_by(pickable_id: match&.id) %>
+          <% character = Character.find_by_id(pick&.winner_id) %>
           <div class="spacer">&nbsp;</div>
-          <div class="game game-top winner">
+          <div class="game game-top winner <%= pick&.winner_id == character.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
             <div class="winner-title">
               WINNER!
             </div>
@@ -161,7 +163,7 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= previous_pick&.winner_id == character_a.id ? (previous_pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -174,9 +176,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -189,9 +191,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -204,9 +206,9 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
+            <div class="game game-top <%= 'winner' if pick&.winner_id == character_a&.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_a&.seed(@competition) ? "(#{character_a&.seed(@competition)}) #{character_a&.name}" : character_a&.name %></div>
             <div class="game game-spacer">&nbsp;</div>
-            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
+            <div class="game game-bottom <%= 'winner' if pick&.winner_id == character_b&.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>"><%= character_b&.seed(@competition) ? "(#{character_b&.seed(@competition)}) #{character_b&.name}" : character_b&.name %></div>
 
             <div class="spacer">&nbsp;</div>
           <% end %>
@@ -223,13 +225,13 @@
 
             <div class="spacer">&nbsp;</div>
 
-            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %>">
+            <div class="game game-top <%= 'winner' if pick.winner_id == character_a.id %> <%= pick&.winner_id == character_a.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
               <%= "(#{character_a.seed(@competition)}) #{character_a&.name}" %>
               <%= image_tag "spark-madness/#{character_a_asset_name}.jpg" %>
             </div>
             <div class="game game-spacer">&nbsp;
             </div>
-            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %>">
+            <div class="game game-bottom <%= 'winner' if pick.winner_id == character_b.id %> <%= pick&.winner_id == character_b.id ? (pick&.winner_id == match&.winner_id ? 'correct-pick' : 'incorrect-pick') : nil %>">
               <%= "(#{character_b.seed(@competition)}) #{character_b&.name}" %>
               <%= image_tag "spark-madness/#{character_b_asset_name}.jpg" %>
             </div>
