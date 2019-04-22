@@ -124,8 +124,15 @@ class ResultsController < ApplicationController
     puts failures
 
     pick_type = params[:resultable_type]&.downcase
+
+    # update the teams the competition's leagues
     @competition.leagues.where(pick_type: pick_type).find_each do |league|
-      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type)
+      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Competition')
+    end
+
+    # update the teams the competition's season's leagues
+    @competition.season.leagues.where(pick_type: pick_type).find_each do |league|
+      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Season')
     end
 
     redirect_to game_competition_results_path
