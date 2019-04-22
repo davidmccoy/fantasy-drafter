@@ -6,7 +6,7 @@ class LeagueMailer < ApplicationMailer
     @league_admin = league.admin
     @user = user
     @url = nil
-    leagueable_class = @leagueable.class
+    leagueable_class = @league.leagueable.class
 
     if leagueable_class == Season
       @url = Rails.application.routes.url_helpers.season_league_url(
