@@ -109,4 +109,5 @@ Rails.application.routes.draw do
 
   get '/sparkmadness', to: 'redirects#sparkmadness'
   get '/mythic-invitational', to: 'redirects#mythic_invitational'
+  get '/mythic-championship', to: 'redirects#mythic_championship'
 end
