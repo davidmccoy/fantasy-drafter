@@ -55,8 +55,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       if request.referrer.include? "invites"
-        invite = Invite.find_by_email(resource.email)
-        redirect_to invite_path(invite, token: invite.token, errors: resource.errors.details)
+        user_invite = Invite.find_by_email(resource.email)
+        if user_invite
+          redirect_to invite_path(invite, token: invite.token, errors: resource.errors.details)
+        else
+          invite = Invite.find_by_id(invite_params[:invite_id])
+          if invite&.for_group
+            redirect_to invite_path(invite, token: invite.token, errors: resource.errors.details)
+          else
+            clean_up_passwords resource
+            set_minimum_password_length
+            respond_with resource
+          end
+        end
       else
         clean_up_passwords resource
         set_minimum_password_length
@@ -71,5 +82,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :password, :password_confirmation])
+  end
+
+  def invite_params
+    params.permit(:league_id, :invite_id)
   end
 end
