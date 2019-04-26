@@ -1,7 +1,7 @@
 class LeagueCalculateTeamPointsWorker
   include Sidekiq::Worker
 
-  def perform(league_id, pick_type)
+  def perform(league_id, pick_type, leagueable_type)
     p 'calculating team points'
     league = League.find_by_id(league_id)
 

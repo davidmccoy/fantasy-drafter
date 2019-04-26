@@ -131,8 +131,10 @@ class ResultsController < ApplicationController
     end
 
     # update the teams the competition's season's leagues
-    @competition.season.leagues.where(pick_type: pick_type).find_each do |league|
-      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Season')
+    if @competition.season
+      @competition.season.leagues.where(pick_type: pick_type).find_each do |league|
+        LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Season')
+      end
     end
 
     redirect_to game_competition_results_path
