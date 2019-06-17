@@ -30,7 +30,7 @@
         <strong>Event Start:</strong> <%= @league.leagueable.start_date.localtime.strftime("%m/%d/%Y") %>
       </p>
 
-      <%= form_for [@competition.game, @competition, @league, @league_user], html: { class: 'needs-validation', novalidate: true } do |f| %>
+      <%= form_for [@competition.game, @competition, @league, @league_user] do |f| %>
         <div class="form-group">
           <%= label_tag 'team[name]', "Team Name", class: "control-label" %>
           <%= text_field_tag 'team[name]', nil, required: true, class: "form-control" %>

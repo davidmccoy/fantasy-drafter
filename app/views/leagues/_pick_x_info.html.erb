@@ -60,11 +60,11 @@
       </p>
       <% if @league.pick_type == 'player' %>
         <p>
-          <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. Players that make the Top 8 will earn your team another three points, plus three points per match win in the Top 8.
+          <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. Players that make the Top 4 will earn your team another three points, plus three points per match win in the Top 4. (The four MPL division winners are ineligible to be drafted since they will not compete on Day 1.)
         </p>
       <% elsif @league.pick_type == 'card' %>
         <p>
-          <strong>Scoring:</strong> Each card will earn your team three points per copy that appears in the maindeck of a deck in Top 8 of MC Cleveland, plus one point per copy in the the sideboard of a deck.
+          <strong>Scoring:</strong> Each card will earn your team three points per copy that appears in the maindeck of a deck in Top 4, plus one point per copy in the the sideboard of a deck.
         </p>
       <% end %>
       <% if @league.draft_type == 'special' && !@league.leagueable.about.blank? %>
