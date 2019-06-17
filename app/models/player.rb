@@ -93,11 +93,11 @@ class Player < ApplicationRecord
       gp_tables = doc.css('table.gpbox')
       gp_tables.each do |table|
         # GP name
-        competition_name = table.css('td.gpname').css('a').first.text.gsub(/\([^()]*\)/,"").strip
+        competition_name = table.css('td.gpname').css('a').first&.text&.gsub(/\([^()]*\)/,"")&.strip
         # GP format
-        competition_format = table.css('td.gpname').css('span.format').text.strip.gsub('(', '').gsub(')', '').split(' ').map { |word| word.length == 3 ? word.upcase : word.capitalize }.join(' ')
+        competition_format = table.css('td.gpname').css('span.format')&.text&.strip&.gsub('(', '')&.gsub(')', '')&.split(' ')&.map { |word| word.length == 3 ? word.upcase : word.capitalize }&.join(' ')
         # GP record --> "6-8"
-        competition_record = table.css('.totalRecord').text.split(' ')[1]
+        competition_record = table.css('.totalRecord')&.text&.split(' ')[1]
 
         PlayerRecord.where(player_id: self.id, competition_name: competition_name, competition_format: competition_format, competition_record: competition_record).first_or_create
       end
