@@ -23,7 +23,7 @@ class RedirectsController < ApplicationController
   end
 
   def mythic_championship
-    competition = Competition.find_by_name('Mythic Championship III Las Vegas')
+    competition = Competition.find_by_name('Mythic Championship IV Barcelona')
     if competition
       redirect_to game_competition_leagues_path(competition.game, competition) and return
     else
