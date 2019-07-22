@@ -60,14 +60,11 @@
       </p>
       <% if @league.pick_type == 'player' %>
         <p>
-          <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. In the bracket sections, players who advance from the Top 16 bracket will receive the maximum number of points (12) no matter how many matches they won. Players that make the Top 4 will earn your team another three points, plus three points per match win in the Top 4, with the winner earning the maximum number of points (12) no matter how many matches they won.
-        </p>
-        <p>
-          The four Magic Pro League division winners (Brad Nelson, Brian Braun-Duin, Ken Yukuhiro, and Rei Sato) are eligible to be drafted but have byes directly into Day 2. They will therefore only receive points for matches on Day 2 and the Top 4 because they will not play any matches on Day 1.
+          <strong>Scoring:</strong> Each player will earn your team three points per match win at <%= @league.leagueable.name %> and one point per draw. Players that make the Top 8 will earn your team another three points, plus three points per match win in the Top 8.
         </p>
       <% elsif @league.pick_type == 'card' %>
         <p>
-          <strong>Scoring:</strong> Each card will earn your team three points per copy that appears in the maindeck of a deck in Top 4, plus one point per copy in the the sideboard of a deck.
+          <strong>Scoring:</strong> Each card will earn your team three points per copy that appears in the maindeck of a deck in Top 8, plus one point per copy in the the sideboard of a deck.
         </p>
       <% end %>
       <% if @league.draft_type == 'special' && !@league.leagueable.about.blank? %>

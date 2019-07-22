@@ -137,10 +137,7 @@ class DraftInfo extends React.Component {
               </p>
               <h5>Scoring</h5>
               <p>
-                Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 4 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 4. The team with the most points wins the league.
-              </p>
-              <p>
-                The four Magic Pro League division winners (Brad Nelson, Brian Braun-Duin, Ken Yukuhiro, and Rei Sato) are eligible to be drafted but will not receive points for Day 1 since they have byes directly into Day 2 and therefore will not play any matches on Day 1.
+                Once you've drafted your team, your players will earn 3 points for every match win, 1 point for every draw, and 0 points for every loss. Players that make the Top 8 of this event will receive 3 bonus points, plus 3 more points for every match they win in the Top 8. The team with the most points wins the league.
               </p>
             </div>
           </div>
@@ -192,7 +189,7 @@ class DraftInfo extends React.Component {
               </p>
               <h5>Scoring</h5>
               <p>
-                Once you've drafted your team, your cards will earn points for every copy in the Top 4: 3 points per copy in the maindecks and 1 point for every copy in the sideboards. The team with the most points wins the league.
+                Once you've drafted your team, your cards will earn points for every copy in the Top 8: 3 points per copy in the maindecks and 1 point for every copy in the sideboards. The team with the most points wins the league.
               </p>
             </div>
           </div>
