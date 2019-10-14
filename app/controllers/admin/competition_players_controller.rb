@@ -42,11 +42,11 @@ class Admin::CompetitionPlayersController < ApplicationController
 
         if player
           player.update(
-            mtg_arena_handle: row[2],
-            image_url: row[3],
-            twitter_handle: row[4],
-            bio: row[5],
-            bio_source: row[6],
+            mtg_arena_handle: row[2].nil? ? player.mtg_arena_handle : row[2],
+            image_url: row[3].nil? ? player.image_url : row[3],
+            twitter_handle: row[4].nil? ? player.twitter_handle : row[4],
+            bio: row[5].nil? ? player.bio : row[5],
+            bio_source: row[6].nil? ? player.bio_source : row[6],
             mpl_member: row[7] == 'MPL' ? true : false
           )
           competition_player = CompetitionPlayer.where(

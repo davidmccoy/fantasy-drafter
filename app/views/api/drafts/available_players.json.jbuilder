@@ -25,7 +25,7 @@ json.players @available_players do |pickable|
     json.number_of_copies  pickable.class.name == 'Card' ? pickable.number_of_copies(@draft.league.leagueable) : nil
     json.name              pickable.name
     json.bio               pickable.class.name == 'Player' ? pickable.bio : nil
-    json.image_url         pickable.class.name == 'Player' ? pickable.image_url : nil
+    json.image_url         pickable.class.name == 'Player' ? pickable.image_url : pickable.image_uri
     json.twitter_handle    pickable.class.name == 'Player' ? pickable.twitter_handle : nil
     json.mtg_arena_handle  pickable.class.name == 'Player' ? pickable.mtg_arena_handle : nil
     json.bio_source        pickable.class.name == 'Player' ? pickable.bio_source : nil

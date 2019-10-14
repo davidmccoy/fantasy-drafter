@@ -54,7 +54,7 @@ class PlayerDetailModal extends React.Component {
             }
             { this.props.pickType === 'card' &&
               <div className="modal-card-image-container">
-                <img src={(this.props.player === undefined || this.props.player === null) ? "Loading..." : this.props.player.image_uri} className="modal-card-image"/>
+                <img src={(this.props.player === undefined || this.props.player === null) ? "Loading..." : this.props.player.image_url} className="modal-card-image"/>
               </div>
             }
           </Modal.Body>
