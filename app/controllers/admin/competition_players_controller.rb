@@ -56,6 +56,7 @@ class Admin::CompetitionPlayersController < ApplicationController
             player_id: player
           ).first_or_create
           # competition_player.update(group: row[8])
+          # TODO should probably try to enqueue an update stats worker here
         else
           new_player = Player.create(
             name: name,
