@@ -82,7 +82,7 @@ class Api::DraftsController < ApplicationController
           twitter_handle:    pick.pickable_type == 'Player' ? pick.pickable&.twitter_handle : nil,
           mtg_arena_handle:  pick.pickable_type == 'Player' ? pick.pickable&.mtg_arena_handle : nil,
           bio_source:        pick.pickable_type == 'Player' ? pick.pickable&.bio_source : nil,
-          mpl_member:        pick.pickable_type == 'Player' ? pick.pickable&.mpl_member : nil,
+          league:            pick.pickable_type == 'Player' ? pick.pickable&.league : nil,
           group:             pick.pickable_type == 'Player' ? pick.pickable&.group(@draft.league.leagueable) : nil
         }
       }
@@ -102,7 +102,7 @@ class Api::DraftsController < ApplicationController
             twitter_handle:    player.twitter_handle,
             mtg_arena_handle:  player.mtg_arena_handle,
             bio_source:        player.bio_source,
-            mpl_member:        player.mpl_member,
+            league:           player.league,
             group:             player.group(@draft.league.leagueable)
           }
         }

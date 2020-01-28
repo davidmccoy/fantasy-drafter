@@ -47,13 +47,15 @@ class Admin::CompetitionPlayersController < ApplicationController
             twitter_handle: row[4].nil? ? player.twitter_handle : row[4],
             bio: row[5].nil? ? player.bio : row[5],
             bio_source: row[6].nil? ? player.bio_source : row[6],
-            mpl_member: row[7] == 'MPL' ? true : false
+            league: row[7].nil? ? player.league : row[7],
+            country_image_url: row[8].nil? ? player.country_image_url : row[8],
+            team_image_url: row[9].nil? ? player.team_image_url : row[9]
           )
           competition_player = CompetitionPlayer.where(
             competition_id: @competition,
             player_id: player
           ).first_or_create
-          competition_player.update(group: row[8])
+          # competition_player.update(group: row[8])
         else
           new_player = Player.create(
             name: name,
@@ -62,13 +64,15 @@ class Admin::CompetitionPlayersController < ApplicationController
             twitter_handle: row[4],
             bio: row[5],
             bio_source: row[6],
-            mpl_member: row[7] == 'MPL' ? true : false
+            league: row[7],
+            country_image_url: row[8],
+            team_image_url: row[9]
           )
           competition_player = CompetitionPlayer.where(
             competition_id: @competition,
             player_id: new_player
           ).first_or_create
-          competition_player.update(group: row[8])
+          # competition_player.update(group: row[8])
         end
       elsif params[:bracket] == 'true'
         name   = row[0]

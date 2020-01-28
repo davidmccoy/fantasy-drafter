@@ -8,7 +8,7 @@ json.star do
   json.twitter_handle    star.starrable.class.name == 'Player' ? star.starrable.twitter_handle : nil
   json.mtg_arena_handle  star.starrable.class.name == 'Player' ? star.starrable.mtg_arena_handle : nil
   json.bio_source        star.starrable.class.name == 'Player' ? star.starrable.bio_source : nil
-  json.mpl_member        star.starrable.class.name == 'Player' ? star.starrable.mpl_member : nil
+  json.league            star.starrable.class.name == 'Player' ? star.starrable.league : nil
   json.group             star.starrable.class.name == 'Player' ? star.starrable.group(@draft.league.leagueable) : nil
   json.starrable_type @star.starrable_type
   json.elo @star.starrable_type == 'Player' ? @star.starrable.elo : nil
