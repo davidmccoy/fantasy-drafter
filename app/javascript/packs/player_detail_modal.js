@@ -33,7 +33,7 @@ class PlayerDetailModal extends React.Component {
               <div className="row">
                 <div className="modal-player-image-container col-md">
                   <img className="player-image" src={(this.props.player === undefined || this.props.player === null) ? "Loading..." : this.props.player.image_url} />
-                  { (this.props.player && this.props.player.mpl_member) &&
+                  { (this.props.player && this.props.player.league === 'MPL') &&
                     <img className="mpl-logo" src={MplLogo} />
                   }
                 </div>

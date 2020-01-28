@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190330011946) do
+ActiveRecord::Schema.define(version: 20200128010247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,7 +222,9 @@ ActiveRecord::Schema.define(version: 20190330011946) do
     t.text "image_url"
     t.string "twitter_handle"
     t.text "bio_source"
-    t.boolean "mpl_member", default: false
+    t.string "league"
+    t.string "country_image_url"
+    t.string "team_image_url"
     t.index ["arcanis_id"], name: "index_players_on_arcanis_id"
   end
 
