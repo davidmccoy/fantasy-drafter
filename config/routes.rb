@@ -111,4 +111,5 @@ Rails.application.routes.draw do
   get '/mythic-invitational', to: 'redirects#mythic_invitational'
   get '/mythic-championship', to: 'redirects#mythic_championship'
   get '/players-tour', to: 'redirects#players_tour'
+  get '/world-championship', to: 'redirects#world_championship'
 end

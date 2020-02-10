@@ -39,4 +39,13 @@ class RedirectsController < ApplicationController
       redirect_to root_path and return
     end
   end
+
+  def world_championship
+    competition = Competition.find_by_name('World Championship XXVI')
+    if competition
+      redirect_to game_competition_leagues_path(competition.game, competition) and return
+    else
+      redirect_to root_path and return
+    end
+  end
 end
