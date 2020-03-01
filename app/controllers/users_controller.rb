@@ -5,7 +5,27 @@ class UsersController < ApplicationController
 
   def show; end
 
-  def leagues; end
+  def leagues
+    @active_single_event_leagues =
+      current_user.leagues
+                  .where(leagueable_type: "Competition")
+                  .joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id")
+                  .where("competitions.start_date > ?", Date.today - 7.days)
+
+    @active_season_long_leagues =
+      current_user.leagues
+        .where(leagueable_type: "Season")
+        .joins("LEFT JOIN seasons ON seasons.id = leagues.leagueable_id")
+        .where("seasons.end_date > ?", Date.today + 7.days)
+
+
+    @inactive_leagues =
+      current_user.leagues
+        .where(leagueable_type: "Competition")
+        .joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id")
+        .where("competitions.start_date < ?", Date.today - 7.days)
+        .order("competitions.start_date desc")
+  end
 
   def invites
     @invites = current_user.league_users.where(confirmed: false)

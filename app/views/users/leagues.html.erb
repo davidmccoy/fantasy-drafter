@@ -5,7 +5,7 @@
       <%= link_to "Create a League", game_competitions_path(Game.find_by_name("Magic: the Gathering")), class: "btn btn-sm btn-primary" %>
     </p>
     <h3>Single-Event Leagues</h3>
-    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.start_date > ?", Date.today - 7.days).length > 0 %>
+    <% if  @active_single_event_leagues.length > 0 %>
       <table class="table table-outer-border table-hover">
         <thead>
           <tr>
@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.start_date > ?", Date.today - 7.days).each do |league| %>
+          <% @active_single_event_leagues.each do |league| %>
           <tr>
             <td>
               <%= league.name %>
@@ -59,7 +59,7 @@
     <% end %>
 
     <h3>Season-Long Leagues</h3>
-    <% if current_user.leagues.where(leagueable_type: "Season").joins("LEFT JOIN seasons ON seasons.id = leagues.leagueable_id").where("seasons.end_date > ?", Date.today + 7.days).length > 0 %>
+    <% if @active_season_long_leagues.length > 0 %>
       <table class="table table-outer-border table-hover">
         <thead>
           <tr>
@@ -84,7 +84,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.leagues.where(leagueable_type: "Season").joins("LEFT JOIN seasons ON seasons.id = leagues.leagueable_id").where("seasons.end_date > ?", Date.today + 7.days).each do |league| %>
+          <% @active_season_long_leagues.each do |league| %>
           <tr>
             <td>
               <%= league.leagueable.name %>
@@ -120,7 +120,7 @@
 
     <h1>Your Past Leagues</h1>
 
-    <% if current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.start_date < ?", Date.today - 7.days).length > 0 %>
+    <% if @inactive_leagues.length > 0 %>
       <table class="table table-outer-border table-hover">
         <thead>
           <tr>
@@ -142,7 +142,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.leagues.where(leagueable_type: "Competition").joins("LEFT JOIN competitions ON competitions.id = leagues.leagueable_id").where("competitions.start_date < ?", Date.today - 7.days).each do |league| %>
+          <% @inactive_leagues.each do |league| %>
             <tr>
               <td>
                 <%= league.leagueable.name %>
