@@ -1,0 +1,26 @@
+<tbody>
+  <% standings.each do |standing| %>
+    <tr>
+      <td class="table-<%= standing.status(standing.qualifies_for) %> text-center">
+        <%= standing.place %>
+      </td>
+      <td>
+        <%= standing.player.name %>
+      </td>
+      <%= render 'standings/rivals/mythic_points_td', standing: standing %>
+      <%= render 'standings/rivals/player_points_td', standing: standing %>
+      <td>
+        <%= standing.total_points %>
+      </td>
+      <td>
+        <%= number_to_currency(standing.winnings) %>
+      </td>
+      <td>
+        <%= standing.qualifies_for %>
+      </td>
+      <td>
+        <%= standing.qualifies_via %>
+      </td>
+    </tr>
+  <% end %>
+</tbody>

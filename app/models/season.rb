@@ -4,6 +4,7 @@ class Season < ApplicationRecord
   has_many :competitions
   has_many :players, -> { distinct }, through: :competitions
   has_many :cards, -> { distinct }, through: :competitions
+  has_many :standings
 
   def to_param
     slug

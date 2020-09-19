@@ -1,0 +1,39 @@
+<div class="row mt-4">
+  <div class="col-md-2">
+    <p>If the season ended today, the players would qualify for:</p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block success">2020-21 Magic Pro League</span></p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block warning">2020 MPL Guantlet</span></p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block danger">2020-21 Magic Rivals League</span></p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block dark">Competes with Challengers for Rivals</span></p>
+  </div>
+  <div class="col-md-2">
+    <div class="buttons-toolbar-rivals-<%= point_type %>">
+    </div>
+  </div>
+</div>
+
+<table
+  id="rivals-table-<%= point_type %>"
+  class="table table-bordered table-hover"
+  data-toggle="table"
+  data-sort-name="<%= sort_column %>"
+  data-sort-order="<%= sort_order %>"
+  data-search="true"
+  data-buttons-toolbar=".buttons-toolbar-rivals-<%= point_type %>"
+>
+
+  <%= render 'standings/rivals/all_thead', standings: standings if point_type == 'all' %>
+  <%= render 'standings/rivals/mythic_points_thead', standings: standings if point_type == 'mythic' %>
+  <%= render 'standings/rivals/player_points_thead', standings: standings if point_type == 'player' %>
+  <%= render 'standings/rivals/all_tbody', standings: standings if point_type == 'all' %>
+  <%= render 'standings/rivals/mythic_points_tbody', standings: standings if point_type == 'mythic' %>
+  <%= render 'standings/rivals/player_points_tbody', standings: standings if point_type == 'player' %>
+</table>

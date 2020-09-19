@@ -14,6 +14,12 @@
             <th>
               Points
             </th>
+            <th>
+              <%= @results.first.rank_points_type %> Points
+            </th>
+            <th>
+              Winnings
+            </th>
             <% if current_user&.admin? %>
               <th>
 
@@ -32,6 +38,12 @@
               </td>
               <td>
                 <%= result.points %>
+              </td>
+              <td>
+                <%= result.rank_points %>
+              </td>
+              <td>
+                <%= number_to_currency(result.winnings) %>
               </td>
               <% if current_user&.admin? %>
                 <td>

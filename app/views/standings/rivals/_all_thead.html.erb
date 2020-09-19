@@ -1,0 +1,69 @@
+<thead>
+  <tr>
+    <th
+      rowspan="2"
+      data-sortable="true"
+      data-field="place"
+      default-sort-order="asc"
+    >
+      Place
+    </th>
+    <th
+      rowspan="2"
+      data-sortable="true"
+      data-field="name"
+      default-sort-order="asc"
+    >
+      Name
+    </th>
+    <th
+      colspan="4"
+      class="text-center"
+    >
+      Mythic Points
+    </th>
+    <th
+      colspan="5"
+      class="text-center"
+    >
+      Player Points
+    </th>
+    <th
+      rowspan="2"
+      data-sortable="true"
+      data-field="total-points"
+      data-sort-order="desc"
+    >
+      Total Points
+    </th>
+    <th
+      rowspan="2"
+      data-sortable="true"
+      data-field="winnings"
+      data-sorter="totalCurrencySorter"
+      data-sort-order="desc"
+    >
+      Winnings
+    </th>
+    <th
+      rowspan="2"
+      data-sortable="false"
+      data-field="qualifies_for"
+      data-searchable="false"
+    >
+      Currently Qualifies For
+    </th>
+    <th
+      rowspan="2"
+      data-sortable="false"
+      data-field="qualifies_via"
+      data-searchable="false"
+    >
+      Qualification Slot
+    </th>
+  </tr>
+  <tr>
+    <%= render 'standings/rivals/mythic_points_th', standings: standings %>
+    <%= render 'standings/rivals/player_points_th', standings: standings %>
+  </tr>
+</thead>

@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script>
+  function totalCurrencySorter(a, b) {
+    var aa = a.replace('$', '').replace(/,/g, "")
+    var bb = b.replace('$', '').replace(/,/g, "")
+    return aa - bb
+  }
+</script>
+<style>
+  .bootstrap-table .fixed-table-container .table thead th .th-inner {
+    overflow: auto;
+    text-overflow: initial;
+    white-space: initial;
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1><%= @season.name %> Standings</h1>
+    <p><em>as of Mythic Point Challenge Ikoria (February 29, 2020)</em></p>
+  </div>
+  <div class="col-md-12">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="mpl-tab" data-toggle="tab" href="#mpl" role="tab" aria-controls="mpl" aria-selected="true">Magic Pro League</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="rivals-tab" data-toggle="tab" href="#rivals" role="tab" aria-controls="rivals" aria-selected="false">Magic Rivals League</a>
+      </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+      <div class="tab-pane fade show active" id="mpl" role="tabpanel" aria-labelledby="mpl-tab">
+        <div class="col-md-12">
+          <h2>Magic Pro League Standings</h2>
+          <% if @mpl_standings.length > 0 %>
+            <ul class="nav nav-pills" id="mpl-pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="#current-season-mpl-tab" data-toggle="pill" href="#current-season-mpl" role="tab" aria-controls="current-season-mpl" aria-selected="true">2020 Season</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="projected-season-mpl-tab" data-toggle="pill" href="#projected-season-mpl" role="tab" aria-controls="projected-season-mpl" aria-selected="false">Projected 2020-21 Season</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="mpl-pills-tabContent">
+              <div class="tab-pane fade show active" id="current-season-mpl" role="tabpanel" aria-labelledby="current-season-rivals-tab">
+                <%=
+                  render 'table',
+                  standings: @mpl_standings,
+                  sort_column: 'place',
+                  sort_order: 'asc'
+                %>
+              </div>
+              <div class="tab-pane fade" id="projected-season-mpl" role="tabpanel" aria-labelledby="projected-season-mpl-tab">
+                <%=
+                  render 'projected_table',
+                  standings: @projected_mpl,
+                  league: 'MPL'
+                %>
+              </div>
+            </div>
+          <% else %>
+            <p>There are no results for this season.</p>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="rivals" role="tabpanel" aria-labelledby="rivals-tab">
+        <div class="col-md-12">
+          <h2>Magic Rivals League Standings</h2>
+          <% if @rivals_standings.length > 0 %>
+            <ul class="nav nav-pills" id="rivals-pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="#current-season-rivals-tab" data-toggle="pill" href="#current-season-rivals" role="tab" aria-controls="current-season-rivals" aria-selected="true">2020 Season</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="projected-season-rivals-tab" data-toggle="pill" href="#projected-season-rivals" role="tab" aria-controls="projected-season-rivals" aria-selected="false">Projected 2020-21 Season</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="rivals-pills-tabContent">
+              <div class="tab-pane fade show active" id="current-season-rivals" role="tabpanel" aria-labelledby="current-season-rivals-tab">
+                <ul class="nav nav-pills" id="rivals-sub-pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="#current-season-rivals-combined-tab" data-toggle="pill" href="#current-season-rivals-combined" role="tab" aria-controls="current-season-rivals-combined" aria-selected="true">All</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="current-season-rivals-mythic-tab" data-toggle="pill" href="#current-season-rivals-mythic" role="tab" aria-controls="current-season-rivals-mythic" aria-selected="false">Mythic Points</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="current-season-rivals-player-tab" data-toggle="pill" href="#current-season-rivals-player" role="tab" aria-controls="current-season-rivals-player" aria-selected="false">Player Points</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="rivals-sub-pills-tabContent">
+                  <div class="tab-pane fade show active" id="current-season-rivals-combined" role="tabpanel" aria-labelledby="current-season-rivals-combined-tab">
+                    <%=
+                      render 'rivals_table',
+                      standings: @rivals_standings,
+                      point_type: 'all',
+                      sort_column: 'place',
+                      sort_order: 'asc'
+                    %>
+                  </div>
+                  <div class="tab-pane fade" id="current-season-rivals-mythic" role="tabpanel" aria-labelledby="current-season-rivals-mythic-tab">
+                    <%=
+                      render 'rivals_table',
+                      standings: @rivals_standings,
+                      point_type: 'mythic',
+                      sort_column: 'mythic-points',
+                      sort_order: 'desc'
+                    %>
+                  </div>
+                  <div class="tab-pane fade" id="current-season-rivals-player" role="tabpanel" aria-labelledby="current-season-rivals-player-tab">
+                    <%=
+                      render 'rivals_table',
+                      standings: @rivals_standings,
+                      point_type: 'player',
+                      sort_column: 'player-points',
+                      sort_order: 'desc'
+                    %>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="projected-season-rivals" role="tabpanel" aria-labelledby="projected-season-rivals-tab">
+                <%=
+                  render 'projected_table',
+                  standings: @projected_rivals,
+                  league: 'Rivals',
+                  sort_column: 'place',
+                  sort_order: 'asc'
+                %>
+              </div>
+            </div>
+          <% else %>
+            <p>There are no results for this season.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

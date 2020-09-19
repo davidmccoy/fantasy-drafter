@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200128010247) do
+ActiveRecord::Schema.define(version: 20200314212908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,9 @@ ActiveRecord::Schema.define(version: 20200128010247) do
     t.datetime "updated_at", null: false
     t.integer "place"
     t.string "resultable_type", default: "Player"
+    t.integer "rank_points", default: 0
+    t.string "rank_points_type"
+    t.decimal "winnings"
     t.index ["resultable_id"], name: "index_results_on_resultable_id"
   end
 
@@ -266,6 +269,21 @@ ActiveRecord::Schema.define(version: 20200128010247) do
     t.date "end_date"
     t.text "about", default: ""
     t.index ["slug"], name: "index_seasons_on_slug", unique: true
+  end
+
+  create_table "standings", force: :cascade do |t|
+    t.integer "season_id"
+    t.integer "player_id"
+    t.integer "mythic_points", default: 0
+    t.integer "player_points", default: 0
+    t.integer "total_points", default: 0
+    t.integer "place"
+    t.decimal "winnings"
+    t.string "qualifies_for"
+    t.string "qualifies_via"
+    t.jsonb "tiebreakers", default: {}
+    t.index ["player_id"], name: "index_standings_on_player_id"
+    t.index ["season_id"], name: "index_standings_on_season_id"
   end
 
   create_table "stars", force: :cascade do |t|
