@@ -1,0 +1,19 @@
+<tbody>
+  <% standings.each do |standing| %>
+    <tr>
+      <td class="table-<%= standing.status(standing.qualifies_for) %> text-center">
+        <%= standing.place %>
+      </td>
+      <td>
+        <%= standing.player.name %>
+      </td>
+      <%= render 'standings/rivals/player_points_td', standing: standing %>
+      <td>
+        <%= standing.qualifies_for %>
+      </td>
+      <td>
+        <%= standing.qualifies_via %>
+      </td>
+    </tr>
+  <% end %>
+</tbody>

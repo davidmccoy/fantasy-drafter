@@ -1,0 +1,238 @@
+<table
+  class="table table-bordered table-hover"
+  data-toggle="table"
+  data-search="true"
+  data-sortable="true"
+>
+  <thead>
+    <tr>
+      <th
+        rowspan="2"
+        data-sortable="true"
+        data-field="name"
+      >
+        Name
+      </th>
+      <th
+        rowspan="2"
+        data-sortable="true"
+        data-field="qualifies_via"
+      >
+        Qualifies Via
+      </th>
+      <th
+        colspan="4"
+      >
+        2020 Totals
+      </th>
+    </tr>
+    <tr>
+      <th
+        data-sortable="true"
+        data-field="mythic-points"
+        data-sort-order="desc"
+      >
+        Mythic Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="player-points"
+        data-sort-order="desc"
+      >
+        Player Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="total-points"
+        data-sort-order="desc"
+      >
+        Total Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="winnings"
+        data-sorter="totalCurrencySorter"
+        data-sort-order="desc"
+      >
+        Winnings
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% standings.each_with_index do |standing, index| %>
+      <tr>
+        <td>
+          <%= standing.player.name %>
+        </td>
+        <td>
+          <%= standing.qualifies_via %>
+        </td>
+        <td>
+          <%= standing.mythic_points %>
+        </td>
+        <td>
+          <%= standing.player_points %>
+        </td>
+        <td>
+          <%= standing.total_points %>
+        </td>
+        <td>
+          <%= number_to_currency(standing.winnings) %>
+        </td>
+      </tr>
+    <% end %>
+    <% if league == 'MPL'%>
+      <tr>
+        <td>
+          <em>To Be Determined</em>
+        </td>
+        <td>
+          Top Challenger By Mythic Points
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <em>To Be Determined</em>
+        </td>
+        <td>
+          Top Challenger By Player Points
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+      </tr>
+      <% 3.times do %>
+      <tr>
+        <td>
+          <em>To Be Determined</em>
+        </td>
+        <td>
+          Top 3 of the 2020 MPL Gauntlet
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+      </tr>
+      <% end %>
+    <% elsif league == 'Rivals'%>
+      <% 13.times do %>
+        <tr>
+          <td>
+            <em>To Be Determined</em>
+          </td>
+          <td>
+            Place 4-16th of the 2020 MPL Gauntlet
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      <% end %>
+      <% 12.times do %>
+        <tr>
+          <td>
+            <em>To Be Determined</em>
+          </td>
+          <td>
+            Place 2-13 Top Mythic Point Earners
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      <% end %>
+      <% 12.times do %>
+        <tr>
+          <td>
+            <em>To Be Determined</em>
+          </td>
+          <td>
+            Place 2-13 Top Player Point Earners
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      <% end %>
+      <% 6.times do %>
+        <tr>
+          <td>
+            <em>To Be Determined</em>
+          </td>
+          <td>
+            Discretionary Invite
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

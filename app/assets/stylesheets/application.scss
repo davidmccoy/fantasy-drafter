@@ -76,6 +76,13 @@ html {
       .with-fixed-bottom-bar {
         padding-bottom: 75px;
       }
+      .nav-pills {
+        .nav-item {
+          a.nav-link.active {
+            color: $white;
+          }
+        }
+      }
     }
     footer {
       position: absolute;
@@ -124,6 +131,25 @@ html {
         }
       }
     }
+  }
+}
+
+.color-block {
+  display: inline-block;
+  color: $white;
+  padding: 0.6rem 1rem;
+  width: 100%;
+  &.success {
+    background: $success;
+  }
+  &.warning {
+    background: $warning;
+  }
+  &.danger {
+    background: $danger;
+  }
+  &.dark {
+    background: $dark;
   }
 }
 

@@ -1,0 +1,33 @@
+<thead>
+  <tr>
+    <th
+      data-sortable="true"
+      data-field="place"
+      default-sort-order="asc"
+    >
+      Place
+    </th>
+    <th
+      data-sortable="true"
+      data-field="name"
+      default-sort-order="asc"
+    >
+      Name
+    </th>
+    <%= render 'standings/rivals/player_points_th', standings: standings %>
+    <th
+      data-sortable="false"
+      data-field="qualifies_for"
+      data-searchable="false"
+    >
+      Currently Qualifies For
+    </th>
+    <th
+      data-sortable="false"
+      data-field="qualifies_via"
+      data-searchable="false"
+    >
+      Qualification Slot
+    </th>
+  </tr>
+</thead>

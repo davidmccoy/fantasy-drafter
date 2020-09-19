@@ -1,0 +1,152 @@
+<div class="row mt-4">
+  <div class="col-md-2">
+    <p>If the season ended today, the players would qualify for:</p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block success">2020-21 Magic Pro League</span></p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block warning">2020 MPL Guantlet</span></p>
+  </div>
+  <div class="col-md-2">
+  <p><span class="color-block danger">2020-21 Magic Rivals League</span></p>
+  </div>
+  <div class="col-md-2">
+    <p><span class="color-block dark">Competes with Challengers for Rivals</span></p>
+  </div>
+  <div class="col-md-2">
+    <div class="buttons-toolbar-mpl">
+    </div>
+  </div>
+</div>
+<table
+  id="mpl-table"
+  class="table table-bordered table-hover"
+  data-toggle="table"
+  data-sort-name="<%= sort_column %>"
+  data-sort-order="<%= sort_order %>"
+  data-search="true"
+  data-buttons-toolbar=".buttons-toolbar-mpl"
+>
+  <thead>
+    <tr>
+      <th
+        data-sortable="true"
+        data-field="place"
+        default-sort-order="asc"
+      >
+        Place
+      </th>
+      <th
+        data-sortable="true"
+        data-field="name"
+        default-sort-order="asc"
+      >
+        Name
+      </th>
+      <th
+        data-sortable="true"
+        data-field="total-points"
+        data-sort-order="desc"
+      >
+        Total Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="mythic-points"
+        data-sort-order="desc"
+      >
+        Mythic Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="player-points"
+        data-sort-order="desc"
+      >
+        Player Points
+      </th>
+      <th
+        data-sortable="true"
+        data-field="first-tiebreaker"
+        data-sort-order="desc"
+      >
+        TB 1
+      </th>
+      <th
+        data-sortable="true"
+        data-field="second-tiebreaker"
+        data-sort-order="desc"
+      >
+        TB 2
+      </th>
+      <th
+        data-sortable="true"
+        data-field="third-tiebreaker"
+        data-sort-order="asc"
+      >
+        TB 3
+      </th>
+      <th
+        data-sortable="true"
+        data-field="winnings"
+        data-sorter="totalCurrencySorter"
+        data-sort-order="desc"
+      >
+        Winnings
+      </th>
+      <th
+        data-sortable="false"
+        data-field="qualifies_for"
+        data-searchable="false"
+      >
+        Currently Qualifies For
+      </th>
+      <th
+        data-sortable="false"
+        data-field="qualifies_via"
+        data-searchable="false"
+      >
+        Qualification Slot
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% standings.each do |standing| %>
+    <tr>
+      <td class="table-<%= standing.status(standing.qualifies_for) %> text-center">
+        <%= standing.place %>
+      </td>
+      <td>
+        <%= standing.player.name %>
+      </td>
+      <td>
+        <%= standing.total_points %>
+      </td>
+      <td>
+        <%= standing.mythic_points %>
+      </td>
+      <td>
+        <%= standing.player_points %>
+      </td>
+      <td>
+        <%= standing.tiebreakers['mpl']['first_tiebreaker'] %>
+      </td>
+      <td>
+        <%= standing.tiebreakers['mpl']['second_tiebreaker'] %>
+      </td>
+      <td>
+        <%= standing.tiebreakers['mpl']['third_tiebreaker'] %>
+      </td>
+      <td>
+        <%= number_to_currency(standing.winnings) %>
+      </td>
+      <td>
+        <%= standing.qualifies_for %>
+      </td>
+      <td>
+        <%= standing.qualifies_via %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

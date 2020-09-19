@@ -104,6 +104,47 @@ class ResultsController < ApplicationController
           end
         end
       end
+    elsif params[:resultable_type] == 'Final Standings'
+      all_winnings = []
+      file.each do |row|
+        place = row[0].to_i
+        name = row[1]
+        winnings = row[2]
+        subbed_winnings = nil
+        swiss_points = row[3]
+        rank_points = row[4].to_i
+
+        if winnings && winnings.include?(',')
+          subbed_winnings = winnings.gsub('$', '').gsub(',', '').to_i
+        elsif winnings
+          subbed_winnings = winnings.gsub('$', '').to_i
+        else
+          subbed_winnings = 0
+        end
+        all_winnings << subbed_winnings
+        player = Player.unaccent(name)
+
+        if player
+          result = Result.where(game_id: @game.id,
+            competition_id: @competition.id,
+            resultable_id: player.id,
+            resultable_type: 'Player',
+          ).first_or_create
+
+          result.update(
+            place: place,
+            winnings: subbed_winnings,
+            rank_points: rank_points,
+            rank_points_type: 'Player Points'
+          )
+        else
+          puts "No record found for #{name}"
+          failures << row
+        end
+      end
+
+      # trigger standings update if season?
+      Standings::GenerateWorker.perform_async(@competition.season.id)
     end
     # file.each do |row|
     #   place = row[0].to_i
@@ -126,14 +167,16 @@ class ResultsController < ApplicationController
     pick_type = params[:resultable_type]&.downcase
 
     # update the teams the competition's leagues
-    @competition.leagues.where(pick_type: pick_type).find_each do |league|
-      LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Competition')
-    end
+    unless params[:resultable_type] == 'Final Standings'
+      @competition.leagues.where(pick_type: pick_type).find_each do |league|
+        LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Competition')
+      end
 
-    # update the teams the competition's season's leagues
-    if @competition.season
-      @competition.season.leagues.where(pick_type: pick_type).find_each do |league|
-        LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Season')
+      # update the teams the competition's season's leagues
+      if @competition.season
+        @competition.season.leagues.where(pick_type: pick_type).find_each do |league|
+          LeagueCalculateTeamPointsWorker.perform_async(league.id, pick_type, 'Season')
+        end
       end
     end
 

@@ -7,6 +7,7 @@ class Player < ApplicationRecord
   has_many :results, as: :resultable
   has_many :player_records
   has_many :matches
+  has_many :standings
 
   enum player_type: { player: 0, card: 1, deck: 2 }
 

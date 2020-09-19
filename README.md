@@ -31,3 +31,7 @@ This should leave you with a new tournament with 8 users and ready to set up a n
 To sync the production database to staging:
 
 `heroku pg:copy fantasy-drafter::DATABASE_URL DATABASE_URL -a fantasy-drafter-staging`
+
+To pull the production database to your local db:
+
+`dropdb --if-exists fantasy-drafter_development && heroku pg:pull DATABASE_URL fantasy-drafter_development -a fantasy-drafter`

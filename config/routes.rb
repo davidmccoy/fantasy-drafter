@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :games, param: :slug, only: [:index, :new] do
     resources :seasons, param: :slug do
+      resources :standings, only: [:index]
       resources :leagues, controller: 'seasons/leagues' do
         match 'join', to: 'seasons/leagues#join', via: [:get]
         post 'group_invite', to: 'leagues/group_invite'
